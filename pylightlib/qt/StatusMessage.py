@@ -2,7 +2,7 @@
 pylightlib.qt.StatusMessage
 ===========================
 
-Singleton helper to display timestamped messages in a QStatusBar.
+Helper to display timestamped messages in a QStatusBar.
 
 Author:
     Corvin Gröning

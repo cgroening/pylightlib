@@ -2,7 +2,7 @@
 pylightlib.qt.FnButtonsFrame
 ============================
 
-Function key bar with modifier support (child of QFrame)
+Function key bar with modifier support (child of QFrame).
 
 Author:
     Corvin Gröning
