@@ -98,6 +98,7 @@ class CustomBindings():
         """
         self.read_yaml_file()
         self.process_bindings()
+        self.process_global_always_bindings()
 
         if with_copy_paste_keys:
             self.add_copy_paste_bindings()
@@ -162,6 +163,22 @@ class CustomBindings():
                 # Add action to global actions if applicable
                 if group == '_global':
                     self.global_actions.append(action)
+
+    def process_global_always_bindings(self):
+        """
+        Processes the bindings from the '_global_always' group and adds them
+        to the `action_to_groups` mapping. This ensures that these bindings
+        are always valid and can be used across all groups.
+        """
+        for binding in self.bindings_dict['_global_always']:
+            for group in self.bindings_dict.keys():
+                if group in ['_global', '_global_always']:
+                    continue
+
+                if binding.action not in self.action_to_groups:
+                    self.action_to_groups[binding.action] = []
+
+                self.action_to_groups[binding.action].append(group)
 
     def add_copy_paste_bindings(self):
         """
@@ -297,14 +314,14 @@ class CustomBindings():
 
         # Paste into Input/TextArea
         if isinstance(focused_widget, Input):
-            self._paste_into_input(app, focused_widget, clipboard_text, replace)
+            self.paste_into_input(app, focused_widget, clipboard_text, replace)
         elif isinstance(focused_widget, TextArea):
-            self._paste_into_textarea(app, focused_widget, clipboard_text,
+            self.paste_into_textarea(app, focused_widget, clipboard_text,
                                       replace)
         else:
             app.notify('Focused widget does not support pasting text.', severity='warning')
 
-    def _paste_into_input(self, app, input: Input, text: str, replace: bool) \
+    def paste_into_input(self, app, input: Input, text: str, replace: bool) \
     -> None:
         """
         Pastes the given text into the input widget at the cursor position.
@@ -325,8 +342,8 @@ class CustomBindings():
 
         app.notify('Text pasted into input field!')
 
-    def _paste_into_textarea(self, app, textarea: TextArea, text: str,
-                             replace: bool) -> None:
+    def paste_into_textarea(self, app, textarea: TextArea, text: str,
+                            replace: bool) -> None:
         """
         Pastes the given text into the textarea at the cursor position.
 
