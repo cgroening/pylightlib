@@ -33,9 +33,7 @@ on the current application context.
 Intended for use in modular or tabbed interfaces, this system helps keep key
 binding logic centralized and configurable without hard-coding values into
 application logic.
-
 """
-
 import re
 import yaml
 
@@ -44,10 +42,7 @@ from textual.binding import Binding
 from textual.widget import Widget
 from textual.widgets import Input, TextArea
 
-from pylightlib.msc.Singleton import Singleton
 
-
-# class CustomBindings(metaclass=Singleton):
 class CustomBindings():
     """
     Singleton class to manage custom key bindings loaded from a YAML file for
@@ -134,7 +129,8 @@ class CustomBindings():
                 description = self.parse_description(binding.get('description'))
                 show        = self.parse_show(binding.get('show'))
                 key_display = self.parse_key_display(
-                                  key, binding.get('key_display'), group)
+                                  key, binding.get('key_display'), group
+                              )
                 priority    = self.parse_priority(binding.get('priority'))
                 tooltip     = self.parse_tooltip(binding.get('tooltip'))
                 id          = self.parse_id(binding.get('id'))
@@ -196,7 +192,7 @@ class CustomBindings():
         replace_binding = Binding(
             key='f4',
             action='global_replace_widget_value_from_clipboard',
-            description='Paste',
+            description='Replace',
             key_display='*F4',
             tooltip='Replace the widget value with the text from the clipboard',
         )

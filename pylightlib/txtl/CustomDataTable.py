@@ -30,9 +30,7 @@ layout accordingly.
 
 This is particularly useful for applications with tabular data in dynamic
 layouts or where users resize windows and expect columns to adapt gracefully.
-
 """
-
 from textual.message import Message
 from textual.widget import Widget
 from textual.widgets import DataTable

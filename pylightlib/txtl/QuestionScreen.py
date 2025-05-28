@@ -28,9 +28,7 @@ destructive in red or "No" as a safe action in blue).
 The screen can be dismissed using the escape key or by clicking a button. It is
 ideal for confirmation dialogs, safety prompts or binary decision points within
 an application UI.
-
 """
-
 from enum import Enum
 
 from textual.app import ComposeResult
