@@ -34,6 +34,8 @@ Intended for use in modular or tabbed interfaces, this system helps keep key
 binding logic centralized and configurable without hard-coding values into
 application logic.
 """
+import logging  # noqa
+import pprint   # noqa
 import re
 import yaml
 
@@ -164,6 +166,8 @@ class CustomBindings():
                 if group == '_global':
                     self.global_actions.append(action)
 
+        # logging.debug(f'Bindings: {pprint.pformat(self.bindings_dict)}')
+
     def process_global_always_bindings(self):
         """
         Processes the bindings from the '_global_always' group and adds them
@@ -179,6 +183,8 @@ class CustomBindings():
                     self.action_to_groups[binding.action] = []
 
                 self.action_to_groups[binding.action].append(group)
+
+        # logging.debug(pprint.pformat(self.action_to_groups))
 
     def add_copy_paste_bindings(self):
         """
