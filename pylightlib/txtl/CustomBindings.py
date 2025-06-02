@@ -325,7 +325,8 @@ class CustomBindings():
             self.paste_into_textarea(app, focused_widget, clipboard_text,
                                       replace)
         else:
-            app.notify('Focused widget does not support pasting text.', severity='warning')
+            app.notify('Focused widget does not support pasting text.',
+                       severity='warning')
 
     def paste_into_input(self, app, input: Input, text: str, replace: bool) \
     -> None:
