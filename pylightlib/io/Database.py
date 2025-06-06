@@ -249,7 +249,8 @@ class Database:
 
         return result
 
-    def insert(self, table: str, data: list[dict[str, object]]) -> None:
+    def insert(self, table: str, data: list[dict[str, object]]) \
+    -> list[dict[str, object]]:
         """
         Inserts rows into the table.
 
@@ -257,7 +258,13 @@ class Database:
             table: Name of the table.
             data:  List of dictionaries, e.g.:
                    data = [{'col1': 'val1', 'col2': 'val2'}, ...]
+
+        Returns:
+            List of dictionaries containing the inserted rows, e.g.:
+            [{'id': 1, 'col1': 'val1', 'col2': 'val2'}, ...]
         """
+        inserted: list[dict[str, object]] = []
+
         # Loop rows in data
         for row in data:
             # Generate columns string
@@ -275,6 +282,20 @@ class Database:
             # SQL query
             sql = f'INSERT INTO {table} ({cols}) VALUES ({vals})'
             self.query(sql)
+
+            # Get last inserted row
+            last_id = self.cursor.lastrowid
+            self.connection.commit()
+            result = self.fetch(
+                table,
+                conditions=[
+                    Condition('id', SQLComparisonOperator.EQ, last_id or 0)
+                ]
+            )
+            if result:
+                inserted.append(result[0])
+
+        return inserted
 
     def update(self, table: str, data: list[dict[str, object]]) -> None:
         """
@@ -328,6 +349,7 @@ class Database:
             # SQL query
             sql = f'UPDATE {table} SET {cols_str} WHERE {cond_str}'
             self.query(sql)
+            self.connection.commit()
 
     def remove(self, table: str, conditions: list[Condition]) -> None:
         """
