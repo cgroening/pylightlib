@@ -365,6 +365,7 @@ class Database:
         # SQL query
         sql = f'DELETE FROM {table} WHERE {cond_str}'
         self.query(sql)
+        self.connection.commit()
 
     def _generate_conditions_str(self, conditions: list[Condition]) -> str:
         """
