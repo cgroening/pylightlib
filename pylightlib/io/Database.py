@@ -395,9 +395,9 @@ class Database:
         """
         Creates a string from the given value.
 
-        value is None --> return "NULL"
-        value is str --> return escaped string
-        value is something else --> return value
+        Value is None           --> return "NULL"
+        Value is str            --> return escaped string
+        Value is something else --> return value
 
         Args:
             value: Value that is to be converted to a string.
