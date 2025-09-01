@@ -433,7 +433,6 @@ class FnButtonsFrame(QFrame):
             if self.fn_pressed:
                 self.simulate_alt_press = True
 
-    # noinspection PyMethodMayBeStatic
     def fnkey_str(self, event: QKeyEvent, alt_pressed: bool) \
         -> str | None:
         """
