@@ -132,6 +132,31 @@ class CustomDataTable(DataTable):
                     (table_width - fixed_width) / len(self.flexible_columns)
                 )
 
+    def select_first_row(self) -> None:
+        """
+        Selects the first row in the table and posts a RowHighlighted event.
+        """
+        if self.row_count == 0:
+            return
+
+        # Set cursor to first row
+        self.cursor_coordinate = (0, 0)
+        self.move_cursor(row=0, column=0)  # Same as above, just to be sure
+
+        # Manually post RowHighlighted event
+        row_key, _ = self.coordinate_to_cell_key(self.cursor_coordinate)
+        self.post_message(
+            DataTable.RowHighlighted(self, self.cursor_row, row_key)
+        )
+
+    def delete_selected_row(self) -> None:
+        """
+        Deletes the currently selected row from the table.
+        """
+        if self.cursor_row is not None:
+            row_key, _ = self.coordinate_to_cell_key(self.cursor_coordinate)
+            self.remove_row(row_key)
+
     # def get_current_id(self) -> int:
     #     """
     #     Returns the ID of the currently selected topic.
