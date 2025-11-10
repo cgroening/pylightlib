@@ -35,6 +35,7 @@ from textual.message import Message
 from textual.widget import Widget
 from textual.widgets import DataTable
 from textual.widgets._data_table import ColumnKey, Column
+import logging
 
 
 class CustomDataTable(DataTable):
@@ -43,9 +44,11 @@ class CustomDataTable(DataTable):
     functionality for handling flexible column widths and resizing.
 
     Attributes:
+        MIN_FLEX_COL_WIDTH: Minimum width for flexible columns.
         flexible_columns: List of column keys that should be flexible in width
             (will be adjusted according to window width).
     """
+    MIN_FLEX_COL_WIDTH = 5
     flexible_columns: list[ColumnKey] = []
 
 
@@ -92,6 +95,7 @@ class CustomDataTable(DataTable):
         table_width = self.size.width - len(self.columns) * 2
         fixed_widths = self.get_fixed_column_widths()
         self.adjust_flexible_columns(table_width, fixed_widths)
+        # self.update_scrollbar_visibility()
         self.refresh()
 
     def get_fixed_column_widths(self) -> int:
@@ -131,6 +135,69 @@ class CustomDataTable(DataTable):
                 column.width = int(
                     (table_width - fixed_width) / len(self.flexible_columns)
                 )
+
+                # Don't allow column width to be less than MIN_FLEX_COL_WIDTH
+                if column.width < self.MIN_FLEX_COL_WIDTH:
+                    column.width = self.MIN_FLEX_COL_WIDTH
+
+        self.update_virtual_size()
+
+    def update_virtual_size(self) -> None:
+        """
+        Updates the virtual size of the DataTable based on the current
+        column widths to only show the horizontal scrollbar when necessary.
+        The effect of this method is that the DataTable has the correct width
+        (no hidden column at the right side "compensating" the reduced widths
+        of the flexible columns) and that the horizontal scrollbar only appears
+        when the total width of all columns exceeds the visible width of
+        the DataTable widget.
+
+        The actual total width of all columns including separators is
+        calculated by the following formula:
+
+        ```
+        total_width = sum(column_widths) + (num_columns * 2 - 2)
+        ```
+
+        Explanation:
+
+            - Each column has 2 pixels of spacing (padding/border)
+            - With n columns, there are (n-1) separators between columns
+            - The first column has left padding and the last has right padding
+            - This results in: `2 * (n-1) + 2 = 2n - 2 + 2 = 2n` pixels total
+            - However, empirically it's necessary to subtract 2 pixels to
+              account for the table's own border/padding, giving: `2n - 2`
+
+            Example with 4 columns: `4 * 2 - 2 = 6` pixels for separators
+        """
+        # Calculate total width of all columns including separators
+        total_column_width = sum(col.width for col in self.columns.values())
+        total_width_with_separators = total_column_width \
+                                      + (len(self.columns) * 2 - 2)
+
+        # Update virtual size of the DataTable to reflect new width
+        self.virtual_size = self.virtual_size._replace(
+            width=total_width_with_separators
+        )
+
+    def update_scrollbar_visibility(self) -> None:
+        """
+        Shows or hides the horizontal scrollbar based on the content width.
+
+        **DEPRECATED**: This method is no longer needed.
+
+        Scrollbar visibility is now automatically managed by the
+        `update_virtual_size()` method, which correctly sets the virtual
+        size of the table. The horizontal scrollbar will only appear when
+        the content width exceeds the table width.
+
+        TODO: Remove this method in future versions.
+        """
+        total_content_width = sum(col.width for col in self.columns.values())
+
+        self.styles.scrollbar_size_horizontal = (
+            None if total_content_width > self.size.width else 0
+        )
 
     def select_first_row(self) -> None:
         """
