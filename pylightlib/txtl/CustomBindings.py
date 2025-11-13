@@ -79,24 +79,35 @@ class CustomBindings():
 
     Attributes:
         YAML_FILE: Path to the YAML file containing key bindings.
+        sort_alphabetically: Whether to sort bindings alphabetically by key.
+            If false, they are sorted in the order they appear in the YAML file.
         bindings_dict_raw: Raw data loaded from the YAML file.
         bindings_dict: Processed key bindings grouped by their group name.
         action_to_groups: Maps actions to the groups they belong to.
         global_actions: List of actions that are always shown globally.
     """
     YAML_FILE = 'data/bindings.yaml'
+    sort_alphabetically: bool = False
     bindings_dict_raw: dict[str, list[dict[str, str]]]
     bindings_dict: dict[str, list[Binding]] = {}
     action_to_groups: dict[str, list[str]] = {}
     global_actions: list[str] = []
 
 
-    def __init__(self, with_copy_paste_keys: bool = False):
+    def __init__(
+        self,
+        sort_alphabetically: bool = False, with_copy_paste_keys: bool = False
+    ) -> None:
         """
         Reads the YAML file and processes the bindings into a structured format.
 
         Args:
             app: The Textual application instance that uses these bindings.
+            sort_alphabetically: Whether to sort bindings alphabetically by key.
+                If false, they are sorted in the order they appear in
+                the YAML file.
+            with_copy_paste_keys: Whether to add copy/paste key bindings
+                (F1-F4) to the global group.
         """
         self.read_yaml_file()
         self.process_bindings()
@@ -242,20 +253,23 @@ class CustomBindings():
         """
         def sort_key(binding: Binding):
             # Transform a key like "f1" to "f01" for sorting
-            match = re.match(r"(f)(\d+)", binding.key.lower())
+            match = re.match(r'(f)(\d+)', binding.key.lower())
             if match:
-                return f"{match.group(1)}{int(match.group(2)):02d}"
+                return f'{match.group(1)}{int(match.group(2)):02d}'
             return binding.key.lower()
 
         # Sort each group of bindings by their key
-        for group, bindings in self.bindings_dict.items():
-            self.bindings_dict[group] = sorted(bindings, key=lambda b: b.key)
+        if self.sort_alphabetically:
+            for group, bindings in self.bindings_dict.items():
+                self.bindings_dict[group] = sorted(bindings, key=lambda b: b.key)
 
         # Combine all bindings into a single list and sort by key
         bindings_list: list[Binding] = []
         for bindings in self.bindings_dict.values():
             bindings_list.extend(bindings)
-        bindings_list = sorted(bindings_list, key=sort_key)
+
+        if self.sort_alphabetically:
+            bindings_list = sorted(bindings_list, key=sort_key)
 
         return bindings_list
 
