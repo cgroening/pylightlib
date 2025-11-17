@@ -29,9 +29,9 @@ Features:
 Ideal for applications requiring a simple, efficient database interaction layer.
 
 """
-
 # Libs
 from __future__ import annotations
+import logging
 from dataclasses import dataclass
 import sqlite3
 import copy
