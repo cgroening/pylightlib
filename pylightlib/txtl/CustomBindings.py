@@ -38,6 +38,7 @@ import logging  # noqa
 import pprint   # noqa
 import re
 import yaml
+from pathlib import Path
 
 from textual.app import App
 from textual.binding import Binding
@@ -86,7 +87,7 @@ class CustomBindings():
         action_to_groups: Maps actions to the groups they belong to.
         global_actions: List of actions that are always shown globally.
     """
-    YAML_FILE = 'data/bindings.yaml'
+    YAML_FILE: str
     sort_alphabetically: bool = False
     bindings_dict_raw: dict[str, list[dict[str, str]]]
     bindings_dict: dict[str, list[Binding]] = {}
@@ -95,20 +96,22 @@ class CustomBindings():
 
 
     def __init__(
-        self,
+        self, yaml_file: str,
         sort_alphabetically: bool = False, with_copy_paste_keys: bool = False
     ) -> None:
         """
         Reads the YAML file and processes the bindings into a structured format.
 
         Args:
-            app: The Textual application instance that uses these bindings.
+            yaml_file: Path to the YAML file containing key bindings.
             sort_alphabetically: Whether to sort bindings alphabetically by key.
                 If false, they are sorted in the order they appear in
                 the YAML file.
             with_copy_paste_keys: Whether to add copy/paste key bindings
                 (F1-F4) to the global group.
         """
+        self.YAML_FILE = yaml_file
+        self.sort_alphabetically = sort_alphabetically
         self.read_yaml_file()
         self.process_bindings()
         self.process_global_always_bindings()
