@@ -301,6 +301,12 @@ class ThemeLoader:
         app : App
             The instance of the Textual application.
         """
+        # Sort themes, first PYLIGHT_THEME_PREFIX, then CUSTOM_THEME_PREFIX
+        self.THEME_NAMES.sort( key=lambda name: (
+            0 if self.THEME_DATA[name].prefix == self.PYLIGHT_THEME_PREFIX else 1,
+            name
+        ) )
+
         # Loop through name list instead of dict to keep alphabetic order
         for theme_name in self.THEME_NAMES:
             theme_data = self.THEME_DATA[theme_name]
