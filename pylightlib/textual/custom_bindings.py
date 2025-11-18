@@ -40,7 +40,7 @@ import re
 import yaml
 
 from textual.app import App
-from textual.binding import Binding
+from textual.binding import Binding, BindingType
 from textual.widget import Widget
 from textual.widgets import Input, TextArea
 
@@ -256,7 +256,7 @@ class CustomBindings():
                 self.action_to_groups[binding.action] = ['_global']
             self.global_actions.append(binding.action)
 
-    def get_bindings(self):
+    def get_bindings(self) -> list[BindingType]:
         """
         Returns a list (sorted by the key) of all bindings across all groups.
 
