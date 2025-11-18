@@ -38,7 +38,6 @@ import logging  # noqa
 import pprint   # noqa
 import re
 import yaml
-from pathlib import Path
 
 from textual.app import App
 from textual.binding import Binding
@@ -139,6 +138,9 @@ class CustomBindings():
             if group not in self.bindings_dict:
                 self.bindings_dict[group] = []
 
+            if not isinstance(bindings, list):
+                continue
+
             # Loop bindings
             for binding in bindings:
                 key         = self.parse_key(binding.get('key'))
@@ -188,6 +190,9 @@ class CustomBindings():
         to the `action_to_groups` mapping. This ensures that these bindings
         are always valid and can be used across all groups.
         """
+        if '_global_always' not in self.bindings_dict:
+            return
+
         for binding in self.bindings_dict['_global_always']:
             for group in self.bindings_dict.keys():
                 if group in ['_global', '_global_always']:
@@ -254,8 +259,8 @@ class CustomBindings():
         Returns:
             A list of `Binding` instances sorted by their key.
         """
-        def sort_key(binding: Binding):
-            # Transform a key like "f1" to "f01" for sorting
+        def get_sort_key(binding: Binding):
+            """Transforms a key like "F1" or "f1" to "f01" for sorting."""
             match = re.match(r'(f)(\d+)', binding.key.lower())
             if match:
                 return f'{match.group(1)}{int(match.group(2)):02d}'
@@ -272,7 +277,9 @@ class CustomBindings():
             bindings_list.extend(bindings)
 
         if self.sort_alphabetically:
-            bindings_list = sorted(bindings_list, key=sort_key)
+            bindings_list = sorted(bindings_list, key=get_sort_key)
+
+        logging.debug(f'All bindings: {pprint.pformat(bindings_list)}')
 
         return bindings_list
 
