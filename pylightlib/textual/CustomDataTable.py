@@ -1,5 +1,5 @@
 """
-pylightlib.txtl.CustomDataTable
+pylightlib.textual.CustomDataTable
 ===============================
 
 Extension of Textual's DataTable with support for flexible column resizing.

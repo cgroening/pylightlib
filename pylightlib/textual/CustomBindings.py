@@ -1,5 +1,5 @@
 """
-pylightlib.txtl.CustomBindings
+pylightlib.textual.CustomBindings
 ==============================
 
 Module for managing custom key bindings in Textual applications using

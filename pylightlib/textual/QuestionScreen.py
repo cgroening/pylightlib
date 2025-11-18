@@ -1,5 +1,5 @@
 """
-pylightlib.txtl.QuestionScreen
+pylightlib.textual.QuestionScreen
 =======================
 
 A reusable modal screen component for confirming user decisions
