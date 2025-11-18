@@ -40,6 +40,7 @@ require a full-fledged database.
 import sys
 import json
 import os
+from pathlib import Path
 
 # PyLightFramework
 from pylightlib.msc.Singleton import Singleton
@@ -55,11 +56,11 @@ class AppStorage(metaclass=Singleton):
         json_file: Path to the JSON file.
         json_dict: Content of the JSON file as a dictionary.
     """
-    json_file: str | None
+    json_file: Path | str | None
     json_dict: dict[str, str | int | float | bool | list[dict]] = {}
 
 
-    def __init__(self, cfg_file: str | None = None) -> None:
+    def __init__(self, cfg_file: Path | str | None = None) -> None:
         """
         Opens the JSON file and stores the key-value pairs in self.json_dict.
 
