@@ -271,15 +271,22 @@ class CustomBindings():
             for group, bindings in self.bindings_dict.items():
                 self.bindings_dict[group] = sorted(bindings, key=lambda b: b.key)
 
-        # Combine all bindings into a single list and sort by key
+        # Pop bindings for global and global_always
+        global_bindings = self.bindings_dict.pop('_global', [])
+        global_always_bindings = self.bindings_dict.pop('_global_always', [])
+
+        # Combine all bindings into a single list - excluding global ones
         bindings_list: list[Binding] = []
         for bindings in self.bindings_dict.values():
             bindings_list.extend(bindings)
 
-        if self.sort_alphabetically:
-            bindings_list = sorted(bindings_list, key=get_sort_key)
+        # Re-insert global and global_always bindings
+        # ! Global bindings must be at the end to ensure correct sorting
+        bindings_list.extend(global_always_bindings)
+        bindings_list.extend(global_bindings)
 
-        logging.debug(f'All bindings: {pprint.pformat(bindings_list)}')
+        # logging.debug(f'All bindings: {pprint.pformat(self.bindings_dict)}')
+        # logging.debug(f'Return value: {pprint.pformat(bindings_list)}')
 
         return bindings_list
 
