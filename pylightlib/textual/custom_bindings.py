@@ -51,10 +51,11 @@ class CustomBindings():
     use in a Textual application.
 
     The YAML file is structured as a dictionary of key binding groups. Each key
-    in the dictionary represents a group (e.g., "_global", "counter",
-    "another"), and its value is a list of key binding definitions. Each binding
-    is described by fields like `key`, `action`, `description`, `tooltip`
-    and optional attributes such as `show`, `priority`, `id` and `system`.
+    in the dictionary represents a group (e.g., "_global", "_global_always",
+    "counter", "another"). Its value is a list of key binding definitions.
+    Each binding is described by fields like `key`, `action`, `description`,
+    `tooltip` and optional attributes such as `show`, `priority`, `id`
+    and `system`.
 
     The class reads this YAML file and converts each binding entry into
     a `Binding` instance from the Textual framework. These instances are stored
@@ -68,9 +69,12 @@ class CustomBindings():
     belongs to. This enables logic to determine which group a given action is
     part of.
 
-    The `global_actions` list contains all actions from the "_global" group.
-    These are meant to be always shown, regardless of the currently active tab
-    or view.
+    The list `globalalways_actions` contains all actions from the group
+    "_globalalways". These are meant to be always shown, regardless of the
+    currently active tab or view.
+
+    The list `global_actions` holds the bindings which will be temporarily
+    switched with the current ones if the escape key is double pressed.
 
     The `action_to_groups` and `global_actions` structures are intended to be
     used within the `check_action()` method to determine whether a key binding
