@@ -256,9 +256,17 @@ class CustomBindings():
                 self.action_to_groups[binding.action] = ['_global']
             self.global_actions.append(binding.action)
 
-    def get_bindings(self) -> list[BindingType]:
+    def get_bindings(self, screen_name: str | None = None) -> list[BindingType]:
         """
-        Returns a list (sorted by the key) of all bindings across all groups.
+        Returns a list (sorted by key if `self.sort_alphabetically` is `True`)
+        of all bindings across all groups.
+
+        If `screen_name` is provided, only bindings for that specific screen
+        are returned. Otherwise, bindings from all groups - except
+        screen-specific ones (beginning with '_screen_') -  are included.
+
+        Args:
+            screen_name: Optional name of the screen for which to get bindings.
 
         Returns:
             A list of `Binding` instances sorted by their key.
@@ -273,21 +281,30 @@ class CustomBindings():
         # Sort each group of bindings by their key
         if self.sort_alphabetically:
             for group, bindings in self.bindings_dict.items():
-                self.bindings_dict[group] = sorted(bindings, key=lambda b: b.key)
+                self.bindings_dict[group] = sorted(bindings, key=get_sort_key)
 
         # Pop bindings for global and global_always
         global_bindings = self.bindings_dict.pop('_global', [])
         global_always_bindings = self.bindings_dict.pop('_global_always', [])
 
         # Combine all bindings into a single list - excluding global ones
-        bindings_list: list[Binding] = []
-        for bindings in self.bindings_dict.values():
+        bindings_list: list[BindingType] = []
+        for group, bindings in self.bindings_dict.items():
+            # Check for screen specific bindings
+            if screen_name:
+                if f'_screen_{screen_name.lower()}' != group:
+                    continue
+            else:
+                if group.startswith('_screen_'):
+                    continue
+
             bindings_list.extend(bindings)
 
         # Re-insert global and global_always bindings
         # ! Global bindings must be at the end to ensure correct sorting
-        bindings_list.extend(global_always_bindings)
-        bindings_list.extend(global_bindings)
+        if not screen_name:
+            bindings_list.extend(global_always_bindings)
+            bindings_list.extend(global_bindings)
 
         # logging.debug(f'All bindings: {pprint.pformat(self.bindings_dict)}')
         # logging.debug(f'Return value: {pprint.pformat(bindings_list)}')
@@ -485,6 +502,8 @@ class CustomBindings():
         if action is None or group is None:
             return None
         else:
+            if group.startswith('_screen_'):
+                return f'{action}'
             return f'{group.replace('_', '')}_{action}'
 
     def parse_description(self, description: str | None) -> str | None:
