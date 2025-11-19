@@ -256,16 +256,20 @@ class CustomBindings():
                 self.action_to_groups[binding.action] = ['_global']
             self.global_actions.append(binding.action)
 
-    def get_bindings(self, screen_name: str | None = None) -> list[BindingType]:
+    def get_bindings(
+        self, tab_name: str | None = None, screen_name: str | None = None
+    ) -> list[BindingType]:
         """
         Returns a list (sorted by key if `self.sort_alphabetically` is `True`)
         of all bindings across all groups.
 
-        If `screen_name` is provided, only bindings for that specific screen
-        are returned. Otherwise, bindings from all groups - except
-        screen-specific ones (beginning with '_screen_') -  are included.
+        If `tab_name` or `screen_name` is provided, only bindings for that
+        specific tab/screen are returned. Otherwise, bindings from all groups
+        - except tab/ screen-specific ones (beginning with '_screen_') -
+        are included.
 
         Args:
+            tab_name: Optional name of the tab for which to get bindings.
             screen_name: Optional name of the screen for which to get bindings.
 
         Returns:
@@ -290,8 +294,14 @@ class CustomBindings():
         # Combine all bindings into a single list - excluding global ones
         bindings_list: list[BindingType] = []
         for group, bindings in self.bindings_dict.items():
-            # Check for screen specific bindings
-            if screen_name:
+            # If a tab name or screen name is given, only include bindings
+            # for that specific tab/screen
+            if tab_name:
+                # Skip bindings not belonging to the given tab name
+                if group != tab_name.lower():
+                    continue
+            elif screen_name:
+                # Skip bindings not belonging to the given screen name
                 if f'_screen_{screen_name.lower()}' != group:
                     continue
             else:
@@ -307,7 +317,7 @@ class CustomBindings():
             bindings_list.extend(global_bindings)
 
         # logging.debug(f'All bindings: {pprint.pformat(self.bindings_dict)}')
-        # logging.debug(f'Return value: {pprint.pformat(bindings_list)}')
+        logging.debug(f'Return value: {pprint.pformat(bindings_list)}')
 
         return bindings_list
 
@@ -452,6 +462,9 @@ class CustomBindings():
             return True
 
         # If the action is not global, check if it belongs to the current tab
+        # logging.debug(
+        #         f'Checking action "{action}" for active group "{active_group}"'
+        # )
         if active_group in self.action_to_groups[action]:
             return True
 
