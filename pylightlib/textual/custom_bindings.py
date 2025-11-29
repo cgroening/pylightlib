@@ -317,7 +317,7 @@ class CustomBindings():
             bindings_list.extend(global_bindings)
 
         # logging.debug(f'All bindings: {pprint.pformat(self.bindings_dict)}')
-        logging.debug(f'Return value: {pprint.pformat(bindings_list)}')
+        # logging.debug(f'Return value: {pprint.pformat(bindings_list)}')
 
         return bindings_list
 

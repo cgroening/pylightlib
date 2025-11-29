@@ -2,7 +2,7 @@ from textual.theme import Theme
 
 
 TEXTUAL_THEME = Theme(
-    name='classic-black',
+    name='classic-black-v1',
     primary='#7CA6C2',
     secondary='#5B5B5B',
     accent='#A9B7C6',
