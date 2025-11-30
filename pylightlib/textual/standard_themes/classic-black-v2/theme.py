@@ -16,6 +16,7 @@ TEXTUAL_THEME = Theme(
     error='#D67B76',
     dark=True,
     variables={
+        'cursor-line-background': "#6D80A6",
         'footer-key-foreground': "#D2D05F",
         "input-cursor-text-style": "reverse",
     }

@@ -1,10 +1,10 @@
 * {
     scrollbar-background: $panel;
+    color: red;
 }
 
 .text-area--cursor, .input--cursor {
     color: #80e98c;
-    /* background: #ff00bf; */
 }
 
 ToggleButton, CustomCheckbox {
