@@ -375,21 +375,32 @@ class ThemeLoader:
         # Remove CSS from previous theme
         self._remove_all_theme_css(app)
 
-        # Remove 'aaa_' prefix if present
-        if theme_name.startswith('aaa_'):
-            theme_name = theme_name[4:]
+        # Remove any prefixes
+        clean_name = theme_name
+        for prefix in [self.PYLIGHT_THEME_PREFIX, self.CUSTOM_THEME_PREFIX]:
+            if clean_name.startswith(prefix):
+                clean_name = clean_name[len(prefix):]
+                break
 
         # Load all CSS files that are in folder themes/{theme_name}/
-        css_folder = Path(f'themes/{theme_name}')
-        for css_file in css_folder.glob('*.css'):
-            app.stylesheet.read(str(css_file))
+        theme_data = self.THEME_DATA.get(clean_name)
+        if not theme_data or not theme_data.css_files:
+            logging.warning(f'No CSS files found for theme: {clean_name}')
+            return
+
+        for css_file in theme_data.css_files:
+            try:
+                app.stylesheet.read(str(css_file))
+                logging.debug(f'Loaded CSS file: {css_file}')
+            except Exception as e:
+                logging.error(f'Error loading CSS file {css_file}: {e}')
 
         # Re-parse and apply to make sure changes take effect
         app.stylesheet.reparse()
         try:
             app.stylesheet.update(app.screen)
-        except:
-            pass
+        except Exception as e:
+            logging.error(f'Error updating stylesheet: {e}')
 
     def _remove_all_theme_css(self, app: App) -> None:
         """

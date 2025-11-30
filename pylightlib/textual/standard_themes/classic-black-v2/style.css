@@ -1,6 +1,5 @@
 * {
     scrollbar-background: $panel;
-    color: red;
 }
 
 .text-area--cursor, .input--cursor {
