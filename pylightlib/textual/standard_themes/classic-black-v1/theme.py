@@ -10,13 +10,14 @@ TEXTUAL_THEME = Theme(
     background='#151618',
     surface='#1E2022',
     panel='#101112',
-    boost="#016F60",
+    boost='#016F60',
     success='#A3C995',
     warning='#E6C384',
     error='#D67B76',
     dark=True,
     variables={
-        'footer-key-foreground': "#D2D05F",
-        "input-cursor-text-style": "reverse",
+        'block-hover-background': "#335D48",
+        'footer-key-foreground': '#D2D05F',
+        'input-cursor-text-style': 'reverse',
     }
 )
