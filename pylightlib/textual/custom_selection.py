@@ -6,12 +6,15 @@ from rich.segment import Segment
 
 class CustomSelectionList(SelectionList):
     """
-    A custom Textual SelectionList whose items display a check mark when
-    selected. If unselected, they show an empty box - instead of the default
+    A custom Textual SelectionList whose items display a check mark when selected.
+
+    If unselected, they show an empty box - instead of the default
     behavior of showing an "X".
 
-    Attributes:
-        CUSTOM_BUTTON_INNER: The character to display when an item is selected.
+    Attributes
+    ----------
+    CUSTOM_BUTTON_INNER : str
+        The character to display when an item is selected.
     """
     CUSTOM_BUTTON_INNER = '✔'
 
@@ -21,13 +24,16 @@ class CustomSelectionList(SelectionList):
 
     def render_line(self, y: int) -> Strip:
         """
-        This methods overwrites `textual.widgets.selection_list.SelectionList
-        .render_line()` to customize the look of checked and unchecked items.
+        Overwrite `textual.widgets.selection_list.SelectionList.render_line()` to customize the look of checked and unchecked items.
 
-        Args:
-            y: The line number to render.
+        Parameters
+        ----------
+        y : int
+            The line number to render.
 
-        Returns:
+        Returns
+        -------
+        Strip
             A Strip representing the rendered line.
         """
         # Get the default rendered line from the parent class (SelectionList)

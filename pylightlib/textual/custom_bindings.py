@@ -1,19 +1,9 @@
 """
 pylightlib.textual.CustomBindings
-==============================
+=================================
 
 Module for managing custom key bindings in Textual applications using
 YAML configuration.
-
-
-Author:
-    Corvin Gröning
-
-Date:
-    2025-05-24
-
-Version:
-    0.1
 
 This module defines a class for managing custom keyboard bindings in
 a [Textual](https://github.com/Textualize/textual) application.
@@ -81,14 +71,21 @@ class CustomBindings():
     should be displayed, depending on the currently selected tab or context in
     the app.
 
-    Attributes:
-        YAML_FILE: Path to the YAML file containing key bindings.
-        sort_alphabetically: Whether to sort bindings alphabetically by key.
-            If false, they are sorted in the order they appear in the YAML file.
-        bindings_dict_raw: Raw data loaded from the YAML file.
-        bindings_dict: Processed key bindings grouped by their group name.
-        action_to_groups: Maps actions to the groups they belong to.
-        global_actions: List of actions that are always shown globally.
+    Attributes
+    ----------
+    YAML_FILE : str
+        Path to the YAML file containing key bindings.
+    sort_alphabetically : bool
+        Whether to sort bindings alphabetically by key.
+        If false, they are sorted in the order they appear in the YAML file.
+    bindings_dict_raw : dict[str, list[dict[str, str]]]
+        Raw data loaded from the YAML file.
+    bindings_dict : dict[str, list[Binding]]
+        Processed key bindings grouped by their group name.
+    action_to_groups : dict[str, list[str]]
+        Maps actions to the groups they belong to.
+    global_actions : list[str]
+        List of actions that are always shown globally.
     """
     YAML_FILE: str
     sort_alphabetically: bool = False
@@ -105,13 +102,17 @@ class CustomBindings():
         """
         Reads the YAML file and processes the bindings into a structured format.
 
-        Args:
-            yaml_file: Path to the YAML file containing key bindings.
-            sort_alphabetically: Whether to sort bindings alphabetically by key.
-                If false, they are sorted in the order they appear in
-                the YAML file.
-            with_copy_paste_keys: Whether to add copy/paste key bindings
-                (F1-F4) to the global group.
+        Parameters
+        ----------
+        yaml_file : str
+            Path to the YAML file containing key bindings.
+        sort_alphabetically : bool, optional
+            Whether to sort bindings alphabetically by key.
+            If false, they are sorted in the order they appear in
+            the YAML file.
+        with_copy_paste_keys : bool, optional
+            Whether to add copy/paste key bindings
+            (F1-F4) to the global group.
         """
         self.YAML_FILE = yaml_file
         self.sort_alphabetically = sort_alphabetically
@@ -268,11 +269,16 @@ class CustomBindings():
         - except tab/ screen-specific ones (beginning with '_screen_') -
         are included.
 
-        Args:
-            tab_name: Optional name of the tab for which to get bindings.
-            screen_name: Optional name of the screen for which to get bindings.
+        Parameters
+        ----------
+        tab_name : str or None, optional
+            Optional name of the tab for which to get bindings.
+        screen_name : str or None, optional
+            Optional name of the screen for which to get bindings.
 
-        Returns:
+        Returns
+        -------
+        list[BindingType]
             A list of `Binding` instances sorted by their key.
         """
         def get_sort_key(binding: Binding):
@@ -325,8 +331,10 @@ class CustomBindings():
         """
         Copies value of the currently focused input widget to the clipboard.
 
-        Args:
-            app: The Textual application instance.
+        Parameters
+        ----------
+        app : App
+            The Textual application instance.
         """
         focused_widget = app.focused
 
@@ -344,8 +352,10 @@ class CustomBindings():
         Copies the selected text from the currently focused input widget to
         the clipboard.
 
-        Args:
-            app: The Textual application instance.
+        Parameters
+        ----------
+        app : App
+            The Textual application instance.
         """
         focused_widget: Widget | None = app.focused
 
@@ -360,12 +370,15 @@ class CustomBindings():
         Pastes the text from the clipboard to the currently focused input
         widget at cursor position.
 
-        Args:
-            app: The Textual application instance.
-            replace: If True, replaces the current value with the
-                     clipboard text.
-                     If False, inserts the clipboard text at the
-                     cursor position.
+        Parameters
+        ----------
+        app : App
+            The Textual application instance.
+        replace : bool, optional
+            If True, replaces the current value with the
+            clipboard text.
+            If False, inserts the clipboard text at the
+            cursor position.
         """
         # Check if a widget is focused
         focused_widget: Widget | None = app.focused
@@ -395,12 +408,17 @@ class CustomBindings():
         """
         Pastes the given text into the input widget at the cursor position.
 
-        Args:
-            app: The Textual application instance.
-            input: The Input widget where the text will be pasted.
-            text: The text to paste.
-            replace: If True, replaces the current value with the text.
-                     If False, inserts the text at the cursor position.
+        Parameters
+        ----------
+        app : App
+            The Textual application instance.
+        input : Input
+            The Input widget where the text will be pasted.
+        text : str
+            The text to paste.
+        replace : bool
+            If True, replaces the current value with the text.
+            If False, inserts the text at the cursor position.
         """
         if replace:
             input.value = text
@@ -416,12 +434,17 @@ class CustomBindings():
         """
         Pastes the given text into the textarea at the cursor position.
 
-        Args:
-            app: The Textual application instance.
-            textarea: The TextArea widget where the text will be pasted.
-            text: The text to paste.
-            replace: If True, replaces the current value with the text.
-                     If False, inserts the text at the cursor position.
+        Parameters
+        ----------
+        app : App
+            The Textual application instance.
+        textarea : TextArea
+            The TextArea widget where the text will be pasted.
+        text : str
+            The text to paste.
+        replace : bool
+            If True, replaces the current value with the text.
+            If False, inserts the text at the cursor position.
         """
         if replace:
             textarea.text = text
@@ -441,13 +464,20 @@ class CustomBindings():
 
         This is meant to be used in the check_action method of a Textual app.
 
-        Args:
-            action: The action to check.
-            parameters: Parameters for the action (not used).
-            active_group: The currently active group or tab.
-            show_global_keys: Whether to show only global keys.
+        Parameters
+        ----------
+        action : str
+            The action to check.
+        parameters : tuple[object, ...]
+            Parameters for the action (not used).
+        active_group : str
+            The currently active group or tab.
+        show_global_keys : bool, optional
+            Whether to show only global keys.
 
-        Returns:
+        Returns
+        -------
+        bool or None
             True if the action should be displayed, False otherwise.
         """
         # Show only global keys?
@@ -474,10 +504,14 @@ class CustomBindings():
         """
         Checks if the given action belongs to a global key binding.
 
-        Args:
-            action: The action to check.
+        Parameters
+        ----------
+        action : str
+            The action to check.
 
-        Returns:
+        Returns
+        -------
+        bool
             True if the action is global, False otherwise.
         """
         return action in self.global_actions
@@ -486,11 +520,16 @@ class CustomBindings():
         """
         Checks if the given action is a custom action defined in the bindings.
 
-        Args:
-            action: The action to check.
-            group: The group to check against.
+        Parameters
+        ----------
+        action : str
+            The action to check.
+        group : str
+            The group to check against.
 
-        Returns:
+        Returns
+        -------
+        bool
             True if the action is a custom action, False otherwise.
         """
         return action in self.action_to_groups
@@ -499,11 +538,16 @@ class CustomBindings():
         """
         Checks if the given action belongs to the specified group.
 
-        Args:
-            action: The action to check.
-            group: The group to check against.
+        Parameters
+        ----------
+        action : str
+            The action to check.
+        group : str
+            The group to check against.
 
-        Returns:
+        Returns
+        -------
+        bool
             True if the action belongs to the group, False otherwise.
         """
         return group in self.action_to_groups.get(action, [])

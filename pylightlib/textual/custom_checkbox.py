@@ -5,12 +5,14 @@ from textual.widgets import Checkbox
 class CustomCheckbox(Checkbox):
     """
     A custom Textual Checkbox that displays a check mark when selected.
+
     When nothing is selected, it shows an empty box - instead of the default
     behavior of showing an "X".
 
-    Attributes:
-        CUSTOM_BUTTON_INNER: The character to display when the checkbox
-        is checked.
+    Attributes
+    ----------
+    CUSTOM_BUTTON_INNER : str
+        The character to display when the checkbox is checked.
     """
     CUSTOM_BUTTON_INNER = '✔'
 

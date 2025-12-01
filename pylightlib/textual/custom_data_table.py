@@ -1,17 +1,8 @@
 """
 pylightlib.textual.CustomDataTable
-===============================
+==================================
 
 Extension of Textual's DataTable with support for flexible column resizing.
-
-Author:
-    Corvin Gröning
-
-Date:
-    2025-05-24
-
-Version:
-    0.1
 
 This module defines `CustomDataTable`, a subclass of Textual's `DataTable`
 with additional capabilities for handling dynamic resizing of table columns
@@ -40,13 +31,15 @@ import logging
 
 class CustomDataTable(DataTable):
     """
-    CustomDataTable is a subclass of DataTable that provides additional
-    functionality for handling flexible column widths and resizing.
+    CustomDataTable is a subclass of DataTable that provides additional functionality for handling flexible column widths and resizing.
 
-    Attributes:
-        MIN_FLEX_COL_WIDTH: Minimum width for flexible columns.
-        flexible_columns: List of column keys that should be flexible in width
-            (will be adjusted according to window width).
+    Attributes
+    ----------
+    MIN_FLEX_COL_WIDTH : int
+        Minimum width for flexible columns.
+    flexible_columns : list[ColumnKey]
+        List of column keys that should be flexible in width
+        (will be adjusted according to window width).
     """
     MIN_FLEX_COL_WIDTH = 5
     flexible_columns: list[ColumnKey] = []
@@ -59,9 +52,6 @@ class CustomDataTable(DataTable):
 
 
     def __init__(self, **kwargs):
-        """
-        Initializes the DataTable.
-        """
         super().__init__(**kwargs)
 
 
@@ -74,14 +64,12 @@ class CustomDataTable(DataTable):
         This is useful for initializing any additional functionality that
         depends on the DataTable being fully mounted.
 
-        Example:
-            ```
-            @on(CustomDataTable.Mounted)
-            async def on_table_mounted(self, event: CustomDataTable.Mounted) \
-            -> None:
-                # Add columns and rows to the table
-                pass
-            ```
+        Examples
+        --------
+        >>> @on(CustomDataTable.Mounted)
+        >>> async def on_table_mounted(self, event: CustomDataTable.Mounted):
+        ...     # Add columns and rows to the table
+        ...     pass
         """
         self.post_message(self.Mounted(self))
 
@@ -104,7 +92,9 @@ class CustomDataTable(DataTable):
 
         This is used to calculate the available width for flexible columns.
 
-        Returns:
+        Returns
+        -------
+        int
             The total width of all fixed-width columns.
         """
         fixed_widths = 0
@@ -120,12 +110,14 @@ class CustomDataTable(DataTable):
     def adjust_flexible_columns(self, table_width: int, fixed_width: int) \
     -> None:
         """
-        Adjusts the widths of the flexible columns based on the available
-        width in the table.
+        Adjusts the widths of the flexible columns based on the available width in the table.
 
-        Args:
-            table_width: The total width of the table.
-            fixed_width: The total width of all fixed-width columns.
+        Parameters
+        ----------
+        table_width : int
+            The total width of the table.
+        fixed_width : int
+            The total width of all fixed-width columns.
         """
         for column_key in self.columns:
             column: Column = self.columns[column_key]
@@ -144,8 +136,8 @@ class CustomDataTable(DataTable):
 
     def update_virtual_size(self) -> None:
         """
-        Updates the virtual size of the DataTable based on the current
-        column widths to only show the horizontal scrollbar when necessary.
+        Updates the virtual size of the DataTable based on the current column widths to only show the horizontal scrollbar when necessary.
+
         The effect of this method is that the DataTable has the correct width
         (no hidden column at the right side "compensating" the reduced widths
         of the flexible columns) and that the horizontal scrollbar only appears
@@ -159,6 +151,8 @@ class CustomDataTable(DataTable):
         total_width = sum(column_widths) + (num_columns * 2 - 2)
         ```
 
+        Notes
+        -----
         Explanation:
 
             - Each column has 2 pixels of spacing (padding/border)
@@ -184,13 +178,16 @@ class CustomDataTable(DataTable):
         """
         Shows or hides the horizontal scrollbar based on the content width.
 
-        **DEPRECATED**: This method is no longer needed.
+        .. deprecated::
+            This method is no longer needed.
 
         Scrollbar visibility is now automatically managed by the
         `update_virtual_size()` method, which correctly sets the virtual
         size of the table. The horizontal scrollbar will only appear when
         the content width exceeds the table width.
 
+        Notes
+        -----
         TODO: Remove this method in future versions.
         """
         total_content_width = sum(col.width for col in self.columns.values())

@@ -1,19 +1,6 @@
 """
 pylightlib.textual.QuestionScreen
-=======================
-
-A reusable modal screen component for confirming user decisions
-via Yes/No buttons.
-
-Author:
-    Corvin Gröning
-
-Date:
-    2025-05-24
-
-Version:
-    0.1
-
+=================================
 
 This module defines `QuestionScreen`, a subclass of `ModalScreen`
 in the Textual framework, designed to present a question to the user and
