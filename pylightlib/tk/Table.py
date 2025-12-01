@@ -4,15 +4,6 @@ pylightlib.tk.table
 
 A fully scrollable, editable and styleable table widget for Tkinter GUIs.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-22
-
-Version:
-    0.1
-
 This module implements the `Table` class — a high-level widget for displaying
 and editing tabular data in Tkinter using multiple synchronized
 `EditableListbox` instances as columns.
@@ -61,11 +52,16 @@ class TableColumn:
     """
     Describes a single column in a table.
 
-    Attributes:
-        heading:   Column heading.
-        width:     Column width (if 0 width will be set automatically).
-        justify:   Justification of the content ('left', 'center' or 'right').
-        read_only: Indicates if the values of the column can be edited.
+    Attributes
+    ----------
+    heading : str
+        Column heading.
+    width : int
+        Column width (if 0 width will be set automatically).
+    justify : str
+        Justification of the content ('left', 'center' or 'right').
+    read_only : bool
+        Indicates if the values of the column can be edited.
     """
     heading: str
     width: int = 0
@@ -89,34 +85,50 @@ class Table:
 
     Designed for use with the PyLightFramework.
 
-    Attributes:
-        master:         Master frame for this widget.
-        head:           List of the column headings in left-to-right order.
-        data:           Multidimensional list of the table data (rows, columns).
-        color_scheme:   Instance of the color scheme of the app.
-        font:           Font family and size.
-        padding_frames: List of the padding frames around listboxes.
-        lbls: List of the instances of the labels for the column headings.
-        lbox: List of the listboxes for each column.
-        highlight_ext_frames_left:  List of the frames to extend the highlight
-                                    for active row (left).
-        highlight_ext_frames_right: List of the frames to extend the highlight
-                                    for active row (right).
-        outer_frame:   Outer frame which contains the inner frame and the
-                       vertical scrollbar.
-        inner_frame:   Inner frame which contains the listboxes and the
-                       horizontal scrollbar.
-        row_height:    Height of a row (= height of a listbox item) in pixels.
-        visible_rows:  Number of visible rows.
-        current_row:   ID of the currently selected row.
-        selected_cell: Row and column of the currently selected cell.
-        default_bg:    Dictionary for the default background colors.
-        selected_bg:   Dictionary for the background colors of selected item,
-                       column and row.
-        default_fg:    Dictionary for the default foreground colors.
-        selected_fg:   Dictionary for the foreground colors of selected item,
-                       column and row.
-        os: Name of the operating system.
+    Attributes
+    ----------
+    master : tk.Frame
+        Master frame for this widget.
+    head : list[TableColumn]
+        List of the column headings in left-to-right order.
+    data : list[list[str]]
+        Multidimensional list of the table data (rows, columns).
+    color_scheme : DefaultColorScheme
+        Instance of the color scheme of the app.
+    font : dict[str, str | int]
+        Font family and size.
+    padding_frames : list[tk.Frame]
+        List of the padding frames around listboxes.
+    lbls : list[FramedWidget]
+        List of the instances of the labels for the column headings.
+    lbox : list[EditableListbox]
+        List of the listboxes for each column.
+    highlight_ext_frames_left : list[tk.Frame]
+        List of the frames to extend the highlight for active row (left).
+    highlight_ext_frames_right : list[tk.Frame]
+        List of the frames to extend the highlight for active row (right).
+    outer_frame : tk.Frame
+        Outer frame which contains the inner frame and the vertical scrollbar.
+    inner_frame : ScrollFrame
+        Inner frame which contains the listboxes and the horizontal scrollbar.
+    row_height : float
+        Height of a row (= height of a listbox item) in pixels.
+    visible_rows : int
+        Number of visible rows.
+    current_row : int
+        ID of the currently selected row.
+    selected_cell : dict[str, int]
+        Row and column of the currently selected cell.
+    default_bg : dict
+        Dictionary for the default background colors.
+    selected_bg : dict
+        Dictionary for the background colors of selected item, column and row.
+    default_fg : dict
+        Dictionary for the default foreground colors.
+    selected_fg : dict
+        Dictionary for the foreground colors of selected item, column and row.
+    os : str
+        Name of the operating system.
 
     """
     master: tk.Frame
@@ -147,11 +159,16 @@ class Table:
         """
         Create a table widget with the given data.
 
-        Args:
-            master: Master frame for this widget.
-            head:   List of the column headings in left-to-right order.
-            data:   Multidimensional list of the table data (rows, columns).
-            color_scheme: Instance of the color scheme of the app.
+        Parameters
+        ----------
+        master : tk.Frame
+            Master frame for this widget.
+        head : list[TableColumn]
+            List of the column headings in left-to-right order.
+        data : list[list[str]]
+            Multidimensional list of the table data (rows, columns).
+        color_scheme : DefaultColorScheme
+            Instance of the color scheme of the app.
         """
         self.master = master
         self.head = head
@@ -191,11 +208,10 @@ class Table:
 
     def create_frames(self) -> None:
         """
-        Creates two frames:
+        Creates two frames.
 
         - Outer frame which contains the inner frame and vertical scrollbar.
         - Inner frame which contains the listboxes and horizontal scrollbar.
-
         """
         # Create frames
         self.outer_frame = tk.Frame(master=self.master)
@@ -338,8 +354,7 @@ class Table:
 
     def configure_vertical_scrollbar(self) -> None:
         """
-        Set the vertical scrollbar of the inner frame to scroll all listboxes
-        simultaneously.
+        Set the vertical scrollbar of the inner frame to scroll all listboxes simultaneously.
         """
         # Set function to call when the vertical scrollbar was used
         self.inner_frame.vsb['command'] = self.vscroll
@@ -378,8 +393,10 @@ class Table:
         the inner frame (= ScrollFrame). If the size of the canvas changes the
         size of the listboxes will be adjusted accordingly.
 
-        Args:
-            event: The Event object.
+        Parameters
+        ----------
+        event : tk.Event
+            The Event object.
         """
         # Set height of the listboxes in pixels
         # listbox height = canvas height - label height - scrollbar height
@@ -402,9 +419,12 @@ class Table:
         selected item of the listboxes, so that current row, column and cell are
         highlighted.
 
-        Args:
-            event: The Event object.
-            row:   The row of the selected item.
+        Parameters
+        ----------
+        event : tk.Event
+            The Event object.
+        row : int or None, optional
+            The row of the selected item.
         """
         # Get the scroll position of the listbox that triggered the callback
         scroll_pos = event.widget.yview()
@@ -506,9 +526,12 @@ class Table:
         Sets the position and size of the highlight extension for the given
         column.
 
-        Args:
-            column_no: The number of the column.
-            lbox:      The list box.
+        Parameters
+        ----------
+        column_no : int
+            The number of the column.
+        lbox : EditableListbox
+            The list box.
         """
         # Get index of selected item
         if len(lbox.curselection()) > 0:
@@ -535,10 +558,14 @@ class Table:
         Callback for the <MouseWheel> event of the listboxes. Changes the scroll
         position of the focussed listbox and synchronizes it with the others.
 
-        Args:
-            event: The Event object.
+        Parameters
+        ----------
+        event : tk.Event
+            The Event object.
 
-        Returns:
+        Returns
+        -------
+        str or None
             'break' if the operating system is Windows, otherwise None.
         """
         # Number of rows to be scrolled
@@ -565,8 +592,10 @@ class Table:
         Callback that is triggered when the vertical scrollbar is used. It
         scrolls all listboxes simultaneously.
 
-        Args:
-            *args: Positional arguments.
+        Parameters
+        ----------
+        *args
+            Positional arguments.
         """
         for i in range(len(self.head)):
             self.lbox[i].yview(*args)
@@ -577,10 +606,14 @@ class Table:
         Changes the active listbox to the next left one and scrolls
         horizontally.
 
-        Args:
-            event: The Event object
+        Parameters
+        ----------
+        event : tk.Event
+            The Event object.
 
-        Returns:
+        Returns
+        -------
+        str
             'break' to suppress horizontal scrolling within the listboxes with
             arrow key.
         """
@@ -592,12 +625,20 @@ class Table:
 
     def arrow_right(self, event):
         """
-        Callback for <Left> event (left arrow key pressed) of the listboxes.
+        Callback for <Right> event (right arrow key pressed) of the listboxes.
         Changes the active listbox to the next right one and scrolls
         horizontally.
 
-        Args:
-            event: The Event object
+        Parameters
+        ----------
+        event : tk.Event
+            The Event object.
+
+        Returns
+        -------
+        str
+            'break' to suppress horizontal scrolling within the listboxes with
+            arrow key.
         """
         self.change_active_listbox(event, 'right')
         self.hscroll(event, 'right')
@@ -610,9 +651,12 @@ class Table:
         Sets focus to the next listbox on the left or right of the listbox
         that triggered this function.
 
-        Args:
-            event: The Event object.
-            side:  The side of the listbox to focus ('left' or 'right').
+        Parameters
+        ----------
+        event : tk.Event
+            The Event object.
+        side : str
+            The side of the listbox to focus ('left' or 'right').
         """
         # Loop listboxes
         for i in range(len(self.head)):
@@ -643,9 +687,12 @@ class Table:
         Gets called when the arrow keys are used to select the active listbox.
         Adjusts the position of the horizontal scrollbar.
 
-        Args:
-            event: The Event object.
-            side:  The side of the listbox to focus ('left' or 'right').
+        Parameters
+        ----------
+        event : tk.Event
+            The Event object.
+        side : str
+            The side of the listbox to focus ('left' or 'right').
         """
         # Get the width of the canvas within the inner frame (visible width)
         canvas_width = self.inner_frame.canvas.winfo_width()
@@ -702,8 +749,10 @@ class Table:
         Determines the row and column of the edited item and adjusts the data
         model.
 
-        Args:
-            event: The Event object
+        Parameters
+        ----------
+        event : tk.Event
+            The Event object.
         """
         # Get row id (= index of the listbox item)
         row = event.widget.get_selected_index()
@@ -730,8 +779,10 @@ class Table:
         Callback that is triggered if the cursor is over a label of the table
         head. Changes the symbol if the cursor is on the right end of the label.
 
-        Args:
-            event: The Event object.
+        Parameters
+        ----------
+        event : tk.Event
+            The Event object.
         """
         # Get label width and cursor position
         label_width = event.widget.winfo_width()
@@ -754,8 +805,10 @@ class Table:
         the table head with the left mouse button pressed. Changes the width
         of the column/listbox according to the cursor position.
 
-        Args:
-            event: The Event object
+        Parameters
+        ----------
+        event : tk.Event
+            The Event object.
         """
         column_no: int = -1
 
@@ -794,10 +847,14 @@ class Table:
         Callback for the PageUp and PageDown keys that ensured correct behavior
         of the table.
 
-        Args:
-            event: The Event object.
+        Parameters
+        ----------
+        event : tk.Event
+            The Event object.
 
-        Returns:
+        Returns
+        -------
+        str
             'break' to prevent the listbox from being scrolled twice.
         """
         # Calculate new index
@@ -829,10 +886,14 @@ class Table:
         Callback for the PageUp and PageDown keys that ensured correct behavior
         of the table.
 
-        Args:
-            event: The Event object.
+        Parameters
+        ----------
+        event : tk.Event
+            The Event object.
 
-        Returns:
+        Returns
+        -------
+        str
             'break' to prevent the listbox from being scrolled twice.
         """
         # Calculate new index

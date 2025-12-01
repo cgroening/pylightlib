@@ -5,15 +5,6 @@ pylightlib.msc.SysPathHandler
 Provides functionality to dynamically manipulate `sys.path` and module imports
 for loading Qt libraries (e.g., PySide6, shiboken6) from external sources.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-21
-
-Version:
-    0.1
-
 This module is designed to support LGPL compliance for applications using Qt
 bindings by allowing dynamic linking of PySide6 and shiboken6. It ensures that
 users can replace these libraries in frozen applications (e.g., .app bundles
@@ -63,8 +54,9 @@ def activate_dynamic_qt_linking(external_libs_folder: str,
                                 external_libs_folder_debug_mode: str,
                                 debug_mode: bool = False) -> None:
     """
-    Enables dynamic linking for Qt packages (PySide6 and shiboken6) to ensure
-    LGPL compliance. The folder external_libs_folder must have the same parent
+    Enables dynamic linking for Qt packages (PySide6 and shiboken6) to ensure LGPL compliance.
+
+    The folder external_libs_folder must have the same parent
     folder as the .app bundle. This way the user can exchange the PySide/Qt
     file for his own (requirement from the LGPL).
 
@@ -77,14 +69,18 @@ def activate_dynamic_qt_linking(external_libs_folder: str,
     automatically creates a folder with the .exe and the Qt libs which can be
     exchanged.
 
-    Args:
-        external_libs_folder: Name of the folder that contains PySide6 and
-                              shiboken6. It must be placed next to the
-                              .app bundle.
-        external_libs_folder_debug_mode: Absolute path of the external lib
-                                         folder - used in debug mode.
-        debug_mode: If this is on the Qt files are imported from the absolute
-                    path external_libs_folder_debug_mode.
+    Parameters
+    ----------
+    external_libs_folder : str
+        Name of the folder that contains PySide6 and
+        shiboken6. It must be placed next to the
+        .app bundle.
+    external_libs_folder_debug_mode : str
+        Absolute path of the external lib
+        folder - used in debug mode.
+    debug_mode : bool, optional
+        If this is on the Qt files are imported from the absolute
+        path external_libs_folder_debug_mode.
     """
     # Check if the app is frozen (bundled into an .app) and the OS is macOS
     # or if debug mode is activated
@@ -130,20 +126,25 @@ class SysPathHandler(metaclass=Singleton):
             exit()
         SysPathHandler().restore_sys_path()
 
-    Attributes:
-        external_libs_path: A list of absolute paths of folders containing
-                            external packages.
-        sys_modules:        List of modules to be excluded from `sys.modules`
-                            (each module that begins with one of the given
-                            strings will be removed).
-        original_sys_path:  Backup of the original `sys.path`.
-        debug_mode:         If this is on, an app bundle that does NOT contain
-                            the packages from external_libs_path will be
-                            simulated by temporarily setting sys.path to only
-                            the folder given by external_libs_path. Those
-                            packages must be imported between the
-                            self.set_new_sys_path and self. restore_sys_path
-                            call.
+    Attributes
+    ----------
+    external_libs_path : list[str] or None
+        A list of absolute paths of folders containing
+        external packages.
+    sys_modules : list[str] or None
+        List of modules to be excluded from `sys.modules`
+        (each module that begins with one of the given
+        strings will be removed).
+    original_sys_path : list[str]
+        Backup of the original `sys.path`.
+    debug_mode : bool
+        If this is on, an app bundle that does NOT contain
+        the packages from external_libs_path will be
+        simulated by temporarily setting sys.path to only
+        the folder given by external_libs_path. Those
+        packages must be imported between the
+        self.set_new_sys_path and self. restore_sys_path
+        call.
     """
     external_libs_path: list[str] | None
     sys_modules: list[str] | None
@@ -157,14 +158,18 @@ class SysPathHandler(metaclass=Singleton):
         """
         Initializes the SysPathHandler.
 
-        Args:
-            external_libs_path: A list of absolute paths of folders containing
-                                external packages.
-            sys_modules: List of modules to be excluded from `sys.modules`
-                         (each module that begins with one of the given
-                         strings will be removed).
-            debug_mode:  Indicates if the debug mode is enabled. See the class
-                         description for further information.
+        Parameters
+        ----------
+        external_libs_path : list[str] or None, optional
+            A list of absolute paths of folders containing
+            external packages.
+        sys_modules : list[str] or None, optional
+            List of modules to be excluded from `sys.modules`
+            (each module that begins with one of the given
+            strings will be removed).
+        debug_mode : bool, optional
+            Indicates if the debug mode is enabled. See the class
+            description for further information.
         """
         self.external_libs_path = external_libs_path
         self.sys_modules = sys_modules

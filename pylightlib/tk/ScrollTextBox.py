@@ -4,15 +4,6 @@ pylightlib.tk.ScrollTextbox
 
 A scrollable text box widget using Tkinter and ttk.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-21
-
-Version:
-    0.1
-
 This module defines the `ScrollTextBox` class, a reusable Tkinter widget that
 combines a `Text` widget with a vertical scrollbar inside a `ttk.Frame`. It
 simplifies the creation of scrollable text areas in GUI applications.
@@ -36,9 +27,12 @@ class ScrollTextBox(ttk.Frame):
     This class inherits ttk.Frame. It contains a text box and a vertical
     scrollbar.
 
-    Attributes:
-        text_widget (tk.Text): Text box object.
-        scrollbar (ttk.Scrollbar): Scroll bar object.
+    Attributes
+    ----------
+    text_widget : tk.Text
+        Text box object.
+    scrollbar : ttk.Scrollbar
+        Scroll bar object.
     """
 
     text_widget: tk.Text
@@ -46,6 +40,19 @@ class ScrollTextBox(ttk.Frame):
 
 
     def __init__(self, *args, **kwargs):
+        """
+        Initialize the ScrollTextBox widget.
+
+        Sets up the frame with a text widget and vertical scrollbar,
+        and configures the grid layout for proper stretching.
+
+        Parameters
+        ----------
+        *args
+            Variable length argument list passed to ttk.Frame.
+        **kwargs
+            Arbitrary keyword arguments passed to ttk.Frame.
+        """
         super().__init__(*args, **kwargs)
 
         # Implement stretchability

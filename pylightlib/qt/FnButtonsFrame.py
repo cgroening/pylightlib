@@ -4,15 +4,6 @@ pylightlib.qt.FnButtonsFrame
 
 Function key bar with modifier support (child of QFrame).
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-04
-
-Version:
-    0.9
-
 This module defines a function key bar that visually represents function keys
 (F1-F12) as buttons, optionally grouped by keyboard modifiers (None, ALT, CTRL
 and SHIFT). Each button executes the same function as the corresponding function
@@ -40,8 +31,8 @@ Each function key button supports different interaction types:
 When a function key (or its corresponding button) is pressed, its assigned
 action is executed.
 
-Usage:
-------
+Usage
+-----
 1. Instantiate `FnButtonsFrame` in a Qt application.
 2. Define function keys actions using `FnKeyDefinition`.
 3. Use the function key bar for interaction.
@@ -77,6 +68,17 @@ class Modifier(Enum):
 
     This class represents different modifier keys that can be used in
     combination with the function keys, such as ALT, CTRL, and SHIFT.
+
+    Attributes
+    ----------
+    NONE : None
+        No modifier key.
+    ALT : str
+        ALT modifier key.
+    CTRL : str
+        CTRL modifier key.
+    SHIFT : str
+        SHIFT modifier key.
     """
     NONE = None
     ALT = 'ALT'
@@ -90,6 +92,33 @@ class FnKey(Enum):
 
     This class represents the standard function keys (F1–F12) typically found
     on a standard keyboard.
+
+    Attributes
+    ----------
+    F1 : str
+        Function key F1.
+    F2 : str
+        Function key F2.
+    F3 : str
+        Function key F3.
+    F4 : str
+        Function key F4.
+    F5 : str
+        Function key F5.
+    F6 : str
+        Function key F6.
+    F7 : str
+        Function key F7.
+    F8 : str
+        Function key F8.
+    F9 : str
+        Function key F9.
+    F10 : str
+        Function key F10.
+    F11 : str
+        Function key F11.
+    F12 : str
+        Function key F12.
     """
     F1 = 'F1'
     F2 = 'F2'
@@ -108,6 +137,15 @@ class FnKey(Enum):
 class FnKeyType(Enum):
     """
     Enumeration for widget types for the function key bar.
+
+    Attributes
+    ----------
+    button : int
+        Standard button widget type.
+    toggle : int
+        Toggle/switch widget type.
+    dropdown : int
+        Dropdown/combo box widget type.
     """
     button = auto()
     toggle = auto()
@@ -123,19 +161,28 @@ class FnKeyDefinition:
     metadata such as captions, tooltips, and actions, as well as support for
     different widget types (button, toggle, dropdown).
 
-    Attributes:
-        fnkey:    FnKey.F1 to FnKey.F12.
-        modifier: Modifier.NONE, Modifier.ALT, Modifier.CTRL or Modifier.SHIFT.
-        widget_type: FnKeyType.button, FnKeyType.toggle oder FnKeyType.dropdown.
-        caption: Text of the button.
-        tooltip: Description of the function that is displayed on mouse over.
-        action:  Reference to the function that will be called when the user
-                 clicks on the widget or presses the fn key.
-        is_on:   Indicates if the toggle is on.
-        items:   Dictionary with the items for the dropdown:
-                 {key: 'value'} or {'key': 'value'}
-        current_item_index: The index of the currently selected item of the
-                            dropdown.
+    Attributes
+    ----------
+    fnkey : FnKey
+        FnKey.F1 to FnKey.F12.
+    modifier : Modifier
+        Modifier.NONE, Modifier.ALT, Modifier.CTRL or Modifier.SHIFT.
+    widget_type : FnKeyType
+        FnKeyType.button, FnKeyType.toggle oder FnKeyType.dropdown.
+    caption : str
+        Text of the button.
+    tooltip : str
+        Description of the function that is displayed on mouse over.
+    action : Callable
+        Reference to the function that will be called when the user
+        clicks on the widget or presses the fn key.
+    is_on : bool
+        Indicates if the toggle is on.
+    items : dict[Any, str]
+        Dictionary with the items for the dropdown:
+        {key: 'value'} or {'key': 'value'}.
+    current_item_index : str
+        The index of the currently selected item of the dropdown.
     """
     fnkey: FnKey
     modifier: Modifier
@@ -153,16 +200,23 @@ class FnKeyDefinition:
         """
         Defines a button.
 
-        Args:
-            fnkey:    FnKey.F1 to FnKey.F12.
-            modifier: Modifier.NONE, Modifier.ALT, Modifier.CTRL
-                      or Modifier.SHIFT.
-            caption:  Text on the button.
-            tooltip:  Tooltip that is displayed on mouseover.
-            action:   Action that is called when the button is clicked or the
-                      corresponding function key is pressed.
+        Parameters
+        ----------
+        fnkey : FnKey
+            FnKey.F1 to FnKey.F12.
+        modifier : Modifier
+            Modifier.NONE, Modifier.ALT, Modifier.CTRL or Modifier.SHIFT.
+        caption : str
+            Text on the button.
+        tooltip : str
+            Tooltip that is displayed on mouseover.
+        action : Any
+            Action that is called when the button is clicked or the
+            corresponding function key is pressed.
 
-        Returns:
+        Returns
+        -------
+        FnKeyDefinition
             Instance of FnKeyDefinition.
         """
         self.fnkey = fnkey
@@ -179,17 +233,25 @@ class FnKeyDefinition:
         """
         Defines a toggle/switch that can be on (True) or off (False).
 
-        Args:
-            fnkey:    FnKey.F1 to FnKey.F12.
-            modifier: Modifier.NONE, Modifier.ALT, Modifier.CTRL
-                      or Modifier.SHIFT.
-            caption:  Text on the button.
-            tooltip:  Tooltip that is displayed on mouseover.
-            action:   Action that is called when the button is clicked or the
-                      corresponding function key is pressed.
-            is_on:    Indicates if the toggle/switch is on or off.
+        Parameters
+        ----------
+        fnkey : FnKey
+            FnKey.F1 to FnKey.F12.
+        modifier : Modifier
+            Modifier.NONE, Modifier.ALT, Modifier.CTRL or Modifier.SHIFT.
+        caption : str
+            Text on the button.
+        tooltip : str
+            Tooltip that is displayed on mouseover.
+        action : Any
+            Action that is called when the button is clicked or the
+            corresponding function key is pressed.
+        is_on : bool, optional
+            Indicates if the toggle/switch is on or off.
 
-        Returns:
+        Returns
+        -------
+        FnKeyDefinition
             Instance of FnKeyDefinition.
         """
         self.fnkey = fnkey
@@ -207,19 +269,28 @@ class FnKeyDefinition:
         """
         Defines a dropdown.
 
-        Args:
-            fnkey:    FnKey.F1 to FnKey.F12.
-            modifier: Modifier.NONE, Modifier.ALT, Modifier.CTRL
-                      or Modifier.SHIFT.
-            caption:  Text on the button.
-            tooltip:  Tooltip that is displayed on mouseover.
-            action:   Action that is called when the button is clicked or the
-                      corresponding function key is pressed.
-            items:    Dictionary with the items for the dropdown; the key can
-                      be a string or integer.
-            current_item_index: The index/key of the currently selected item.
+        Parameters
+        ----------
+        fnkey : FnKey
+            FnKey.F1 to FnKey.F12.
+        modifier : Modifier
+            Modifier.NONE, Modifier.ALT, Modifier.CTRL or Modifier.SHIFT.
+        caption : str
+            Text on the button.
+        tooltip : str
+            Tooltip that is displayed on mouseover.
+        action : Any
+            Action that is called when the button is clicked or the
+            corresponding function key is pressed.
+        items : dict[Any, str]
+            Dictionary with the items for the dropdown; the key can
+            be a string or integer.
+        current_item_index : Any
+            The index/key of the currently selected item.
 
-        Returns:
+        Returns
+        -------
+        FnKeyDefinition
             Instance of FnKeyDefinition.
         """
         self.fnkey = fnkey
@@ -236,7 +307,9 @@ class FnKeyDefinition:
         """
         Returns the key combination as string.
 
-        Returns:
+        Returns
+        -------
+        str
             "Modifier+FXX" oder "FXX" if modifier is NONE.
         """
         combo = self.fnkey.value
@@ -250,28 +323,41 @@ class FnKeyDefinition:
 class FnButtonsFrame(QFrame):
     """
     Frame which contains buttons captioned with "FXX [funktion_description]".
+
     These buttons call the same action as the corresponding fn key.
 
-    Attributes:
-        parent_frame: Frame which contains this one.
-        vertical_layout:  Instance of the vertical layout of this frame.
-        fnkeys_list:  An unsorted list of FnKeyDefinition instances.
-        compact_mode: Indicates if the fn key bar is in compact mode (button
-                      text in only one row) or not (button text in two rows).
-        fnkey_definitions: Dictionary with a sorted list of FnKeyDefinition
-                           instances for each modifier.
-        fnkey_definitions_by_key: Dictionary with the fn key as key and the
-                                  FnKeyDefinition instance as value.
-        widgets:     Dictionary containing all widgets:
-                     {'Modifier+FXX': widget_instance}.
-        slots:       Dictionary containing all slots
-                     {'Modifier+FXX': slot_reference}.
-        alt_pressed: Indicates if the ALT/Option key is currently pressed.
-        fn_pressed:  Indicates if a fn key is currently pressed.
-        simulate_alt_press: Indicates if a held down ALT/Option key shall be
-                            simulated.
-        func_text_separator: Separator for the function text in the button
-                             caption (e.g., ' ' or '\n').
+    Attributes
+    ----------
+    parent_frame : QFrame
+        Frame which contains this one.
+    vertical_layout : QVBoxLayout
+        Instance of the vertical layout of this frame.
+    fnkeys_list : list[FnKeyDefinition]
+        An unsorted list of FnKeyDefinition instances.
+    compact_mode : bool
+        Indicates if the fn key bar is in compact mode (button
+        text in only one row) or not (button text in two rows).
+    fnkey_definitions : dict[str, list[FnKeyDefinition]]
+        Dictionary with a sorted list of FnKeyDefinition
+        instances for each modifier.
+    fnkey_definitions_by_key : dict[str, FnKeyDefinition]
+        Dictionary with the fn key as key and the
+        FnKeyDefinition instance as value.
+    widgets : dict[str, Any]
+        Dictionary containing all widgets:
+        {'Modifier+FXX': widget_instance}.
+    slots : dict[str, Any]
+        Dictionary containing all slots
+        {'Modifier+FXX': slot_reference}.
+    alt_pressed : bool
+        Indicates if the ALT/Option key is currently pressed.
+    fn_pressed : bool
+        Indicates if a fn key is currently pressed.
+    simulate_alt_press : bool
+        Indicates if a held down ALT/Option key shall be simulated.
+    func_text_separator : str
+        Separator for the function text in the button
+        caption (e.g., ' ' or '\n').
     """
     parent_frame: QFrame
     vertical_layout: QVBoxLayout
@@ -291,17 +377,22 @@ class FnButtonsFrame(QFrame):
                  fnkeys_list: list[FnKeyDefinition], compact_mode: bool = True,
                  *args, **kwargs):
         """
-        Creates the grid layout and widgets. Connects signal and slot for each
-        fn key.
+        Creates the grid layout and widgets. Connects signal and slot for each fn key.
 
-        Args:
-            qt_window
-            parent_frame
-            fnkeys
-            alt_fnkeys
-            compact_mode
-            *args
-            **kwargs
+        Parameters
+        ----------
+        qt_window : QtWidgets.QMainWindow
+            The main window.
+        parent_frame : QFrame
+            The parent frame.
+        fnkeys_list : list[FnKeyDefinition]
+            List of function key definitions.
+        compact_mode : bool, optional
+            Indicates compact mode.
+        *args
+            Variable length argument list.
+        **kwargs
+            Arbitrary keyword arguments.
         """
         super().__init__(parent_frame, *args, **kwargs)
         self.parent_frame = parent_frame
@@ -348,8 +439,9 @@ class FnButtonsFrame(QFrame):
 
     def sort_and_group_fnkeys(self) -> None:
         """
-        Sorts the fn key definitions by the fn key in ascending order and groups
-        it by the modifier. The result is saved in self.fnkey_definitions.
+        Sorts the fn key definitions by the fn key in ascending order and groups it by the modifier.
+
+        The result is saved in self.fnkey_definitions.
         """
         # Sort the list by the fn key in ascending order
         sorted_list = sorted(
@@ -365,11 +457,14 @@ class FnButtonsFrame(QFrame):
 
     def key_pressed(self, event: QKeyEvent) -> None:
         """
-        Slot that is run when a key is pressed. If it's a fn key the
-        corresponding button will be displayed as pressed.
+        Slot that is run when a key is pressed.
 
-        Args:
-            event
+        If it's a fn key the corresponding button will be displayed as pressed.
+
+        Parameters
+        ----------
+        event : QKeyEvent
+            The key event.
         """
         # Key == ALT ?
         if event.key() == QtCore.Qt.Key.Key_Alt:
@@ -386,12 +481,15 @@ class FnButtonsFrame(QFrame):
 
     def key_released(self, event: QKeyEvent) -> None:
         """
-        Slot that is run when a key is released. If it's a function key the
-        corresponding button will not be displayed as pressed anymore.
+        Slot that is run when a key is released.
+
+        If it's a function key the corresponding button will not be displayed as pressed anymore.
         The function for the fn key will be run.
 
-        Args:
-            event
+        Parameters
+        ----------
+        event : QKeyEvent
+            The key event.
         """
         # Determine fn key
         fnkey = self.fnkey_str(event, self.alt_pressed)
@@ -438,9 +536,17 @@ class FnButtonsFrame(QFrame):
         """
         Returns a string ('F1', 'F2', ...) for the pressed fn key.
 
-        Args:
-            event
-            alt_pressed
+        Parameters
+        ----------
+        event : QKeyEvent
+            The key event.
+        alt_pressed : bool
+            Whether ALT key is pressed.
+
+        Returns
+        -------
+        str or None
+            The function key string or None if not a function key.
         """
         # F-Taste ermitteln
         switcher = {
@@ -471,11 +577,12 @@ class FnButtonsFrame(QFrame):
 
     def create_widget_row(self, fnkeys_list: list[FnKeyDefinition]) -> None:
         """
-        Creates a row of widgets (buttons, switches and dropdowns) based on
-        the given dictionary.
+        Creates a row of widgets (buttons, switches and dropdowns) based on the given dictionary.
 
-        Args:
-            fnkeys_list
+        Parameters
+        ----------
+        fnkeys_list : list[FnKeyDefinition]
+            List of function key definitions for this row.
         """
         # Create frame with horizontal layout
         # row_frame = QFrame(self.parent_frame)
@@ -530,15 +637,20 @@ class FnButtonsFrame(QFrame):
 
     def create_button(self, fnr, func_text, slot) -> QPushButton:
         """
-        Creates a QPushButton, sets the caption to "{fnr}={funktext}" and
-        connects the clicked signal with the slot.
+        Creates a QPushButton, sets the caption to "{fnr}={funktext}" and connects the clicked signal with the slot.
 
-        Args:
-            fnr
-            func_text
-            slot
+        Parameters
+        ----------
+        fnr
+            Function key identifier.
+        func_text
+            Function text for the button.
+        slot
+            Slot to connect to.
 
-        Returns:
+        Returns
+        -------
+        QPushButton
             Instance of the button.
         """
         button: QPushButton = QPushButton(self.parent_frame)
@@ -549,16 +661,22 @@ class FnButtonsFrame(QFrame):
 
     def create_toggle(self, fnr, func_text, slot, checked) -> QPushButton:
         """
-        Creates a QPushButton with switch function, sets the caption to
-        "{fnr}={funktext}" and connects the clicked signal with the slot.
+        Creates a QPushButton with switch function, sets the caption to "{fnr}={funktext}" and connects the clicked signal with the slot.
 
-        Args:
-            fnr
-            func_text
-            slot
-            checked
+        Parameters
+        ----------
+        fnr
+            Function key identifier.
+        func_text
+            Function text for the toggle.
+        slot
+            Slot to connect to.
+        checked
+            Initial checked state.
 
-        Returns:
+        Returns
+        -------
+        QPushButton
             Instance of the button (with toggle function).
         """
         button = QPushButton(self.parent_frame)
@@ -572,18 +690,25 @@ class FnButtonsFrame(QFrame):
     def create_combobox(self, fnr, func_text, entries, selected_value) \
             -> tuple[QPushButton, QComboBox]:
         """
-        Creates a QPushButton which functions as a frame and  contains a label
-        with the function text and a ComboBox with the given entries. The use
-        a QPushButton instead of a QFrame ensures that all widgets of the
+        Creates a QPushButton which functions as a frame and contains a label with the function text and a ComboBox with the given entries.
+
+        The use a QPushButton instead of a QFrame ensures that all widgets of the
         fn bar look the same.
 
-        Args:
-            fnr
-            func_text
-            entries
-            selected_value
+        Parameters
+        ----------
+        fnr
+            Function key identifier.
+        func_text
+            Function text for the combo box.
+        entries
+            List of entries for the combo box.
+        selected_value
+            Currently selected value.
 
-        Returns:
+        Returns
+        -------
+        tuple[QPushButton, QComboBox]
             Instance of the combo box and the frame it is in.
         """
         # Create an empty button to be used as a frame

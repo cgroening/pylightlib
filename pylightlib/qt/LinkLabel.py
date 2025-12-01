@@ -4,15 +4,6 @@ pylightlib.qt.LinkLabel
 
 Clickable QLabel that opens a URL when clicked.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-21
-
-Version:
-    0.1
-
 This module defines the `LinkLabel` class, a QLabel extension that behaves
 like a hyperlink. When clicked, it opens a predefined URL in the user's
 default browser.
@@ -45,11 +36,14 @@ SysPathHandler().restore_sys_path()
 
 class LinkLabel(QLabel):
     """
-    Label that inherits QLabel. An URL can be set which will be opened if the
-    user clicks on the label.
+    Label that inherits QLabel.
 
-    Attributes:
-        _url: Internet address.
+    An URL can be set which will be opened if the user clicks on the label.
+
+    Attributes
+    ----------
+    _url : str or None
+        Internet address.
     """
     _url: str | None = None
 
@@ -58,9 +52,12 @@ class LinkLabel(QLabel):
         """
         Calls the super class and makes the label underlined.
 
-        Args:
-            text:   Caption of the label.
-            parent: Parent widget.
+        Parameters
+        ----------
+        text : str
+            Caption of the label.
+        parent : Any, optional
+            Parent widget.
         """
         super().__init__(text, parent)
         self.setStyleSheet('text-decoration: underline; cursor: pointer;')
@@ -69,17 +66,22 @@ class LinkLabel(QLabel):
         """
         Sets the URL which will be opened if the user clicks on the label.
 
-        Args:
-            url: Internet address.
+        Parameters
+        ----------
+        url : str
+            Internet address.
         """
         self._url = url
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
         """
-        Event that is triggered when the user clicks on the label. Opens the
-        URL.
+        Event that is triggered when the user clicks on the label.
 
-        Args:
-            event:
+        Opens the URL.
+
+        Parameters
+        ----------
+        event : QMouseEvent
+            The mouse event object.
         """
         QDesktopServices.openUrl(QUrl(self._url))

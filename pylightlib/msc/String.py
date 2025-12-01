@@ -4,15 +4,6 @@ pylightlib.msc.String
 
 Provides utility functions for string manipulation and formatting.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-21
-
-Version:
-    0.1
-
 This module contains helper methods for performing common string operations.
 
 Included Features:
@@ -35,12 +26,17 @@ class String:
         """
         Splits a string into multiple lines with a specified maximum width.
 
-        Args:
-            text: The input text to be split into lines.
-            linewidth: Maximum number of characters allowed per line.
+        Parameters
+        ----------
+        text : str
+            The input text to be split into lines.
+        linewidth : int
+            Maximum number of characters allowed per line.
 
-        Returns:
-            str: A string with lines separated by line breaks (\n).
+        Returns
+        -------
+        str
+            A string with lines separated by line breaks (\n).
         """
         lines = []
         while len(text) > 0:
@@ -73,11 +69,16 @@ class String:
         """
         Finds all positions of a specific character in a string.
 
-        Args:
-            text: The input text to search in.
-            char: The character to search for.
+        Parameters
+        ----------
+        text : str
+            The input text to search in.
+        char : str
+            The character to search for.
 
-        Returns:
-            list[int]: A list of indices where the character occurs in the text.
+        Returns
+        -------
+        list[int]
+            A list of indices where the character occurs in the text.
         """
         return [pos for pos, c in enumerate(text) if c == char]

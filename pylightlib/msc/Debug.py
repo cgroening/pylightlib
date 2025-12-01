@@ -2,17 +2,7 @@
 pylightlib.msc.Debug
 ====================
 
-Provides decorator-based debugging utilities for function call inspection and
-performance measurement.
-
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-21
-
-Version:
-    0.1
+Provides decorator-based debugging utilities for function call inspection and performance measurement.
 
 This module offers a set of static methods designed to assist with debugging
 during development.
@@ -26,29 +16,27 @@ These utilities are useful for tracking function behavior and identifying
 performance bottlenecks during runtime, without requiring changes to the
 function logic itself.
 
-# Examples
+Examples
+--------
+Printing arguments
+~~~~~~~~~~~~~~~~~~
 
-## Printing arguments
+>>> @Debug.print_arguments
+... def do_something(t: str, n: int) -> None:
+...     print(f'I am not doing anything with the string "{t}" and number {str(n)}.')
+...
+>>> do_something('ABC', 11)
 
-```
-@Debug.print_arguments
-def do_something(t: str, n: int) -> None:
-    print(f'I am not doing anything with the string "{t}" and number {str(n)}.')
+Measuring execution time of a function
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-do_something('ABC', 11)
-````
-
-## Measuring execution time of a function
-
-```
-@Debug.timing()
-def iterate_something() -> None:
-    v: int = 0
-    for i in range(10**7):
-        v += 1
-
-iterate_something()
-```
+>>> @Debug.timing()
+... def iterate_something() -> None:
+...     v: int = 0
+...     for i in range(10**7):
+...         v += 1
+...
+>>> iterate_something()
 
 """
 
@@ -60,33 +48,41 @@ from typing import Callable
 
 class Debug:
     """
-    This class provides static methods that can be used as decorators to assist
-    with debugging. It includes functionality for printing function arguments
+    This class provides static methods that can be used as decorators to assist with debugging.
+
+    It includes functionality for printing function arguments
     and execution time measurement.
     """
     @staticmethod
     def print_arguments(fn: Callable) -> Callable:
         """
-        A decorator that prints the arguments, keyword arguments, function name
-        and return value each time the decorated function is called.
+        A decorator that prints the arguments, keyword arguments, function name and return value each time the decorated function is called.
 
-        Args:
-            fn: The function to be decorated.
+        Parameters
+        ----------
+        fn : Callable
+            The function to be decorated.
 
-        Returns:
+        Returns
+        -------
+        Callable
             A wrapper function that adds debugging output.
         """
         @wraps(fn)  # Without this fn.__name__ would be empty
         def wrapper(*args: Any, **kwargs: Any) -> Any:
             """
-            Wrapper function that prints the function's arguments and return
-            value.
+            Wrapper function that prints the function's arguments and return value.
 
-            Args:
-                *args:    Positional arguments.
-                **kwargs: Keyword arguments.
+            Parameters
+            ----------
+            *args : Any
+                Positional arguments.
+            **kwargs : Any
+                Keyword arguments.
 
-            Returns:
+            Returns
+            -------
+            Any
                 The original return value of the decorated function.
             """
             # Print function name + args and kwargs
@@ -107,13 +103,18 @@ class Debug:
     @staticmethod
     def timing(use_ns_timer: bool = False) -> Callable:
         """
-        A decorator factory that measures the execution time of the decorated
-        function. The time unit can be set to either seconds or nanoseconds.
+        A decorator factory that measures the execution time of the decorated function.
 
-        Args:
-            use_ns_timer: If True nanosecond precision timing is used.
+        The time unit can be set to either seconds or nanoseconds.
 
-        Returns:
+        Parameters
+        ----------
+        use_ns_timer : bool, optional
+            If True nanosecond precision timing is used.
+
+        Returns
+        -------
+        Callable
             A decorator that wraps the target function with timing logic.
         """
         if use_ns_timer:
@@ -127,13 +128,16 @@ class Debug:
 
         def wrap_with_timing(fn: Callable):
             """
-            Wrapper function that measures and prints the execution time of the
-            decorated function.
+            Wrapper function that measures and prints the execution time of the decorated function.
 
-            Args:
-                fn: Reference to the function.
+            Parameters
+            ----------
+            fn : Callable
+                Reference to the function.
 
-            Returns:
+            Returns
+            -------
+            Callable
                 A wrapped version of the function with timing logic.
             """
             @wraps(fn)
@@ -141,11 +145,16 @@ class Debug:
                 """
                 Measures the execution time of the function call.
 
-                Args:
-                    *args:
-                    **kwargs:
+                Parameters
+                ----------
+                *args : Any
+                    Positional arguments.
+                **kwargs : Any
+                    Keyword arguments.
 
-                Returns:
+                Returns
+                -------
+                Any
                     The original return value of the decorated function.
                 """
                 # Store start time

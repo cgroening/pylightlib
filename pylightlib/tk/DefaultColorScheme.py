@@ -4,15 +4,6 @@ pylightlib.tk.DefaultColorScheme
 
 Provides a default color scheme for consistent theming in tkinter-based UIs.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-21
-
-Version:
-    0.1
-
 This module defines the `DefaultColorScheme` dataclass, which contains
 dictionaries grouping foreground and background colors used throughout a tkinter
 user interface. It centralizes color definitions for the main application frame,
@@ -28,9 +19,20 @@ from dataclasses import dataclass
 @dataclass
 class DefaultColorScheme:
     """
-    This is the default color scheme for the UI. _bg are background colors,
-    _fg are foreground colors.
-    185886
+    This is the default color scheme for the UI.
+
+    _bg are background colors, _fg are foreground colors.
+
+    Attributes
+    ----------
+    app : dict
+        Main application frame color definitions including foreground,
+        background and various accent colors.
+    btn : dict
+        Button color definitions for different states (normal, active, pressed)
+        including foreground, background, and relief styles.
+    switch : dict
+        Toggle switch color definitions for ON and OFF states.
     """
 
     # Main Frame

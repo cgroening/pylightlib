@@ -5,15 +5,6 @@ pylightlib.tk.FramedWidget
 A customizable frame wrapper for standard Tkinter and ttk widgets with
 configurable borders and focus-based highlighting.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-22
-
-Version:
-    0.1
-
 This module provides the `FramedWidget` class, a versatile container for ttk
 widgets like buttons, entries, labels, option menus, dials, and listboxes.
 
@@ -46,8 +37,9 @@ from pylightlib.tk.EditableListbox import EditableListbox
 class FramedWidget(tk.Frame):
     """
     Despite the relief styles (FLAT, RAISED, SUNKEN, GROOVE and RIDGE) it is not
-    possible to customize the border of Tkinter widgets. This class is a
-    workaround for that. It inherits tk.Frame. A ttk widget (Label, Button,
+    possible to customize the border of Tkinter widgets.
+
+    This class is a workaround for that. It inherits tk.Frame. A ttk widget (Label, Button,
     Entry, etc.) will is created and placed within the frame. The background of
     the frame is set to the desired border color, the padding of the ttk widget
     to the desired border width.
@@ -65,29 +57,38 @@ class FramedWidget(tk.Frame):
     - Dial
     - Listbox
 
-    Attributes:
-        default_border_width: Default border width in pixels
-        bordercolor:   Color of the border around the widget (= background color
-                       of the frame).
-        default_border_color: Default border color of the widget. Can be set
-                              from outside this class.
-        wdg:           Instance of the widget within the frame .
-                       (Button, Entry etc.).
-        lbl:           Label in front of the widget .
-                       (applicable for some widgets).
-        frm:           If the widget has a label in front of it both will be in
-                    this frame.
-        boolean_var:   ON/OFF status of a switch, if applicable.
-        items:         List of the items of a dial, if applicable.
-        string_var:    String var for an option menu or a dial, if applicable.
-        get:           Get method of the entry if applicable.
-        insert:        Insert method of the entry if applicable.
-        frm_bind:      Bind method of this frame (bind will be mapped to the
-                       bind method of the widget.
-        frm_configure: Configure method of this frame (configure will be mapped
-                       to the configure method of the widget.
-        bind:          Bind method of the widget.
-        configure:     Configure method of the widget     .
+    Attributes
+    ----------
+    default_border_width : int
+        Default border width in pixels.
+    bordercolor : tuple[str]
+        Color of the border around the widget (= background color of the frame).
+    default_border_color : tuple[str, str]
+        Default border color of the widget. Can be set from outside this class.
+    wdg : object
+        Instance of the widget within the frame (Button, Entry etc.).
+    lbl : tk.Label
+        Label in front of the widget (applicable for some widgets).
+    frm : tk.Frame
+        If the widget has a label in front of it both will be in this frame.
+    boolean_var : bool
+        ON/OFF status of a switch, if applicable.
+    items : list[str]
+        List of the items of a dial, if applicable.
+    string_var : tk.StringVar
+        String var for an option menu or a dial, if applicable.
+    get : object
+        Get method of the entry if applicable.
+    insert : object
+        Insert method of the entry if applicable.
+    frm_bind : object
+        Bind method of this frame (bind will be mapped to the bind method of the widget).
+    frm_configure : object
+        Configure method of this frame (configure will be mapped to the configure method of the widget).
+    bind : object
+        Bind method of the widget.
+    configure : object
+        Configure method of the widget.
     """
     default_border_width: int = 1
     bordercolor: tuple[str]
@@ -110,12 +111,17 @@ class FramedWidget(tk.Frame):
         """
         Creates the frame which functions as a border and the widget within it.
 
-        Args:
-            master: Master widget which contains this frame.
-            widget: Widget type ('button', 'switch_button', 'entry', 'label',
-                    'option_menu', 'option_menu_with_lbl' or 'dial')
-            args:   Arguments for the widget.
-            kwargs: Keyword arguments for the widget.
+        Parameters
+        ----------
+        master : object
+            Master widget which contains this frame.
+        widget : str
+            Widget type ('button', 'switch_button', 'entry', 'label',
+            'option_menu', 'option_menu_with_lbl' or 'dial').
+        *args
+            Arguments for the widget.
+        **kwargs
+            Keyword arguments for the widget.
         """
         tk.Frame.__init__(self, master=master)  # type: ignore
 
@@ -132,16 +138,19 @@ class FramedWidget(tk.Frame):
 
     def create_widget(self, widget: str, *args, **kwargs) -> None:
         """
-        Creates a widget (button, entry, etc.) depending on the argument widget
-        and packs it within this frame.
+        Creates a widget (button, entry, etc.) depending on the argument widget and packs it within this frame.
 
         Possible kwargs: borderleft, borderright, borderttop, borderbottom
 
-        Args:
-            widget: Widget type ('button', 'switch_button', 'entry', 'label',
-                    'option_menu', 'option_menu_with_lbl' or 'dial')
-            args:   Arguments for the widget.
-            kwargs: Keyword arguments for the widget.
+        Parameters
+        ----------
+        widget : str
+            Widget type ('button', 'switch_button', 'entry', 'label',
+            'option_menu', 'option_menu_with_lbl' or 'dial').
+        *args
+            Arguments for the widget.
+        **kwargs
+            Keyword arguments for the widget.
         """
         # Get border thickness from kwargs and create tuples for padx and pady
         borderleft   = kwargs.pop('borderleft', self.default_border_width)
@@ -188,8 +197,10 @@ class FramedWidget(tk.Frame):
         """
         Callback for FocusIn and FocusOut event.
 
-        Args:
-            e: Event object.
+        Parameters
+        ----------
+        e : tk.Event
+            Event object.
         """
         if self['background'] == self.bordercolor[1]:    # type: ignore
             self.config(background=self.bordercolor[0])  # type: ignore
@@ -200,11 +211,16 @@ class FramedWidget(tk.Frame):
         """
         Returns an instance of ttk.Button.
 
-        Args:
-            args: Arguments for the button.
-            kwargs: Keyword arguments for the button.
+        Parameters
+        ----------
+        *args
+            Arguments for the button.
+        **kwargs
+            Keyword arguments for the button.
 
-        Returns:
+        Returns
+        -------
+        ttk.Button
             Instance of ttk.Button.
         """
         master = kwargs.pop('master', self)
@@ -220,11 +236,16 @@ class FramedWidget(tk.Frame):
         """
         Returns an instance of ttk.Entry.
 
-        Args:
-            args: Arguments for the entry.
-            kwargs: Keyword arguments for the entry.
+        Parameters
+        ----------
+        *args
+            Arguments for the entry.
+        **kwargs
+            Keyword arguments for the entry.
 
-        Returns:
+        Returns
+        -------
+        ttk.Entry
             Instance of ttk.Entry.
         """
         master = kwargs.pop('master', self)
@@ -244,11 +265,16 @@ class FramedWidget(tk.Frame):
         """
         Returns an instance of ttk.Label.
 
-        Args:
-            args: Arguments for the label.
-            kwargs: Keyword arguments for the label.
+        Parameters
+        ----------
+        *args
+            Arguments for the label.
+        **kwargs
+            Keyword arguments for the label.
 
-        Returns:
+        Returns
+        -------
+        ttk.Label
             Instance of ttk.Label.
         """
         master = kwargs.pop('master', self)
@@ -260,11 +286,15 @@ class FramedWidget(tk.Frame):
         """
         Returns an instance of ttk.OptionMenu.
 
-        Args:
-            kwargs: Keyword arguments for the option menu.
+        Parameters
+        ----------
+        **kwargs
+            Keyword arguments for the option menu.
 
-        Returns:
-            Instance of ttk.OptionMenu
+        Returns
+        -------
+        ttk.OptionMenu
+            Instance of ttk.OptionMenu.
         """
         master = kwargs.pop('master', self)
         self.string_var: tk.StringVar = kwargs.pop('variable')
@@ -280,11 +310,15 @@ class FramedWidget(tk.Frame):
         """
         Creates a frame and packs a label and an option menu in it.
 
-        Args:
-            kwargs: Keyword arguments for the option menu.
+        Parameters
+        ----------
+        **kwargs
+            Keyword arguments for the option menu.
 
-        Returns:
-            Tuple of instances: (Frame, Label, OptionMenu)
+        Returns
+        -------
+        tuple[ttk.Frame, ttk.Label, ttk.OptionMenu]
+            Tuple of instances: (Frame, Label, OptionMenu).
         """
         lbl_text = kwargs.pop('text')
 
@@ -306,11 +340,15 @@ class FramedWidget(tk.Frame):
         """
         Creates a frame and packs a label and a switch button in it.
 
-        Args:
-            kwargs: Keyword arguments for the switch button.
+        Parameters
+        ----------
+        **kwargs
+            Keyword arguments for the switch button.
 
-        Returns:
-            Tuple of instances: (Frame, Label, Button)
+        Returns
+        -------
+        tuple[ttk.Frame, ttk.Label, ttk.Button]
+            Tuple of instances: (Frame, Label, Button).
         """
         self.boolean_var: tk.BooleanVar = kwargs.pop('variable')
 
@@ -341,11 +379,15 @@ class FramedWidget(tk.Frame):
         """
         Creates a frame and packs a label and dial in it.
 
-        Args:
-            kwargs: Keyword arguments for the dial.
+        Parameters
+        ----------
+        **kwargs
+            Keyword arguments for the dial.
 
-        Returns:
-            Tuple of instances: (Frame, Label, Button)
+        Returns
+        -------
+        tuple[ttk.Frame, ttk.Label, ttk.Button]
+            Tuple of instances: (Frame, Label, Button).
         """
         self.string_var: tk.StringVar = kwargs.pop('variable')
         self.items: list[str] = kwargs.pop('values')
@@ -379,6 +421,7 @@ class FramedWidget(tk.Frame):
     def toggle_switch(self) -> None:
         """
         Sets the label of a switch to ON/OFF and changes the style of the label.
+
         The switch is controlled by a boolean var.
 
         The label of the switch is set to 'ON' if the boolean var is True and to
@@ -414,11 +457,16 @@ class FramedWidget(tk.Frame):
         """
         Returns an instance of EditableListbox().
 
-        Args:
-            args: Arguments for the listbox.
-            kwargs: Keyword arguments for the listbox.
+        Parameters
+        ----------
+        *args
+            Arguments for the listbox.
+        **kwargs
+            Keyword arguments for the listbox.
 
-        Returns:
+        Returns
+        -------
+        EditableListbox
             Instance of EditableListbox.
         """
         lbox = EditableListbox(master=self, relief='flat', *args, **kwargs)  # type: ignore
@@ -443,11 +491,16 @@ class FramedWidget(tk.Frame):
         """
         Returns an instance of EditableListbox().
 
-        Args:
-            args: Arguments for the listbox.
-            kwargs: Keyword arguments for the listbox.
+        Parameters
+        ----------
+        *args
+            Arguments for the listbox.
+        **kwargs
+            Keyword arguments for the listbox.
 
-        Returns:
+        Returns
+        -------
+        tuple[ttk.Frame, ttk.Frame, EditableListbox]
             Tuple of instances: (Frame, Frame, EditableListbox).
         """
         # Frame to be able to add padding

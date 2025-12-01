@@ -4,15 +4,6 @@ pylightlib.qt.DatePickerDialog
 
 Simple dialog window with a calendar-based date picker.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-21
-
-Version:
-    0.1
-
 This module defines the `DatePickerDialog` class, a QDialog with a QDateEdit
 widget that allows users to select a date using a popup calendar.
 
@@ -49,18 +40,24 @@ class DatePickerDialog(QDialog):
     """
     Dialog window with a date picker.
 
-    Attributes:
-        date_edit: QDateEdit widget for date selection
-        button_box: QDialogButtonBox for OK and Cancel buttons
+    Attributes
+    ----------
+    date_edit : QDateEdit
+        QDateEdit widget for date selection.
+    button_box : QDialogButtonBox
+        QDialogButtonBox for OK and Cancel buttons.
     """
     date_edit: QDateEdit
     button_box: QDialogButtonBox
 
     def __init__(self, parent=None):
-        """Initializes the date picker dialog.
+        """
+        Initializes the date picker dialog.
 
-        Args:
-            parent: The parent widget. Defaults to None.
+        Parameters
+        ----------
+        parent : object, optional
+            The parent widget. Defaults to None.
         """
         super().__init__(parent)
         self.setWindowTitle("Datum auswählen")
@@ -84,6 +81,11 @@ class DatePickerDialog(QDialog):
     def get_selected_date(self) -> None:
         """
         Returns the selected date as a string.
+
+        Returns
+        -------
+        str
+            The selected date in the format DD.MM.YYYY.
         """
         return self.date_edit.date().toString("dd.MM.yyyy")
 
@@ -91,8 +93,10 @@ class DatePickerDialog(QDialog):
         """
         Sets the selected date based on the given string.
 
-        Args:
-            date_string: The date string in the format DD.MM.YYYY.
+        Parameters
+        ----------
+        date_string : str
+            The date string in the format DD.MM.YYYY.
         """
         date = datetime.strptime(date_string, '%d.%m.%Y')
         self.date_edit.setDate(date)

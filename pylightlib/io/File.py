@@ -2,18 +2,10 @@
 pylightlib.io.File
 ==================
 
-This module provides functionality for reading, writing, and managing text files
-efficiently. It offers a simple and lightweight interface for handling
+This module provides functionality for reading, writing, and managing text files efficiently.
+
+It offers a simple and lightweight interface for handling
 text-based file operations.
-
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-06
-
-Version:
-    0.1
 
 This module includes functions and classes to work with text files, such as
 reading content, writing data, appending text and performing basic file
@@ -44,22 +36,29 @@ class FolderItem:
     """
     Internal class: Represents an item (file or folder) within a directory.
 
-    Attributes:
-        type:      Type of the item, either 'file' or 'folder'.
-        name:      Name of the file or folder (without extension for files).
-        level:     Depth level of the item in the directory tree
-                   (0 for root items, 1 for sub-items, etc.).
-                   Items in a sub folder level 1 etc.
-        extension: File extension without leading dot (None for folders).
+    Attributes
+    ----------
+    type : str
+        Type of the item, either 'file' or 'folder'.
+    name : str
+        Name of the file or folder (without extension for files).
+    level : int
+        Depth level of the item in the directory tree
+        (0 for root items, 1 for sub-items, etc.).
+        Items in a sub folder level 1 etc.
+    extension : str or None, optional
+        File extension without leading dot (None for folders).
+
+    Notes
+    -----
+    TODO: Support more pieces of information like size, modified, etc.
+    TODO: Method to copy/move/delete a file (one method "copy" that copies
+          folders and files)
     """
     type: str
     name: str
     level: int
     extension: str | None = None
-
-    # TODO: Support more pieces of information like size, modified, etc.
-    # TODO: Method to copy/move/delete a file (one method "copy" that copies
-    #       folders and files)
 
 
 class File:
@@ -76,20 +75,30 @@ class File:
                        withsubfolders: bool = False, level: int = 0) \
             -> dict[str, FolderItem]:
         """
-        Retrieves the contents of a given folder, optionally including
-        subfolders.
+        Retrieves the contents of a given folder, optionally including subfolders.
 
-        Args:
-            path:           The directory path to list contents from.
-            extfilter:      A specific file extension to filter results
-                            (e.g., "txt").
-            withsubfolders: Whether to include subfolders recursively.
-            level (int):    Depth level in the directory tree
-                            (used for recursion).
+        Parameters
+        ----------
+        path : str
+            The directory path to list contents from.
+        extfilter : str or None, optional
+            A specific file extension to filter results
+            (e.g., "txt").
+        withsubfolders : bool, optional
+            Whether to include subfolders recursively.
+        level : int, optional
+            Depth level in the directory tree
+            (used for recursion).
 
-        Returns:
+        Returns
+        -------
+        dict[str, FolderItem]
             A dictionary where the keys are item paths and the values are
             FolderItem instances containing metadata about each item.
+
+        Notes
+        -----
+        TODO: also return a sorted list of the keys of the dictionary
         """
         # Get all items of the folder and create a dictionary
         items_list: list[str] = os.listdir(path)
@@ -125,14 +134,20 @@ class File:
     def copy_folder(source: str, target: str) -> None:
         """
         Copies a folder and its contents to a new location.
+
         Creates the target folder if it does not exist.
 
-        Args:
-            source: The path of the source folder to copy.
-            target: The destination path where the folder should be copied.
-        """
-        # TODO: Add functionality for moving or deleting folders.
+        Parameters
+        ----------
+        source : str
+            The path of the source folder to copy.
+        target : str
+            The destination path where the folder should be copied.
 
+        Notes
+        -----
+        TODO: Add functionality for moving or deleting folders.
+        """
         # Create target folder if it doesn't exist
         if not os.path.exists(target):
             os.makedirs(target)
@@ -148,10 +163,14 @@ class File:
         """
         Extracts and returns the file extension from a given file name.
 
-        Args:
-            file_name: The name of the file (including extension).
+        Parameters
+        ----------
+        file_name : str
+            The name of the file (including extension).
 
-        Returns:
+        Returns
+        -------
+        str or None
             The file extension (without a leading dot) or None if the file has
             no extension.
         """
@@ -170,11 +189,16 @@ class File:
         """
         Replaces the extension of a given file name with a new extension.
 
-        Args:
-            file_name: The original file name.
-            extension: The new file extension (without a leading dot).
+        Parameters
+        ----------
+        file_name : str
+            The original file name.
+        extension : str
+            The new file extension (without a leading dot).
 
-        Returns:
+        Returns
+        -------
+        str
             The file name with the updated extension.
         """
         # Split file name into list by "."
@@ -195,10 +219,14 @@ class File:
         """
         Extracts and returns the folder path from a full file path.
 
-        Args:
-            file_path: The full file path.
+        Parameters
+        ----------
+        file_path : str
+            The full file path.
 
-        Returns:
+        Returns
+        -------
+        str
             The folder path without the file name.
         """
         file_path_list: list[str] = file_path.split('/')

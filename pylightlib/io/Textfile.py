@@ -9,16 +9,7 @@ This module provides a convenient interface for working with text files,
 allowing users to read entire file contents, retrieve lines as a list,
 and write new content efficiently.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-06
-
-Version:
-    0.1
-
-This module is designed to simplify file operations by providing a class-based
+It is designed to simplify file operations by providing a class-based
 approach for handling text files. It ensures proper file handling using context
 managers and includes essential methods to perform common file operations.
 
@@ -34,8 +25,7 @@ Features:
 
 class Textfile:
     """
-    A utility class for handling text file operations such as reading and
-    writing.
+    A utility class for handling text file operations such as reading and writing.
 
     This class provides methods to read the entire content of a text file,
     read individual lines, and write new content to the file. It is designed for
@@ -46,13 +36,16 @@ class Textfile:
     @staticmethod
     def readlines(path: str) -> list[str]:
         """
-        Reads all lines from the text file and returns them as a list of
-        strings.
+        Reads all lines from the text file and returns them as a list of strings.
 
-        Args:
-            path: The path to the text file that will be read.
+        Parameters
+        ----------
+        path : str
+            The path to the text file that will be read.
 
-        Returns:
+        Returns
+        -------
+        list[str]
             A list containing all lines from the text file.
         """
         with open(path, 'r+') as f:
@@ -61,13 +54,16 @@ class Textfile:
     @staticmethod
     def read(path: str) -> str:
         """
-        Reads the entire content of the text file and returns it as a single
-        string.
+        Reads the entire content of the text file and returns it as a single string.
 
-        Args:
-            path: The path to the text file that will be read.
+        Parameters
+        ----------
+        path : str
+            The path to the text file that will be read.
 
-        Returns:
+        Returns
+        -------
+        str
             The complete content of the text file as a string.
         """
         with open(path, 'r+') as f:
@@ -77,12 +73,16 @@ class Textfile:
     def write(path: str, text: str) -> None:
         """
         Writes the given text to the file, overwriting any existing content.
+
         The file is truncated before writing, ensuring that any previous content
         is removed.
 
-        Args:
-            path: The path to the text file that will be written.
-            text: Content of the text file.
+        Parameters
+        ----------
+        path : str
+            The path to the text file that will be written.
+        text : str
+            Content of the text file.
         """
         with open(path, 'w') as f:
             f.seek(0)               # Set stream to the beginning of the file

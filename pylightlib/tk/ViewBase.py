@@ -4,15 +4,6 @@ pylightlib.tk.ViewBase
 
 Abstract base class for all application views using the PyLightWindow framework.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-21
-
-Version:
-    0.1
-
 This module provides the `ViewBase` class, a foundational component for building
 graphical user interface views within the PyLightFramework. It implements basic
 window behavior such as instantiating the main window, managing geometry,
@@ -44,12 +35,18 @@ class ViewBase (metaclass=Singleton):
     """
     Base class for all views.
 
-    Attributes:
-        kwargs:   Kwargs given at initialization.
-        root:     Instance of the tk root.
-        geometry: Position and size of the tk window.
-        clr:      Reference to the color scheme.
-        title:    Title of the tk window.
+    Attributes
+    ----------
+    kwargs : dict or None
+        Kwargs given at initialization.
+    root : PyLightWindow
+        Instance of the tk root.
+    geometry : str
+        Position and size of the tk window.
+    clr : object or None
+        Reference to the color scheme.
+    title : str or None
+        Title of the tk window.
     """
     kwargs = None
     root: PyLightWindow
@@ -61,6 +58,11 @@ class ViewBase (metaclass=Singleton):
     def __init__(self, **kwargs):
         """
         Creates a tk window and adds labels for title, version and info text.
+
+        Parameters
+        ----------
+        **kwargs : dict
+            Keyword arguments passed to the window initialization.
         """
         self.kwargs = kwargs
         self.create_window()
@@ -70,6 +72,9 @@ class ViewBase (metaclass=Singleton):
     def create_window(self):
         """
         Create tk root and widgets.
+
+        Instantiates a PyLightWindow, sets up the close protocol,
+        and brings the window to the front.
         """
         # noinspection PyTypeChecker
 
@@ -95,6 +100,9 @@ class ViewBase (metaclass=Singleton):
     def center_window(self) -> None:
         """
         Place the window in the center of the screen.
+
+        Calculates the screen dimensions, window size, and titlebar height
+        to position the window centrally with a vertical offset for the dock/taskbar.
         """
         # Get screen width and height
         screen_w = self.root.winfo_screenwidth()
@@ -119,11 +127,16 @@ class ViewBase (metaclass=Singleton):
     def on_closing(self) -> None:
         """
         Callback that is triggered when the window is closed.
+
+        Destroys the root window when the user closes the application.
         """
         self.root.destroy()
 
     def create_widgets(self) -> None:
         """
         Creates the widgets for the tk window. To be overwritten.
+
+        This method should be overridden by subclasses to implement
+        custom widget creation for their specific views.
         """
         pass

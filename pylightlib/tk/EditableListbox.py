@@ -4,15 +4,6 @@ pylightlib.tk.EditableListbox
 
 A custom Tkinter Listbox widget with inline editing functionality.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-21
-
-Version:
-    0.1
-
 This module provides the `EditableListbox` class, which extends the standard
 `tkinter.Listbox` widget to support editing of list items directly within the
 Listbox. Items can be edited by double-clicking or pressing the Return key, and
@@ -40,19 +31,28 @@ import tkinter as tk
 
 class EditableListbox(tk.Listbox):
     """
-    This class inherits tkinter.Listbox and adds functionality to edit list box
-    items by double-clicking or pressing enter.
+    This class inherits tkinter.Listbox and adds functionality to edit list box items by double-clicking or pressing enter.
 
-    Attributes:
-        selected_index: Index of the currently selected item.
-        read_only:      Indicates of the listbox is read-only.
-        moved_item_index:  Index of the last moved listbox item.
-        moved_item_amount: Amount the last moved item was moved by.
-        item_bg:  Background color of the listbox item.
-        item_fg:  Foreground color of the listbox item.
-        entry_fg: Foreground color of the entry for editing a listbox item.
-        entry_bg: Background color of the entry for editing a listbox item.
-        UMLAUTS:  Dictionaries with the key names of umlauts.
+    Attributes
+    ----------
+    selected_index : int
+        Index of the currently selected item.
+    read_only : bool
+        Indicates of the listbox is read-only.
+    moved_item_index : int or None
+        Index of the last moved listbox item.
+    moved_item_amount : int or None
+        Amount the last moved item was moved by.
+    item_bg : str or None
+        Background color of the listbox item.
+    item_fg : str or None
+        Foreground color of the listbox item.
+    entry_fg : str or None
+        Foreground color of the entry for editing a listbox item.
+    entry_bg : str or None
+        Background color of the entry for editing a listbox item.
+    UMLAUTS : dict
+        Dictionaries with the key names of umlauts.
     """
     selected_index: int
     read_only: bool
@@ -73,9 +73,12 @@ class EditableListbox(tk.Listbox):
         """
         Sets callbacks for double click and enter key.
 
-        Args:
-            master: Parent widget.
-            **kwargs: Arbitrary keyword arguments.
+        Parameters
+        ----------
+        master : tk.Frame
+            Parent widget.
+        **kwargs
+            Arbitrary keyword arguments.
         """
         super().__init__(master, **kwargs)
 
@@ -109,8 +112,10 @@ class EditableListbox(tk.Listbox):
         """
         Adds a new item at the bottom of the list box.
 
-        Args:
-            items: Item or list of items to be added (will be converted to str).
+        Parameters
+        ----------
+        items : object
+            Item or list of items to be added (will be converted to str).
         """
         # If a string is given create a list with one element
         if not isinstance(items, list):
@@ -123,12 +128,16 @@ class EditableListbox(tk.Listbox):
     def start_editing(self, event: tk.Event,
                       first_character: str | None = None) -> None:
         """
-        Callback for editing an item. Creates an entry and places it over the
-        listbox item.
+        Callback for editing an item.
 
-        Args:
-            event: Event object.
-            first_character: Character the callback was triggered by.
+        Creates an entry and places it over the listbox item.
+
+        Parameters
+        ----------
+        event : tk.Event
+            Event object.
+        first_character : str or None, optional
+            Character the callback was triggered by.
         """
         # End function call if listbox is readonly
         if self.read_only:
@@ -196,11 +205,14 @@ class EditableListbox(tk.Listbox):
 
     def cancel_editing(self, event: tk.Event) -> None:
         """
-        Callback for canceling the editing of a listbox item. Destroy the entry
-        and re-select the listbox item.
+        Callback for canceling the editing of a listbox item.
 
-        Args:
-            event: Event object.
+        Destroy the entry and re-select the listbox item.
+
+        Parameters
+        ----------
+        event : tk.Event
+            Event object.
         """
         # Destroy entry
         event.widget.destroy()
@@ -214,8 +226,10 @@ class EditableListbox(tk.Listbox):
         """
         Callback for saving the edited listbox item.
 
-        Args:
-            event: Event object.
+        Parameters
+        ----------
+        event : tk.Event
+            Event object.
         """
         # Delete old item, insert new text at same position and destroy entry
         new_text = event.widget.get()
@@ -235,9 +249,12 @@ class EditableListbox(tk.Listbox):
         """
         Selects an item by index.
 
-        Args:
-            index: Index of the item to be selected.
-            generate_event: Generate a selection event.
+        Parameters
+        ----------
+        index : int
+            Index of the item to be selected.
+        generate_event : bool, optional
+            Generate a selection event.
         """
         # Clear selection
         self.selection_clear(0, 'end')
@@ -255,8 +272,10 @@ class EditableListbox(tk.Listbox):
         """
         Moves the selected item by the given amount.
 
-        Args:
-            amount: Amount the item should be moved by.
+        Parameters
+        ----------
+        amount : int
+            Amount the item should be moved by.
         """
         selected_index = self.get_selected_index()
 
@@ -285,7 +304,9 @@ class EditableListbox(tk.Listbox):
         """
         Returns the index of the currently selected item.
 
-        Returns:
+        Returns
+        -------
+        int or bool
             Index of the selected item or False if no item is selected.
         """
         selection = self.curselection()

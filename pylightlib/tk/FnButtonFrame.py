@@ -5,15 +5,6 @@ pylightlib.tk.FnButtonFrame
 A module for managing customizable function key widgets (F1–F12) in a graphical
 user interface using Tkinter.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-22
-
-Version:
-    0.1
-
 This module defines two core classes: `FnKey` and `FnButtonFrame`.
 
 - `FnKey` represents a configurable function key, which can take the form of a
@@ -51,14 +42,22 @@ class FnKey:
     of control element. Each type has its own properties and can be linked to
     actions (callbacks) and Tkinter variables for interaction in a GUI.
 
-    Attributes:
-        type: Type of the control ('button', 'switch', 'dropdown', or 'dial').
-        text:        Label or caption of the control.
-        action:      Callback function to execute on interaction.
-        is_on:       Current state for a switch control.
-        items:       List of selectable entries for dropdowns and dials.
-        string_var:  Variable for the selected item in dropdown or dial.
-        boolean_var: Variable representing switch state.
+    Attributes
+    ----------
+    type : str
+        Type of the control ('button', 'switch', 'dropdown', or 'dial').
+    text : str
+        Label or caption of the control.
+    action : Callable or None
+        Callback function to execute on interaction.
+    is_on : bool
+        Current state for a switch control.
+    items : list[str]
+        List of selectable entries for dropdowns and dials.
+    string_var : tkinter.StringVar
+        Variable for the selected item in dropdown or dial.
+    boolean_var : tkinter.BooleanVar
+        Variable representing switch state.
     """
     type: str
     text: str
@@ -72,11 +71,16 @@ class FnKey:
         """
         Creates a new instance of FnKey for a button.
 
-        Args:
-            text:   Label or caption of the button.
-            action: Callback function to execute on button press.
+        Parameters
+        ----------
+        text : str
+            Label or caption of the button.
+        action : Callable
+            Callback function to execute on button press.
 
-        Returns:
+        Returns
+        -------
+        FnKey
             Instance of FnKey with button type.
         """
         self.type = 'button'
@@ -88,12 +92,18 @@ class FnKey:
         """
         Creates a new instance of FnKey for a switch button.
 
-        Args:
-            text:   Label or caption of the switch.
-            action: Callback function to execute on switch state change.
-            bvar:   Boolean variable representing the switch.
+        Parameters
+        ----------
+        text : str
+            Label or caption of the switch.
+        action : Callable
+            Callback function to execute on switch state change.
+        bvar : tk.BooleanVar
+            Boolean variable representing the switch.
 
-        Returns:
+        Returns
+        -------
+        FnKey
             Instance of FnKey with switch type.
         """
         self.type = 'switch'
@@ -108,13 +118,20 @@ class FnKey:
         """
         Creates a new instance of FnKey for a dropdown (option menu).
 
-        Args:
-            text:           Label or caption of the dropdown.
-            action:         Callback function to execute on selection change.
-            dropdown_items: List of selectable entries.
-            svar:           String variable for the selected item.
+        Parameters
+        ----------
+        text : str
+            Label or caption of the dropdown.
+        action : Callable
+            Callback function to execute on selection change.
+        dropdown_items : list[str]
+            List of selectable entries.
+        svar : tkinter.StringVar
+            String variable for the selected item.
 
-        Returns:
+        Returns
+        -------
+        FnKey
             Instance of FnKey with dropdown type.
         """
         self.type = 'dropdown'
@@ -129,13 +146,20 @@ class FnKey:
         """
         Creates a new instance of FnKey for a dial.
 
-        Args:
-            text:       Label or caption of the dial.
-            action:     Callback function to execute on dial rotation.
-            dial_items: List of selectable entries.
-            svar:       String variable for the selected item.
+        Parameters
+        ----------
+        text : str
+            Label or caption of the dial.
+        action : Callable
+            Callback function to execute on dial rotation.
+        dial_items : list[str]
+            List of selectable entries.
+        svar : tkinter.StringVar
+            String variable for the selected item.
 
-        Returns:
+        Returns
+        -------
+        FnKey
             Instance of FnKey with dial type.
         """
         self.type = 'dial'
@@ -156,21 +180,30 @@ class FnButtonFrame(tk.Frame):
     configurations of function keys. Each key can have a custom action and
     UI widget associated with it.
 
-    Attributes:
-        master_frm:    The parent frame this widget is packed into.
-        fnkeys:        A nested dictionary mapping modifiers and function key
-                       numbers to FnKey instances.
-        button_count:  A dictionary that holds the count of buttons for each
-                       modifier row.
-        buttons:       A dictionary holding all button widget instances.
-        switches:      Tracks the ON/OFF status of switch-type buttons.
-        switch_labels: Stores label widgets associated with switch buttons.
-        option_menus:  Stores option menu widgets for dropdown keys.
-        dials:         Stores dial values for dial-type keys.
-        callbacks:      Stores the callback functions for each fn key.
-        alt_is_pressed: Tracks whether the ALT key is currently held down.
-        alt_is_pressed_with_fnkey: Indicates if ALT was pressed during an
-                                   fn key press.
+    Attributes
+    ----------
+    master_frm : tk.Frame
+        The parent frame this widget is packed into.
+    fnkeys : dict[str, dict[int, FnKey]]
+        A nested dictionary mapping modifiers and function key numbers to FnKey instances.
+    button_count : dict[str, int]
+        A dictionary that holds the count of buttons for each modifier row.
+    buttons : dict[str, FramedWidget]
+        A dictionary holding all button widget instances.
+    switches : dict[str, bool]
+        Tracks the ON/OFF status of switch-type buttons.
+    switch_labels : dict[str, tk.Label]
+        Stores label widgets associated with switch buttons.
+    option_menus : dict[str, FramedWidget]
+        Stores option menu widgets for dropdown keys.
+    dials : dict[str, list[str]]
+        Stores dial values for dial-type keys.
+    callbacks : dict[str, Callable | None]
+        Stores the callback functions for each fn key.
+    alt_is_pressed : bool
+        Tracks whether the ALT key is currently held down.
+    alt_is_pressed_with_fnkey : bool
+        Indicates if ALT was pressed during an fn key press.
     """
     master_frm: tk.Frame
     fnkeys: dict[str, dict[int, FnKey]] = {}
@@ -191,11 +224,14 @@ class FnButtonFrame(tk.Frame):
         Initializes this frame and create the widgets based on the given
         dictionary fnkeys.
 
-        Args:
-            master:   The parent frame this widget is packed into.
-            fnkeys:   A nested dictionary mapping modifiers and function key
-                      numbers to FnKey instances.
-            **kwargs: Additional keyword arguments for the frame
+        Parameters
+        ----------
+        master : tk.Frame
+            The parent frame this widget is packed into.
+        fnkeys : dict[str, dict[int, FnKey]]
+            A nested dictionary mapping modifiers and function key numbers to FnKey instances.
+        **kwargs
+            Additional keyword arguments for the frame.
         """
         tk.Frame.__init__(self, master=master, **kwargs)
         self.fnkeys = fnkeys
@@ -239,15 +275,21 @@ class FnButtonFrame(tk.Frame):
         """
         Creates the widgets for one row/modifier.
 
-        Args:
-            master:       The parent frame this widget is packed into.
-            modifier:     The modifier key (e.g., 'ALT').
-            fnkeyrow:     A dictionary mapping function key numbers to FnKey
-                          instances.
-            borderbottom: Flag indicating whether to add a bottom border.
+        Parameters
+        ----------
+        master : tk.Frame
+            The parent frame this widget is packed into.
+        modifier : str
+            The modifier key (e.g., 'ALT').
+        fnkeyrow : dict[int, FnKey]
+            A dictionary mapping function key numbers to FnKey instances.
+        borderbottom : int
+            Flag indicating whether to add a bottom border.
 
-        Returns:
-            The frame containing the created widgets
+        Returns
+        -------
+        tk.Frame
+            The frame containing the created widgets.
         """
         # Loop dictionary 'fnkeyrow' and create widgets
         button_count = 0
@@ -327,8 +369,10 @@ class FnButtonFrame(tk.Frame):
         """
         Saves that the ALT key is pressed.
 
-        Args:
-            event: The event object.
+        Parameters
+        ----------
+        event : tk.Event
+            The event object.
         """
         self.alt_is_pressed = True
 
@@ -337,8 +381,10 @@ class FnButtonFrame(tk.Frame):
         """
         Saves that the ALT key was released.
 
-        Args:
-            event: The event object.
+        Parameters
+        ----------
+        event : tk.Event
+            The event object.
         """
         self.alt_is_pressed = False
 
@@ -347,8 +393,10 @@ class FnButtonFrame(tk.Frame):
         Callback that will be triggered when an fn key (F1-F12) is pressed.
         Changes the style of the corresponding button to pressed.
 
-        Args:
-            event: The event object.
+        Parameters
+        ----------
+        event : tk.Event
+            The event object.
         """
         if self.alt_is_pressed is True:
             # ALT+FXX
@@ -375,8 +423,10 @@ class FnButtonFrame(tk.Frame):
         After that the button style will be changed back to normal (!pressed)
         and the callback for the fn key will be run.
 
-        Args:
-            event: The event object.
+        Parameters
+        ----------
+        event : tk.Event
+            The event object.
         """
         fnr = None
         modifier = ''

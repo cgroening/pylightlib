@@ -6,15 +6,6 @@ A simple JSON-based storage system that allows reading, writing and modifying
 key-value pairs in a JSON file. It ensures data persistence across sessions
 and provides utility functions for handling lists within the JSON structure.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-04
-
-Version:
-    0.1
-
 The class AppStorage provides an easy-to-use interface for managing application
 settings or any structured data in a JSON file. It follows a singleton pattern
 to ensure a single instance across the application.
@@ -48,13 +39,17 @@ from pylightlib.msc.Singleton import Singleton
 
 class AppStorage(metaclass=Singleton):
     """
-    This class opens a JSON file and saves the content in a dictionary which can
-    be accessed with get(). Changed values or new key-value pairs can be stored
+    This class opens a JSON file and saves the content in a dictionary which can be accessed with get().
+
+    Changed values or new key-value pairs can be stored
     within the Dictionary and the JSON file with the method set().
 
-    Attributes:
-        json_file: Path to the JSON file.
-        json_dict: Content of the JSON file as a dictionary.
+    Attributes
+    ----------
+    json_file : Path or str or None
+        Path to the JSON file.
+    json_dict : dict[str, str | int | float | bool | list[dict]]
+        Content of the JSON file as a dictionary.
     """
     json_file: Path | str | None
     json_dict: dict[str, str | int | float | bool | list[dict]] = {}
@@ -64,8 +59,10 @@ class AppStorage(metaclass=Singleton):
         """
         Opens the JSON file and stores the key-value pairs in self.json_dict.
 
-        Args:
-            cfg_file: Path to the JSON file.
+        Parameters
+        ----------
+        cfg_file : Path or str or None, optional
+            Path to the JSON file.
         """
         # Raise error if class instance is None and no file path is given
         if AppStorage.instance is None and cfg_file is None:
@@ -118,14 +115,21 @@ class AppStorage(metaclass=Singleton):
     def get(self, key: str, default_value: object = None) \
             -> str | int | float | bool | list | dict | None:
         """
-        Returns a value from the JSON file. If the given key cannot be found
+        Returns a value from the JSON file.
+
+        If the given key cannot be found
         the default value specified will be returned.
 
-        Args:
-            key: Key of the entry.
-            default_value: Default value.
+        Parameters
+        ----------
+        key : str
+            Key of the entry.
+        default_value : object, optional
+            Default value.
 
-        Returns:
+        Returns
+        -------
+        str or int or float or bool or list or dict or None
             The value belonging to the given key.
         """
         if key in self.json_dict:
@@ -136,12 +140,14 @@ class AppStorage(metaclass=Singleton):
     def set(self, key: str,
             value: str | int | float | bool | list | dict) -> None:
         """
-        Updates the dictionary self.json_dict and stores the given key-value
-        pair in the JSON file.
+        Updates the dictionary self.json_dict and stores the given key-value pair in the JSON file.
 
-        Args:
-            key: Key of the entry.
-            value: Value of the entry.
+        Parameters
+        ----------
+        key : str
+            Key of the entry.
+        value : str or int or float or bool or list or dict
+            Value of the entry.
         """
         self.json_dict.update({key: value})    # type: ignore
         self.save_json_file()
@@ -151,10 +157,14 @@ class AppStorage(metaclass=Singleton):
         """
         Adds a new entry to an array/list at the given index.
 
-        Args:
-            array_name:  Name of the array/list.
-            array_index: Index of the array/list element.
-            value:       Value of the array/list element = dictionary.
+        Parameters
+        ----------
+        array_name : str
+            Name of the array/list.
+        array_index : int
+            Index of the array/list element.
+        value : str or int or float or list or dict
+            Value of the array/list element = dictionary.
         """
         # Create array/list if it doesn't exist
         if array_name not in self.json_dict:
@@ -174,11 +184,16 @@ class AppStorage(metaclass=Singleton):
         """
         Changes the value of an array item.
 
-        Args:
-            array_name:  Name of the array/list.
-            array_index: Index of the array/list element.
-            dict_key:    The key of the dictionary.
-            value:       Value of the array/list element = dictionary.
+        Parameters
+        ----------
+        array_name : str
+            Name of the array/list.
+        array_index : int
+            Index of the array/list element.
+        dict_key : str
+            The key of the dictionary.
+        value : str or int or float or list or dict
+            Value of the array/list element = dictionary.
         """
         self.json_dict[array_name][array_index][dict_key] = value  # type: ignore
         self.save_json_file()
@@ -187,9 +202,12 @@ class AppStorage(metaclass=Singleton):
         """
         Deletes an element of an array/list.
 
-        Args:
-            array_name:  Name of the array/list.
-            array_index: Index of the array/list element.
+        Parameters
+        ----------
+        array_name : str
+            Name of the array/list.
+        array_index : int
+            Index of the array/list element.
         """
         del self.json_dict[array_name][array_index]  # type: ignore
         self.save_json_file()
@@ -197,13 +215,16 @@ class AppStorage(metaclass=Singleton):
     def move_array_item(self, array_name: str, array_index: int,
                         array_index_new: int) -> None:
         """
-        Moves an array/list element by deleting and re-inserting it at a new
-        position.
+        Moves an array/list element by deleting and re-inserting it at a new position.
 
-        Args:
-            array_name:      Name of the array/list.
-            array_index:     Index of the array/list element.
-            array_index_new: Index of the new array/list element.
+        Parameters
+        ----------
+        array_name : str
+            Name of the array/list.
+        array_index : int
+            Index of the array/list element.
+        array_index_new : int
+            Index of the new array/list element.
         """
         # Save value of the element
         array_element = self.json_dict[array_name][array_index]  # type: ignore

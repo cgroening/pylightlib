@@ -4,15 +4,6 @@ pylightlib.msc.Singleton
 
 Provides a metaclass implementation of the Singleton design pattern.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-21
-
-Version:
-    0.1
-
 This module defines a `Singleton` metaclass, which ensures that a class has only
 one instance throughout the lifetime of the application.
 
@@ -38,11 +29,18 @@ class Singleton(type):
     """
     Metaclass for the singleton pattern.
 
-    Usage example:
+    Ensures that a class has only one instance and provides global access to it.
 
-        class SomeClass(metaclass=Singleton):
-            def __init__(self):
-                ...
+    Attributes
+    ----------
+    _instance : object or None
+        The single instance of the class, or None if not yet created.
+
+    Examples
+    --------
+    >>> class SomeClass(metaclass=Singleton):
+    ...     def __init__(self):
+    ...         pass
     """
 
     _instance = None

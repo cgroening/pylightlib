@@ -5,15 +5,6 @@ pylightlib.platform.windows
 Windows-specific utilities for improving Tkinter UI behavior on
 high-DPI displays.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-22
-
-Version:
-    0.1
-
 This module contains Windows-specific functionality for the PyLight GUI
 framework. Currently, it provides a workaround for blurry fonts in Tkinter on
 high-DPI displays by adjusting the scaling factor using native Windows API calls
@@ -32,16 +23,24 @@ from ctypes import windll  # type: ignore
 class PyLightTk_Windows:
     """
     This class contains methods for the operating system Windows.
+
+    Methods
+    -------
+    high_dpi_scaling(tkroot)
+        Apply high-DPI scaling workaround for sharp fonts on Windows.
     """
 
     @staticmethod
     def high_dpi_scaling(tkroot):
         """
-        On high resolution screens the font is blurry when using Tkinter. This
-        method is a workaround to achieve sharp fonts.
+        On high resolution screens the font is blurry when using Tkinter.
 
-        Args:
-            tkroot: Tkinter root object.
+        This method is a workaround to achieve sharp fonts.
+
+        Parameters
+        ----------
+        tkroot
+            Tkinter root object.
         """
         # Get scaling value from system settings in % and create scaling factor
         scaling = windll.shcore.GetScaleFactorForDevice(0) / 100 * 1.5

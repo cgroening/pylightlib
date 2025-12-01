@@ -5,15 +5,6 @@ pylightlib.qt.StyleSheet
 Utility class for processing .css files with variable support and
 light/dark mode handling.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-21
-
-Version:
-    0.1
-
 This module provides the `StyleSheet` class with a static method
 `replace_variables()` that parses CSS files containing custom variables
 and replaces them based on the current color scheme (light or dark mode)
@@ -61,12 +52,19 @@ SysPathHandler().restore_sys_path()
 class StyleSheet:
     """
     This class provides methods to process .css files with variables.
+
+    Methods
+    -------
+    replace_variables(text, qapp)
+        Processes the content of a .css file with variables and replaces them
+        based on the current color scheme.
     """
     @staticmethod
     def replace_variables(text: str, qapp: QApplication) -> str:
         """
-        Processes the content of a .css file with variables. The file must have
-        the following structure:
+        Processes the content of a .css file with variables.
+
+        The file must have the following structure:
 
             ```
             [variable definitions]
@@ -103,11 +101,16 @@ class StyleSheet:
         The variables/placeholders will be replaced with the values. Everything
         before "#-----#" is removed from the given string.
 
-        Args:
-            text:   The content of the .css file.
-            qapp:   QApplication object.
+        Parameters
+        ----------
+        text : str
+            The content of the .css file.
+        qapp : QApplication
+            QApplication object.
 
-        Returns:
+        Returns
+        -------
+        str
             The processed CSS code.
         """
         # Check if dark mode is activated

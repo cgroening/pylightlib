@@ -4,15 +4,6 @@ pylightlib.tk.ScrollFrame
 
 A reusable scrollable frame for embedding widgets in Tkinter GUIs.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-22
-
-Version:
-    0.1
-
 This module defines the `ScrollFrame` class, a utility widget that creates
 a scrollable area using a `tk.Canvas` and an embedded `tk.Frame`. It allows
 developers to add arbitrary widgets into the inner frame while retaining the
@@ -51,31 +42,37 @@ class ScrollFrame:
     mouse cursor is over the component. This enables multiple scrollable areas
     to coexist in the same application without interfering with each other.
 
-    Attributes:
-        color_scheme: The color scheme used to style the frame.
-        width:  The width of the scrollable area.
-        height: The height of the scrollable area.
-        vscrl:  Whether the vertical scrollbar is enabled.
-        hscrl:  Whether the horizontal scrollbar is enabled.
-        outer_frame: The main container frame holding the canvas and scrollbars.
-        inner_frame: The frame inside the canvas where widgets are added.
-        vsb:    The vertical scrollbar widget.
-        hsb:    The horizontal scrollbar widget.
-        canvas: The canvas used to enable scrolling.
+    Attributes
+    ----------
+    color_scheme : DefaultColorScheme
+        The color scheme used to style the frame.
+    width : int
+        The width of the scrollable area.
+    height : int
+        The height of the scrollable area.
+    vscrl : bool
+        Whether the vertical scrollbar is enabled.
+    hscrl : bool
+        Whether the horizontal scrollbar is enabled.
+    outer_frame : tk.Frame
+        The main container frame holding the canvas and scrollbars.
+    inner_frame : tk.Frame
+        The frame inside the canvas where widgets are added.
+    vsb : ttk.Scrollbar
+        The vertical scrollbar widget.
+    hsb : ttk.Scrollbar
+        The horizontal scrollbar widget.
+    canvas : tk.Canvas
+        The canvas used to enable scrolling.
+    attr_outside : set
+        Set of attribute names to be delegated to the outer frame.
 
-    Usage:
-        scroll_frame = ScrollFrame(
-            root, color_scheme, width=400, height=300, scrollbar='b'
-        )
-        scroll_frame.pack(fill='both', expand=True)
-
-    Parameters:
-        master:       The parent widget.
-        color_scheme: The color scheme instance for styling.
-        **kwargs:     Optional arguments such as 'width', 'height'
-                      and 'scrollbar'.
-                      The 'scrollbar' option can be 'v' (vertical),
-                      'h' (horizontal), or 'b' (both, default).
+    Examples
+    --------
+    >>> scroll_frame = ScrollFrame(
+    ...     root, color_scheme, width=400, height=300, scrollbar='b'
+    ... )
+    >>> scroll_frame.pack(fill='both', expand=True)
     """
     color_scheme: DefaultColorScheme
     width: int
@@ -89,20 +86,26 @@ class ScrollFrame:
     canvas: tk.Canvas
     attr_outside: set
 
-
     def __init__(self, master: tk.Frame, color_scheme: DefaultColorScheme,
                  **kwargs):
         """
-        Creates the frame. Optional arguments:
+        Creates the frame.
+
+        Optional arguments:
 
         - width, height: geometry of the frame
         - scrollbar: 'v' (vertical), 'h' (horizontal) oder 'b' (both, default)
 
-        Args:
-            master:       The parent widget.
-            color_scheme: The color scheme instance for styling.
-            **kwargs:     Optional arguments such as 'width', 'height'
-                          and 'scrollbar'.
+        Parameters
+        ----------
+        master : tk.Frame
+            The parent widget.
+        color_scheme : DefaultColorScheme
+            The color scheme instance for styling.
+        **kwargs : dict
+            Optional arguments such as 'width', 'height' and 'scrollbar'.
+            The 'scrollbar' option can be 'v' (vertical), 'h' (horizontal),
+            or 'b' (both, default).
         """
         self.color_scheme = color_scheme
 
@@ -130,12 +133,27 @@ class ScrollFrame:
     def __str__(self) -> str:
         """
         Returns the string representation of the outer frame.
+
+        Returns
+        -------
+        str
+            String representation of the outer frame.
         """
         return str(self.outer_frame)
 
     def __getattr__(self, item) -> object:
         """
         Returns the attribute of the outer frame or inner frame.
+
+        Parameters
+        ----------
+        item : str
+            The attribute name to retrieve.
+
+        Returns
+        -------
+        object
+            The requested attribute from either outer_frame or inner_frame.
         """
         if item in self.attr_outside:
             # Geometry attributes (pack, destroy, tkraise, usw.) will be handed
@@ -150,8 +168,10 @@ class ScrollFrame:
         """
         Creates the outer frame and scrollbars.
 
-        Args:
-            master: The parent widget.
+        Parameters
+        ----------
+        master : tk.Frame
+            The parent widget.
         """
         # Create outer frame
         self.outer_frame = tk.Frame(master, bg=self.color_scheme.app['accent1'])
@@ -208,10 +228,13 @@ class ScrollFrame:
     def inner_frame_configure(self, event: tk.Event | None = None) -> None:
         """
         Callback that is triggered when the size of the inner frame changes.
+
         Redefines the scroll area.
 
-        Args:
-            event: The event that triggered the callback.
+        Parameters
+        ----------
+        event : tk.Event or None, optional
+            The event that triggered the callback.
         """
         # Geometry of the canvas
         x1, y1, x2, y2 = self.canvas.bbox("all")
@@ -232,10 +255,12 @@ class ScrollFrame:
     # noinspection PyUnusedLocal
     def bind_mouse(self, event: tk.Event | None = None) -> None:
         """
-        Bind callbacks for the mouse wheel
+        Bind callbacks for the mouse wheel.
 
-        Args:
-            event: The event that triggered the callback.
+        Parameters
+        ----------
+        event : tk.Event or None, optional
+            The event that triggered the callback.
         """
         self.canvas.bind_all('<4>', self.on_mousewheel)           # Linux
         self.canvas.bind_all('<5>', self.on_mousewheel)           # Linux
@@ -246,8 +271,10 @@ class ScrollFrame:
         """
         Unbind callbacks for the mouse wheel.
 
-        Args:
-            event: The event that triggered the callback.
+        Parameters
+        ----------
+        event : tk.Event or None, optional
+            The event that triggered the callback.
         """
         self.canvas.unbind_all('<4>')           # Linux
         self.canvas.unbind_all('<5>')           # Linux
@@ -257,8 +284,10 @@ class ScrollFrame:
         """
         Callback for the mouse wheel.
 
-        Args:
-            event: The event that triggered the callback.
+        Parameters
+        ----------
+        event : tk.Event
+            The event that triggered the callback.
         """
         # Scroll vertical (mouse wheel) or horizontally (SHIFT + mouse wheel)?
         if event.state & 1:  # type: ignore

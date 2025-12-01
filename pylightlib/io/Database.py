@@ -4,15 +4,6 @@ pylightlib.io.Database
 
 Lightweight database management module for handling SQLite databases with ease.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-05
-
-Version:
-    0.1
-
 This module provides an abstraction layer for SQLite databases, simplifying
 common database operations such as fetching, inserting, updating, and deleting
 records. It includes classes for defining query conditions, sorting orders
@@ -73,6 +64,13 @@ class SQLOrderByDirection(Enum):
 class ColumnOrder:
     """
     Class representing column sorting order in SQL queries.
+
+    Attributes
+    ----------
+    column_name : str
+        Name of the column to sort by.
+    direction : SQLOrderByDirection
+        Direction of sorting (ASC or DESC).
     """
     column_name: str
     direction: SQLOrderByDirection
@@ -83,10 +81,21 @@ class Condition:
     """
     Class representing a condition for the WHERE statement of an SQL query.
 
-    Example::
+    Attributes
+    ----------
+    column_name : str
+        Name of the column for the condition.
+    operator : SQLComparisonOperator
+        Comparison operator to use.
+    value : str or int or float
+        Value to compare against.
+    combination : SQLCombinationOperator, optional
+        Logical operator to combine with the next condition (default is AND).
 
-        c1 = Condition(column='model', operator='=', value='standard')
-        c2 = Condition(column='size', operator='>=', value=4, combination='AND')
+    Examples
+    --------
+    >>> c1 = Condition(column='model', operator='=', value='standard')
+    >>> c2 = Condition(column='size', operator='>=', value=4, combination='AND')
 
     These conditions translated by the Database class to this WHERE statement::
 
@@ -100,13 +109,18 @@ class Condition:
 
 class Database:
     """
-    Class for managing an SQLite database. It provides structured API for
-    retrieving, inserting, updating and deleting data.
+    Class for managing an SQLite database.
 
-    Attributes:
-        debug_mode: If this is True, the SQL statements will be printed.
-        connection: Instance of the database connection.
-        cursor:     Instance of the database cursor.
+    It provides structured API for retrieving, inserting, updating and deleting data.
+
+    Attributes
+    ----------
+    debug_mode : bool
+        If this is True, the SQL statements will be printed.
+    connection : sqlite3.Connection
+        Instance of the database connection.
+    cursor : sqlite3.Cursor
+        Instance of the database cursor.
     """
     connection: sqlite3.Connection
     cursor: sqlite3.Cursor
@@ -117,8 +131,10 @@ class Database:
         """
         Opens the connection to the database.
 
-        Args:
-            database: Path of the SQLite database file.
+        Parameters
+        ----------
+        database : str
+            Path of the SQLite database file.
         """
         # Establish database connection
         self.connection = sqlite3.connect(database=database)
@@ -133,21 +149,34 @@ class Database:
     def __enter__(self) -> Database:
         """
         Enables the use of the `with` statement for the database connection.
+
         Ensures that the connection is properly closed when exiting the block.
+
+        Returns
+        -------
+        Database
+            The Database instance.
         """
         return self
 
     def __exit__(self, exc_type, exc_value, traceback) -> None:
         """
-        Ensures that the database connection is closed when exiting a `with`
-        block.
+        Ensures that the database connection is closed when exiting a `with` block.
+
+        Parameters
+        ----------
+        exc_type : type or None
+            Exception type if an exception was raised.
+        exc_value : Exception or None
+            Exception instance if an exception was raised.
+        traceback : traceback or None
+            Traceback object if an exception was raised.
         """
         self.close()
 
     def __del__(self) -> None:
         """
-        Destructor method to ensure the database connection is closed when the
-        object is deleted.
+        Destructor method to ensure the database connection is closed when the object is deleted.
         """
         self.close()
 
@@ -160,13 +189,18 @@ class Database:
 
     def query(self, sql: str) -> sqlite3.Cursor:
         """
-        Runs an SQL command. Use this method for commands that are not wrapped
-        by this class.
+        Runs an SQL command.
 
-        Args:
-            sql: The SQL command.
+        Use this method for commands that are not wrapped by this class.
 
-        Returns:
+        Parameters
+        ----------
+        sql : str
+            The SQL command.
+
+        Returns
+        -------
+        sqlite3.Cursor
             The cursor.
         """
         if self.debug_mode:
@@ -187,16 +221,25 @@ class Database:
         """
         Fetches entries from a table.
 
-        Args:
-            table:      Name of the table.
-            columns:    Optional list of columns to be fetched; if Null is given
-                        all columns will be fetched.
-            conditions: Optional list of conditions.
-            orderby:    Optional dictionary defining column order.
-            limit:      Optional limit for the query.
-            offset:     Optional offset for the query.
+        Parameters
+        ----------
+        table : str
+            Name of the table.
+        columns : list[str] or None, optional
+            Optional list of columns to be fetched; if Null is given
+            all columns will be fetched.
+        conditions : list[Condition] or None, optional
+            Optional list of conditions.
+        orderby : list[ColumnOrder] or None, optional
+            Optional dictionary defining column order.
+        limit : int or None, optional
+            Optional limit for the query.
+        offset : int or None, optional
+            Optional offset for the query.
 
-        Returns:
+        Returns
+        -------
+        list[dict[str, Any]]
             List of dictionaries in the form [{column_name: value}]
         """
         # Generate columns string for SELECT
@@ -254,12 +297,17 @@ class Database:
         """
         Inserts rows into the table.
 
-        Args:
-            table: Name of the table.
-            data:  List of dictionaries, e.g.:
-                   data = [{'col1': 'val1', 'col2': 'val2'}, ...]
+        Parameters
+        ----------
+        table : str
+            Name of the table.
+        data : list[dict[str, object]]
+            List of dictionaries, e.g.:
+            data = [{'col1': 'val1', 'col2': 'val2'}, ...]
 
-        Returns:
+        Returns
+        -------
+        list[dict[str, object]]
             List of dictionaries containing the inserted rows, e.g.:
             [{'id': 1, 'col1': 'val1', 'col2': 'val2'}, ...]
         """
@@ -299,9 +347,12 @@ class Database:
 
     def update(self, table: str, data: list[dict[str, object]]) -> None:
         """
-        Updates rows. The parameter data is a list of dictionaries (one
+        Updates rows.
+
+        The parameter data is a list of dictionaries (one
         dictionary for each row) containing the new data and the conditions for
         the WHERE statement. It has the following structure::
+
             data = [
                        {
                            'col1': 'val1',
@@ -310,12 +361,16 @@ class Database:
                        },
                        ...
                    ]
+
         The dictionary key that begins with an @ points at the list of
         conditions.
 
-        Args:
-            table: Name of the table.
-            data:  List of dictionaries.
+        Parameters
+        ----------
+        table : str
+            Name of the table.
+        data : list[dict[str, object]]
+            List of dictionaries.
         """
         # Loop rows in data
         for i in range(0, len(data)):
@@ -355,9 +410,12 @@ class Database:
         """
         Removes the rows from the table which match the list of conditions.
 
-        Args:
-            table:      Name of the table.
-            conditions: List of conditions.
+        Parameters
+        ----------
+        table : str
+            Name of the table.
+        conditions : list[Condition]
+            List of conditions.
         """
         # Generate conditions string
         cond_str = self._generate_conditions_str(conditions)
@@ -369,11 +427,17 @@ class Database:
 
     def _generate_conditions_str(self, conditions: list[Condition]) -> str:
         """
-        Creates a string out of a list of conditions, so it can be used for the
-        WHERE statement.
+        Creates a string out of a list of conditions, so it can be used for the WHERE statement.
 
-        Args:
-            conditions: List of instances of Condition.
+        Parameters
+        ----------
+        conditions : list[Condition]
+            List of instances of Condition.
+
+        Returns
+        -------
+        str
+            String representation of the conditions for WHERE clause.
         """
         cond_str = ''
 
@@ -399,10 +463,14 @@ class Database:
         Value is str            --> return escaped string
         Value is something else --> return value
 
-        Args:
-            value: Value that is to be converted to a string.
+        Parameters
+        ----------
+        value : object
+            Value that is to be converted to a string.
 
-        Returns:
+        Returns
+        -------
+        str
             The converted value.
         """
         if value is None:

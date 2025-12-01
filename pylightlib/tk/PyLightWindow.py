@@ -5,15 +5,6 @@ pylightlib.tk.PyLightWindow
 Tkinter-based application window with color scheme, DPI support,
 and persistent layout saving.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-21
-
-Version:
-    0.1
-
 This module provides the `PyLightWindow` class, a subclass of `tk.Tk`, designed
 to serve as the main window for applications using the PyLight Framework.
 
@@ -53,22 +44,24 @@ except ImportError:
 
 class PyLightWindow(tk.Tk):
     """
-    This class inherits tkinter.Tk. A Tkinter window is created which contains
-    a main frame for the widgets to be placed in.
-    Before the window is closed its size and position will be saved in the
-    AppStorage.
+    This class inherits tkinter.Tk.
 
-    The window has a color scheme which is used to set the colors of the
-    widgets.
+    A Tkinter window is created which contains a main frame for the widgets to be placed in.
+    Before the window is closed its size and position will be saved in the AppStorage.
 
-    Attributes:
-        color_scheme: Color Scheme for the window. Can be an instance of
-                      DefaultColorScheme or a class that inherited
-                      DefaultColorScheme.
-        os_name:   Name of the operating system: "Darwin" (Mac), "Windows" or
-                   "Linux".
-        main_frm:  Main Frame of the window for all widgets to be placed in.
-        ttk_style: ttk.Style object for the window.
+    The window has a color scheme which is used to set the colors of the widgets.
+
+    Attributes
+    ----------
+    color_scheme : DefaultColorScheme
+        Color Scheme for the window. Can be an instance of DefaultColorScheme
+        or a class that inherited DefaultColorScheme.
+    os_name : str
+        Name of the operating system: "Darwin" (Mac), "Windows" or "Linux".
+    main_frm : ttk.Frame
+        Main Frame of the window for all widgets to be placed in.
+    ttk_style : ttk.Style
+        ttk.Style object for the window.
     """
     color_scheme: DefaultColorScheme
     os_name: str
@@ -79,17 +72,21 @@ class PyLightWindow(tk.Tk):
     def __init__(self, title: str, geometry: str,
                  color_scheme: DefaultColorScheme, *args, **kwargs):
         """
-        Creates an instance of tkinter.Tk and sets the size and title of the
-        window.
+        Creates an instance of tkinter.Tk and sets the size and title of the window.
 
-        Args:
-            title:        Title of the window.
-            geometry:     Size of the window.
-            color_scheme: Color Scheme for the window. Can be an instance of
-                          DefaultColorScheme or a class that inherited
-                          DefaultColorScheme.
-            *args:        Variable length argument list.
-            **kwargs:     Arbitrary keyword arguments.
+        Parameters
+        ----------
+        title : str
+            Title of the window.
+        geometry : str
+            Size of the window.
+        color_scheme : DefaultColorScheme
+            Color Scheme for the window. Can be an instance of DefaultColorScheme
+            or a class that inherited DefaultColorScheme.
+        *args
+            Variable length argument list.
+        **kwargs
+            Arbitrary keyword arguments.
         """
         tk.Tk.__init__(self, *args, **kwargs)
 
@@ -111,6 +108,8 @@ class PyLightWindow(tk.Tk):
         """
         Creates a ttk style using the given color scheme and configures it.
 
+        Notes
+        -----
         For most widgets .TLabel is used instead of .TButton, TEntry, etc.
         otherwise it would not be possible to set a background color.
         """
@@ -220,11 +219,12 @@ class PyLightWindow(tk.Tk):
 
     def listbox_style(self, lbox: EditableListbox) -> None:
         """
-        Sets the foreground and background color of a listbox to values from the
-        ColorScheme.
+        Sets the foreground and background color of a listbox to values from the ColorScheme.
 
-        Args:
-            lbox: Listbox that should be styled.
+        Parameters
+        ----------
+        lbox : EditableListbox
+            Listbox that should be styled.
         """
         clr: DefaultColorScheme = self.color_scheme
         lbox.configure(bg=clr.app['accent1'],
@@ -237,6 +237,8 @@ class PyLightWindow(tk.Tk):
         """
         Sets operating system-specific settings.
 
+        Notes
+        -----
         MacOS:
             - Binds the CMD+Q shortcut to the on_close method.
 
@@ -289,8 +291,9 @@ class PyLightWindow(tk.Tk):
 
     def on_close(self) -> None:
         """
-        Callback that is run when the window gets closed. Saves the size and
-        position of the window in the AppStorage and destroys the window.
+        Callback that is run when the window gets closed.
+
+        Saves the size and position of the window in the AppStorage and destroys the window.
         """
         # Get current window size and position
         b, h = self.winfo_width(), self.winfo_height()
@@ -309,8 +312,10 @@ class PyLightWindow(tk.Tk):
         """
         Makes a button blink for 1 second.
 
-        Args:
-            btn: Button that should.
+        Parameters
+        ----------
+        btn : tk.Button
+            Button that should blink.
         """
         for i in range(1, 10):
             if not i % 2:  # i ist ungerade
@@ -323,12 +328,18 @@ class PyLightWindow(tk.Tk):
         """
         Returns a FramedWidget object for a button.
 
-        Args:
-            master:   Parent widget.
-            *args:    Variable length argument list.
-            **kwargs: Arbitrary keyword arguments.
+        Parameters
+        ----------
+        master
+            Parent widget.
+        *args
+            Variable length argument list.
+        **kwargs
+            Arbitrary keyword arguments.
 
-        Returns:
+        Returns
+        -------
+        FramedWidget
             The Button.
         """
         return FramedWidget(master=master, *args, **kwargs, widget='button')  # type: ignore
@@ -337,12 +348,18 @@ class PyLightWindow(tk.Tk):
         """
         Returns a FramedWidget object for an entry.
 
-        Args:
-            master:   Parent widget.
-            *args:    Variable length argument list.
-            **kwargs: Arbitrary keyword arguments.
+        Parameters
+        ----------
+        master
+            Parent widget.
+        *args
+            Variable length argument list.
+        **kwargs
+            Arbitrary keyword arguments.
 
-        Returns:
+        Returns
+        -------
+        FramedWidget
             The Entry.
         """
         return FramedWidget(master=master, *args, **kwargs, \
@@ -354,12 +371,18 @@ class PyLightWindow(tk.Tk):
         """
         Returns an object of ScrollTextBox.
 
-        Args:
-            master:   Parent widget.
-            *args:    Variable length argument list.
-            **kwargs: Arbitrary keyword arguments.
+        Parameters
+        ----------
+        master
+            Parent widget.
+        *args
+            Variable length argument list.
+        **kwargs
+            Arbitrary keyword arguments.
 
-        Returns:
+        Returns
+        -------
+        ScrollTextBox
             The ScrollTextBox.
         """
         textbox = ScrollTextBox(master=master, *args, **kwargs)
@@ -376,12 +399,18 @@ class PyLightWindow(tk.Tk):
         """
         Returns a FramedWidget object for a label.
 
-        Args:
-            master:   Parent widget.
-            *args:    Variable length argument list.
-            **kwargs: Arbitrary keyword arguments.
+        Parameters
+        ----------
+        master
+            Parent widget.
+        *args
+            Variable length argument list.
+        **kwargs
+            Arbitrary keyword arguments.
 
-        Returns:
+        Returns
+        -------
+        ttk.Label
             The Label.
         """
         return ttk.Label(master=master, *args, **kwargs)
@@ -390,12 +419,18 @@ class PyLightWindow(tk.Tk):
         """
         Returns a FramedWidget object for a listbox.
 
-        Args:
-            master:   Parent widget.
-            *args:    Variable length argument list.
-            **kwargs: Arbitrary keyword arguments.
+        Parameters
+        ----------
+        master
+            Parent widget.
+        *args
+            Variable length argument list.
+        **kwargs
+            Arbitrary keyword arguments.
 
-        Returns:
+        Returns
+        -------
+        FramedWidget
             The Listbox.
         """
         return FramedWidget(master=master, *args, **kwargs, \

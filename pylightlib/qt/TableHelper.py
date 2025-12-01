@@ -4,15 +4,6 @@ pylightlib.qt.TableHelper
 
 Utility class to populate and manage QTableWidget with structured data.
 
-Author:
-    Corvin Gröning
-
-Date:
-    2025-03-21
-
-Version:
-    0.1
-
 This module provides the `TableHelper` class which simplifies populating
 and configuring a `QTableWidget` using structured data for headers and
 rows.
@@ -52,8 +43,9 @@ SysPathHandler().restore_sys_path()
 
 class TableHelper:
     """
-    This class helps to create a table with QTableWidget. It receives a
-    QTableWidget instance, a two-dimensional list for the table head and a
+    This class helps to create a table with QTableWidget.
+
+    It receives a QTableWidget instance, a two-dimensional list for the table head and a
     two-dimensional list for the table data.
 
     Structure of the list for the table head:
@@ -69,10 +61,14 @@ class TableHelper:
 
     The QTableWidget will be filled with data from these two lists.
 
-    Attributes:
-        tbl: Instance of the QTableWidget
-        head: Two-dimensional list with a list for each column
-        data: Two-dimensional list with a list for each row
+    Attributes
+    ----------
+    tbl : QTableWidget
+        Instance of the QTableWidget.
+    head : list[tuple[str, int, str, bool, str]]
+        Two-dimensional list with a list for each column.
+    data : list[dict[str, str]]
+        Two-dimensional list with a list for each row.
     """
     tbl: QTableWidget
     head: list[tuple[str, int, str, bool, str]]
@@ -83,13 +79,16 @@ class TableHelper:
                  table_head: list[tuple[str, int, str, bool, str]],
                  table_data: list[dict[str, str]]):
         """
-        Receives the instance of the QTableWidget and the lists for table head
-        and table data.
+        Receives the instance of the QTableWidget and the lists for table head and table data.
 
-        Args:
-            table_widget: Instance of the QTableWidget
-            table_head: Two-dimensional list with a list for each column
-            table_data: Two-dimensional list with a list for each row
+        Parameters
+        ----------
+        table_widget : QTableWidget
+            Instance of the QTableWidget.
+        table_head : list[tuple[str, int, str, bool, str]]
+            Two-dimensional list with a list for each column.
+        table_data : list[dict[str, str]]
+            Two-dimensional list with a list for each row.
         """
         # Save parameters in class variables
         self.tbl = table_widget
@@ -241,8 +240,10 @@ class TableHelper:
         """
         Adds a new row to the table.
 
-        Args:
-            index: Index of the new row.
+        Parameters
+        ----------
+        index : int
+            Index of the new row.
         """
         # Insert row
         self.tbl.insertRow(index)
@@ -274,10 +275,14 @@ class TableHelper:
         """
         Sets the value of a cell.
 
-        Args:
-            row:    Row of the cell
-            column: Column of the cell
-            value:  Value to set
+        Parameters
+        ----------
+        row : int
+            Row of the cell.
+        column : int
+            Column of the cell.
+        value : str
+            Value to set.
         """
         # Get justification and read-only
         justification: int
