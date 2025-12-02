@@ -80,7 +80,8 @@ class CustomDataTable(DataTable):
         Adjusts the widths of the flexible columns based on the new size of
         the table.
         """
-        table_width = self.size.width - len(self.columns) * 2
+        scrollbar_width = 2 if self.show_vertical_scrollbar else 0
+        table_width = self.size.width - len(self.columns) * 2 - scrollbar_width
         fixed_widths = self.get_fixed_column_widths()
         self.adjust_flexible_columns(table_width, fixed_widths)
         # self.update_scrollbar_visibility()
