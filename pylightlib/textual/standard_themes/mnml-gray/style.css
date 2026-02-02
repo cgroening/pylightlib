@@ -31,7 +31,7 @@ RadioButton {
     & > .toggle--button,
     & > .selection-list--button, & > .selection-list--button-highlighted {
         color: $secondary !important;
-        background: $secondary-muted !important;
+        background: $surface !important;
     }
 
     /* Selected items */
@@ -57,7 +57,55 @@ Switch {
 }
 
 Container.section {
-    /* background: $secondary; */
-    /* border: double; */
-    margin: 2;
+    background: $secondary;
+    border: blank;
+    margin: 1;
+}
+
+Button {
+    border: hidden;
+    padding: 0;
+    margin: 1;
+    height: auto;
+}
+
+Input, Select {
+    background: $surface;
+    border: hidden;
+    padding: 0;
+    margin: 1;
+    height: auto;
+}
+
+TextArea, RadioSet, SelectionList, CustomSelectionList {
+    background: $surface;
+    border: hidden;
+    padding: 0;
+    margin: 1;
+    height: auto;
+}
+
+RadioButton {
+    background: $surface;
+}
+
+Select, Option {
+    color: red;
+    height: 1;
+    padding: 0;
+    border: hidden;
+    margin: 1;
+}
+
+Select SelectCurrent {
+    border: none;
+    padding: 0;
+    margin: 0;
+    height: 1;
+}
+
+Select SelectOverlay, Select SelectOverlay > .option-list--option {
+    border: hidden;
+    margin: 0 0 0 0;
+    padding: 0;
 }
