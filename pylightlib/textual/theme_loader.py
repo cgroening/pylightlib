@@ -11,7 +11,8 @@ from textual.theme import Theme
 
 DEFAULT_PYLIGHT_THEME_PREFIX = 'pyl_'
 DEFAULT_CUSTOM_THEME_PREFIX = 'custom_'
-
+SCRIPT_DIR = Path(__file__).parent.parent
+STANDARD_THEMES_DIR = SCRIPT_DIR / 'textual/standard_themes'
 
 
 @dataclass(frozen=False, slots=True)
@@ -414,7 +415,9 @@ class ThemeLoader:
         app : App
             The instance of the Textual application.
         """
-        themes_dir = Path('themes').resolve()
+        themes_dir = STANDARD_THEMES_DIR.resolve()
+
+        logging.debug(f'Removing CSS files from themes directory: {themes_dir}')
 
         for key in list(app.stylesheet.source.keys()):
             path_str, _ = key
