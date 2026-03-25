@@ -7,7 +7,7 @@
 }
 
 ToggleButton, CustomCheckbox {
-    background: $panel-lighten-2;
+    background: $panel-lighten-1;
 }
 
 ToggleButton, SelectionList {
@@ -31,7 +31,7 @@ RadioButton {
     & > .toggle--button,
     & > .selection-list--button, & > .selection-list--button-highlighted {
         color: $secondary !important;
-        background: $surface !important;
+        background: $surface-lighten-1 !important;
     }
 
     /* Selected items */
@@ -56,9 +56,13 @@ Switch {
     & .switch--slider { background: $secondary; }
 }
 
-Container.section {
-    background: $secondary;
-    border: blank;
+Label.section-title {
+    margin: 1 1 0 1;
+}
+
+Container.section, .section {
+    background: $background-lighten-1;
+    border: none;
     margin: 1;
     padding: 0;
 }
@@ -66,7 +70,7 @@ Container.section {
 Button {
     border: hidden;
     padding: 0;
-    margin: 0;
+    margin: 1;
     height: auto;
 }
 
@@ -109,4 +113,20 @@ Select SelectOverlay, Select SelectOverlay > .option-list--option {
     border: hidden;
     margin: 0 0 0 0;
     padding: 0;
+}
+
+DataTable {
+    margin: 1;
+}
+
+ListView {
+    margin: 1;
+}
+
+Tree {
+    margin: 1;
+}
+
+TabbedContent {
+    margin: 1;
 }
