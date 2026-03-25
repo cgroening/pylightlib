@@ -181,7 +181,7 @@ class ThemeLoader:
         """
         css_files = []
         for file_name in os.listdir(theme_folder_path):
-            if file_name.endswith('.css'):
+            if file_name.endswith('.css') or file_name.endswith('.tcss'):
                 css_files.append(os.path.join(theme_folder_path, file_name))
         return css_files
 

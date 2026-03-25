@@ -2,7 +2,7 @@ from textual.theme import Theme
 
 
 TEXTUAL_THEME = Theme(
-    name='mnml-gray',
+    name='compact-gray',
     primary='#8BD3CD',
     secondary='#2B2B2B',
     accent='#A9B7C6',
