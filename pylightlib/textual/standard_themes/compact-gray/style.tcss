@@ -7,7 +7,8 @@
 }
 
 ToggleButton, CustomCheckbox {
-    background: $panel-lighten-1;
+    background: $panel;
+    margin: 0;
 }
 
 ToggleButton, SelectionList {
@@ -44,7 +45,8 @@ RadioButton {
 }
 
 Switch {
-    & .switch--slider { color: $primary; background: $panel-darken-2 }
+    margin: 0;
+    & .switch--slider { color: $primary; background: $secondary; }
     &.-on .switch--slider { color: $success }
     &:hover {
         & > .switch--slider { color: $primary-lighten-2 }
@@ -52,19 +54,19 @@ Switch {
     }
 }
 
-Switch {
-    & .switch--slider { background: $secondary; }
+CustomCheckbox {
+    margin: 0;
 }
 
 Label.section-title {
-    margin: 1 1 0 1;
+    # margin: 0 1 0 1;
 }
 
-Container.section, .section {
+Container.section {
     background: $background-lighten-1;
     border: none;
-    margin: 1;
-    padding: 0;
+    margin: 1 1 0 1;
+    padding: 1;
 }
 
 Button {
@@ -78,7 +80,7 @@ Input, Select {
     background: $surface;
     border: hidden;
     padding: 0;
-    margin: 1;
+    margin: 0;
     height: auto;
 }
 
@@ -86,15 +88,15 @@ TextArea, RadioSet, SelectionList, CustomSelectionList {
     background: $surface;
     border: hidden;
     padding: 0;
-    margin: 1;
-    height: auto;
+    margin: 0;
+    height: 3;
 }
 
 RadioButton {
     background: $surface;
 }
 
-Select, Option {
+Option {
     color: red;
     height: 1;
     padding: 0;
@@ -115,18 +117,59 @@ Select SelectOverlay, Select SelectOverlay > .option-list--option {
     padding: 0;
 }
 
-DataTable {
+ListView, Tree, TabbedContent, DataTable, Placeholder {
+    margin: 0;
+}
+
+.example-section ProgressBar {
+    margin-bottom: 1;
+}
+
+Label.example-spacer {
+    display: none;
+}
+
+.margin-1 {
     margin: 1;
 }
 
-ListView {
-    margin: 1;
+.no-vertical-margin {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
-Tree {
-    margin: 1;
+.example-input-caption {
+    display: block;
+    margin: 0 0 0 0;
 }
 
-TabbedContent {
-    margin: 1;
+Input.example-input {
+    margin: 0 0 1 0;
+}
+
+Select.example-input {
+    # margin: 0 1 1 1;
+}
+
+.example-section Button {
+    margin-right: 1;
+}
+.example-section Button:last-of-type {
+    margin-right: 0;
+}
+
+.example-section Switch, .example-section CustomCheckbox {
+    margin: 1 0 0 0 ;
+}
+
+.example-section Digits {
+    margin: 1 0 0 0;
+}
+
+# .example-section Rule {
+#     margin: 1 0 0 0;
+# }
+
+Static.example {
+    margin: 1 0;
 }
