@@ -4,7 +4,7 @@ pylightlib.tk.table
 
 A fully scrollable, editable and styleable table widget for Tkinter GUIs.
 
-This module implements the `Table` class — a high-level widget for displaying
+This module implements the `Table` class - a high-level widget for displaying
 and editing tabular data in Tkinter using multiple synchronized
 `EditableListbox` instances as columns.
 
