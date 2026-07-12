@@ -29,7 +29,7 @@ try:
     from PySide6.QtGui import QDesktopServices, QMouseEvent  # type: ignore # noqa
     from PySide6.QtWidgets import QLabel                     # type: ignore # noqa
 except ImportError as e:
-    print(f'Import Error ({__file__}):\n    ' + str(e.msg))
+    print(f"Import Error ({__file__}):\n    " + str(e.msg))
     exit()
 SysPathHandler().restore_sys_path()
 
@@ -60,7 +60,7 @@ class LinkLabel(QLabel):
             Parent widget.
         """
         super().__init__(text, parent)
-        self.setStyleSheet('text-decoration: underline; cursor: pointer;')
+        self.setStyleSheet("text-decoration: underline; cursor: pointer;")
 
     def set_url(self, url: str) -> None:
         """

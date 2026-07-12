@@ -88,6 +88,6 @@ class AboutView(ViewBase):
         root: PyLightWindow = self.root
         mfrm = self.root.main_frm
 
-        root.label(master=mfrm, font=('Arial', 20), text=self.app_name).pack()
-        root.label(master=mfrm, font=('Arial', 20), text=self.version).pack()
-        root.label(master=mfrm, font=('Arial', 14), text=self.info_text).pack()
+        root.label(master=mfrm, font=("Arial", 20), text=self.app_name).pack()
+        root.label(master=mfrm, font=("Arial", 20), text=self.version).pack()
+        root.label(master=mfrm, font=("Arial", 14), text=self.info_text).pack()

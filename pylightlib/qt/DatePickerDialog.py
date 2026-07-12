@@ -31,7 +31,7 @@ try:
     from PySide6.QtWidgets import QDialog, QVBoxLayout, QDateEdit  # type: ignore # noqa
     from PySide6.QtWidgets import QDialogButtonBox  # type: ignore # noqa
 except ImportError as e:
-    print(f'Import Error ({__file__}):\n    ' + str(e.msg))
+    print(f"Import Error ({__file__}):\n    " + str(e.msg))
     exit()
 SysPathHandler().restore_sys_path()
 
@@ -98,5 +98,5 @@ class DatePickerDialog(QDialog):
         date_string : str
             The date string in the format DD.MM.YYYY.
         """
-        date = datetime.strptime(date_string, '%d.%m.%Y')
+        date = datetime.strptime(date_string, "%d.%m.%Y")
         self.date_edit.setDate(date)

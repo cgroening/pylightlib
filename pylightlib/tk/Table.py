@@ -65,7 +65,7 @@ class TableColumn:
     """
     heading: str
     width: int = 0
-    justify: str = 'left'
+    justify: str = "left"
     read_only: bool = False
 
 
@@ -135,7 +135,7 @@ class Table:
     head: list[TableColumn] = []
     data: list[list[str]] = [[]]
     color_scheme: DefaultColorScheme
-    font: dict[str, str | int] = {'family': 'Monaco', 'size': 14}
+    font: dict[str, str | int] = {"family": "Monaco", "size": 14}
     padding_frames: list[tk.Frame] = []
     lbls: list[FramedWidget] = []
     lbox: list[EditableListbox] = []
@@ -146,12 +146,12 @@ class Table:
     row_height: float = 20.0
     visible_rows: int = 0
     current_row: int = 0
-    selected_cell: dict[str, int] = {'row': 0, 'col': 0}
+    selected_cell: dict[str, int] = {"row": 0, "col": 0}
     default_bg: dict
     selected_bg: dict
     default_fg: dict
     selected_fg: dict
-    os: str = 'mac'
+    os: str = "mac"
 
 
     def __init__(self, master: tk.Frame, head: list[TableColumn],
@@ -178,25 +178,25 @@ class Table:
         # Set colors
         cls = self.color_scheme
         self.default_bg = {
-            'border': cls.app['accent4'],
-            'column': cls.app['accent1'],
-            'column_heading': cls.app['accent2'],
+            "border": cls.app["accent4"],
+            "column": cls.app["accent1"],
+            "column_heading": cls.app["accent2"],
         }
         self.selected_bg = {
-            'cell': cls.app['accent4'],
-            'column': cls.app['accent2'],
-            'column_heading': cls.app['accent4'],
-            'row': cls.app['accent2']
+            "cell": cls.app["accent4"],
+            "column": cls.app["accent2"],
+            "column_heading": cls.app["accent4"],
+            "row": cls.app["accent2"]
         }
         self.default_fg = {
-            'cell': cls.app['fg'],
-            'column': cls.app['fg'],
-            'column_heading': cls.app['fg'],
+            "cell": cls.app["fg"],
+            "column": cls.app["fg"],
+            "column_heading": cls.app["fg"],
         }
         self.selected_fg = {
-            'cell': cls.app['fg_highlight'],
-            'column': cls.app['fg'],
-            'column_heading': cls.app['fg_highlight'],
+            "cell": cls.app["fg_highlight"],
+            "column": cls.app["fg"],
+            "column_heading": cls.app["fg_highlight"],
         }
 
         # Create table and fill with given data
@@ -219,13 +219,13 @@ class Table:
                                        color_scheme=self.color_scheme)
 
         # Pack inner frame and configure outer frame
-        self.inner_frame.grid(row=0, column=0, sticky='nesw')  # type: ignore
+        self.inner_frame.grid(row=0, column=0, sticky="nesw")  # type: ignore
         self.outer_frame.rowconfigure(0, weight=1)
         self.outer_frame.columnconfigure(0, weight=1)
 
         # Add callback which will be run if the canvas within the inner frame
         # changes size
-        self.inner_frame.canvas.bind('<Configure>', self.change_size)
+        self.inner_frame.canvas.bind("<Configure>", self.change_size)
 
     def create_head(self) -> None:
         """
@@ -241,12 +241,12 @@ class Table:
                 borderright = 1
             else:
                 borderright = 0
-            lbl = FramedWidget(master=self.inner_frame, widget='label',
-                               text=' ' + heading, anchor='w', relief='flat',
+            lbl = FramedWidget(master=self.inner_frame, widget="label",
+                               text=" " + heading, anchor="w", relief="flat",
                                borderwidth=1, borderright=borderright,
-                               background=self.default_bg['column_heading'])
+                               background=self.default_bg["column_heading"])
 
-            lbl.grid(row=0, column=i, sticky='nesw')
+            lbl.grid(row=0, column=i, sticky="nesw")
             lbl.columnconfigure(i, weight=1)
 
             # Add label to dictionary
@@ -254,15 +254,15 @@ class Table:
 
             # Callbacks: Cursor over label + Cursor over label with B1 pressed
             # noinspection PyCallingNonCallable
-            self.lbls[i].bind('<Motion>', self.label_mouse_motion)  # type: ignore
+            self.lbls[i].bind("<Motion>", self.label_mouse_motion)  # type: ignore
             # noinspection PyCallingNonCallable
-            self.lbls[i].bind('<B1-Motion>', self.label_b1_mouse_motion)  # type: ignore
+            self.lbls[i].bind("<B1-Motion>", self.label_b1_mouse_motion)  # type: ignore
 
     def create_listboxes(self) -> None:
         """
         Creates a listbox for each column.
         """
-        font = tkfont.Font(family=self.font['family'], size=self.font['size'])  # type: ignore
+        font = tkfont.Font(family=self.font["family"], size=self.font["size"])  # type: ignore
         padding_x = 5  # TODO: put this somewhere else
 
         # Create a listbox for each column
@@ -270,7 +270,7 @@ class Table:
             # Create a frame which works as a border for the listbox
             # noinspection PyTypeChecker
             border_frame = tk.Frame(master=self.inner_frame,  # type: ignore
-                                    background=self.default_bg['border'])
+                                    background=self.default_bg["border"])
             border_frame.grid(row=1, column=i, sticky=tk.NSEW)
 
             # Only add right border if it's the last listbox
@@ -281,27 +281,27 @@ class Table:
 
             # Create padding frame
             padding_frame = tk.Frame(master=border_frame,
-                                     background=self.default_bg['column'])
-            padding_frame.pack(fill='both', padx=border_x)
+                                     background=self.default_bg["column"])
+            padding_frame.pack(fill="both", padx=border_x)
             self.padding_frames.append(padding_frame)
 
             # Create listbox (exportselection=0 allows a selection in multiple
             # listboxes)
             lbox = EditableListbox(master=padding_frame, exportselection=0,
                                    borderwidth=0, highlightthickness=0,
-                                   activestyle='none', font=font)
+                                   activestyle="none", font=font)
 
             # Put listbox in padding frame
             # lbox.grid(row=0, column=0, sticky='nesw', padx=padding_x)
-            lbox.pack(fill='both', padx=padding_x)
+            lbox.pack(fill="both", padx=padding_x)
             border_frame.grid_columnconfigure(0, weight=1)
 
             # Creates frames for extension of active line highlight
             highlight_ext_left = tk.Frame(master=border_frame,
-                                          background=self.default_bg['column'],
+                                          background=self.default_bg["column"],
                                           width=padding_x, height=10)
             highlight_ext_right = tk.Frame(master=border_frame,
-                                           background=self.default_bg['column'],
+                                           background=self.default_bg["column"],
                                            width=padding_x, height=10)
             self.highlight_ext_frames_left.append(highlight_ext_left)
             self.highlight_ext_frames_right.append(highlight_ext_right)
@@ -312,8 +312,8 @@ class Table:
             highlight_ext_right.place(x=10, y=5)
 
             # Set colors
-            lbox.configure(bg=self.default_bg['column'],
-                           fg=self.color_scheme.app['fg'])
+            lbox.configure(bg=self.default_bg["column"],
+                           fg=self.color_scheme.app["fg"])
 
             # Set style for active row
             lbox.configure(activestyle=tkinter.DOTBOX)
@@ -328,36 +328,36 @@ class Table:
             # Add listbox to dictionary
             self.lbox.append(lbox)
 
-            '''Callbacks'''
+            """Callbacks"""
             # Scrolling
-            lbox.bind('<<ListboxSelect>>', self.selection_changed)
-            lbox.bind('<MouseWheel>', self.mouse_scroll)
+            lbox.bind("<<ListboxSelect>>", self.selection_changed)
+            lbox.bind("<MouseWheel>", self.mouse_scroll)
 
             # Supress scrolling of a single listbox: if an item is wider than
             # the listbox and cursor is moved with the left mouse button pressed
             # while over the item, nothing should happen
-            lbox.bind('<B1-Leave>', lambda event: 'break')
+            lbox.bind("<B1-Leave>", lambda event: "break")
 
             # Arrow keys
-            lbox.bind('<Left>', self.arrow_left)
-            lbox.bind('<Right>', self.arrow_right)
+            lbox.bind("<Left>", self.arrow_left)
+            lbox.bind("<Right>", self.arrow_right)
 
             # Item was edited
-            lbox.bind('<<ItemUpdate>>', self.item_edited)
+            lbox.bind("<<ItemUpdate>>", self.item_edited)
 
             # Listbox has gained focus
-            lbox.bind('<FocusIn>', self.selection_changed)
+            lbox.bind("<FocusIn>", self.selection_changed)
 
             # PageUp, PageDown
-            lbox.bind('<Prior>', self.page_up_down)
-            lbox.bind('<Next>', self.page_up_down)
+            lbox.bind("<Prior>", self.page_up_down)
+            lbox.bind("<Next>", self.page_up_down)
 
     def configure_vertical_scrollbar(self) -> None:
         """
         Set the vertical scrollbar of the inner frame to scroll all listboxes simultaneously.
         """
         # Set function to call when the vertical scrollbar was used
-        self.inner_frame.vsb['command'] = self.vscroll
+        self.inner_frame.vsb["command"] = self.vscroll
 
         # Attach vertical scrollbar to all listboxes so it will be moved
         # independent of the listbox that was scrolled in
@@ -373,8 +373,8 @@ class Table:
             # Loop columns
             for column in range(len(self.head)):
                 if self.data[row][column] is None:
-                    self.data[row][column] = ''
-                self.lbox[column].insert('end', self.data[row][column])
+                    self.data[row][column] = ""
+                self.lbox[column].insert("end", self.data[row][column])
 
         # Save the height of a listbox item (= row height)
         if self.row_height is None:
@@ -451,71 +451,71 @@ class Table:
             lbox.yview_moveto(scroll_pos[0])
 
             # Set selected item
-            lbox.selection_clear(0, 'end')
+            lbox.selection_clear(0, "end")
             lbox.select_set(self.current_row)
 
             # Set colors of selected cell, column and row if necessary
             if event.widget == lbox:
-                self.selected_cell['col'] = i
+                self.selected_cell["col"] = i
 
                 # Selected cell
-                if lbox.cget('selectbackground') != selected_bg['cell']:
-                    lbox.configure(selectbackground=selected_bg['cell'])
-                    lbox.configure(selectforeground=selected_fg['cell'])
+                if lbox.cget("selectbackground") != selected_bg["cell"]:
+                    lbox.configure(selectbackground=selected_bg["cell"])
+                    lbox.configure(selectforeground=selected_fg["cell"])
 
                 # Selected column (listbox)
-                if lbox.cget('background') != selected_bg['column']:
-                    padding_frame.configure(background=selected_bg['column'])
-                    lbox.configure(background=selected_bg['column'])
-                    lbox.configure(foreground=selected_fg['column'])
+                if lbox.cget("background") != selected_bg["column"]:
+                    padding_frame.configure(background=selected_bg["column"])
+                    lbox.configure(background=selected_bg["column"])
+                    lbox.configure(foreground=selected_fg["column"])
 
                 # Selected column heading (label)
-                if lbl.cget('background') != selected_bg['column_heading']:
+                if lbl.cget("background") != selected_bg["column_heading"]:
                     # noinspection PyCallingNonCallable
-                    lbl.configure(background=selected_bg['column_heading'])  # type: ignore
+                    lbl.configure(background=selected_bg["column_heading"])  # type: ignore
                     # noinspection PyCallingNonCallable
-                    lbl.configure(foreground=selected_fg['column_heading'])  # type: ignore
+                    lbl.configure(foreground=selected_fg["column_heading"])  # type: ignore
 
                 # Set color of highlight extension
                 self.highlight_ext_frames_left[i].configure(
-                    background=selected_bg['cell'])
+                    background=selected_bg["cell"])
                 self.highlight_ext_frames_right[i].configure(
-                    background=selected_bg['cell'])
+                    background=selected_bg["cell"])
             else:
                 # Cell in same row as selected cell
-                if lbox.cget('selectbackground') != selected_bg['column']:
-                    lbox.configure(selectbackground=selected_bg['column'])
-                    lbox.configure(selectforeground=selected_fg['column'])
+                if lbox.cget("selectbackground") != selected_bg["column"]:
+                    lbox.configure(selectbackground=selected_bg["column"])
+                    lbox.configure(selectforeground=selected_fg["column"])
 
                 # Not selected column (listbox)
-                if lbox.cget('background') != default_bg['column']:
-                    padding_frame.configure(background=default_bg['column'])
-                    lbox.configure(background=default_bg['column'])
-                    lbox.configure(foreground=default_fg['column'])
+                if lbox.cget("background") != default_bg["column"]:
+                    padding_frame.configure(background=default_bg["column"])
+                    lbox.configure(background=default_bg["column"])
+                    lbox.configure(foreground=default_fg["column"])
 
                 # Not selected column heading (label)
-                if lbl.cget('background') != default_bg['column_heading']:
+                if lbl.cget("background") != default_bg["column_heading"]:
                     # noinspection PyCallingNonCallable
-                    lbl.configure(background=default_bg['column_heading'])  # type: ignore
+                    lbl.configure(background=default_bg["column_heading"])  # type: ignore
                     # noinspection PyCallingNonCallable
-                    lbl.configure(foreground=default_fg['column_heading'])  # type: ignore
+                    lbl.configure(foreground=default_fg["column_heading"])  # type: ignore
 
                 # Set color of highlight extension
                 self.highlight_ext_frames_left[i].configure(
-                    background=selected_bg['column'])
+                    background=selected_bg["column"])
                 self.highlight_ext_frames_right[i].configure(
-                    background=selected_bg['column'])
+                    background=selected_bg["column"])
 
             # If a specific fore- and background is assigned to the cell,
             # set selectforeground and selectbackground to this color, so it
             # gets maintained
-            if len(lbox.itemcget(self.current_row, 'bg')) != 0:
+            if len(lbox.itemcget(self.current_row, "bg")) != 0:
                 lbox.configure(
-                    selectbackground=lbox.itemcget(self.current_row, 'bg'))
+                    selectbackground=lbox.itemcget(self.current_row, "bg"))
 
-            if len(lbox.itemcget(self.current_row, 'fg')) != 0:
+            if len(lbox.itemcget(self.current_row, "fg")) != 0:
                 lbox.configure(
-                    selectforeground=lbox.itemcget(self.current_row, 'fg'))
+                    selectforeground=lbox.itemcget(self.current_row, "fg"))
 
             # Adjust position and size of highlight extension
             self.adjust_highlight_extension_geometry(i, lbox)
@@ -572,7 +572,7 @@ class Table:
         scroll_factor = 3
 
         # Set divisor depending on operating system
-        if self.os == 'win':
+        if self.os == "win":
             divisor = 120
         else:
             divisor = 1
@@ -581,11 +581,11 @@ class Table:
         if not event.state:
             for i in range(len(self.head)):
                 self.lbox[i].yview_scroll(
-                    int(-1 * (event.delta / divisor)) * scroll_factor, 'units')
+                    int(-1 * (event.delta / divisor)) * scroll_factor, "units")
 
         # Prevent the focussed listbox from being scrolled twice
-        if self.os == 'win':
-            return 'break'
+        if self.os == "win":
+            return "break"
 
     def vscroll(self, *args) -> None:
         """
@@ -617,11 +617,11 @@ class Table:
             'break' to suppress horizontal scrolling within the listboxes with
             arrow key.
         """
-        self.change_active_listbox(event, 'left')
-        self.hscroll(event, 'left')
+        self.change_active_listbox(event, "left")
+        self.hscroll(event, "left")
 
         # Suppress horizontal scrolling within the listboxes with arrow key
-        return 'break'
+        return "break"
 
     def arrow_right(self, event):
         """
@@ -640,11 +640,11 @@ class Table:
             'break' to suppress horizontal scrolling within the listboxes with
             arrow key.
         """
-        self.change_active_listbox(event, 'right')
-        self.hscroll(event, 'right')
+        self.change_active_listbox(event, "right")
+        self.hscroll(event, "right")
 
         # Suppress horizontal scrolling within the listboxes with arrow key
-        return 'break'
+        return "break"
 
     def change_active_listbox(self, event: tk.Event, side: str) -> None:
         """
@@ -666,7 +666,7 @@ class Table:
                 index = self.lbox[i].get_selected_index()
 
                 # Get column number of the next listbox
-                if side == 'left':
+                if side == "left":
                     neighbor_column_id = i - 1
                 else:
                     neighbor_column_id = i + 1
@@ -709,10 +709,10 @@ class Table:
 
         # Jump to the first or last column of the table if there is no listbox
         # on the given side
-        if event_widget_id == 0 and side == 'left':
+        if event_widget_id == 0 and side == "left":
             self.inner_frame.canvas.xview_moveto(1)
             return
-        elif event_widget_id == len(self.head) - 1 and side == 'right':
+        elif event_widget_id == len(self.head) - 1 and side == "right":
             self.inner_frame.canvas.xview_moveto(0)
             return
 
@@ -720,7 +720,7 @@ class Table:
         # is visible. Differ between left and right arrow key so the scroll
         # position is only changed if the ative listbox is out of the visible
         # area of the canvas
-        if side == 'right':
+        if side == "right":
             # Determine width
             width = 0
             for i in range(event_widget_id + 2):
@@ -771,8 +771,8 @@ class Table:
         self.data[row][column] = new_text
 
         # Debugging: Print updated cell and new value
-        print(f'Geändert wurde Zeile: {row}, Spalte: {column}')
-        print(f'Neuer Text: \"{new_text}\"')
+        print(f"Geändert wurde Zeile: {row}, Spalte: {column}")
+        print(f"Neuer Text: \"{new_text}\"")
 
     def label_mouse_motion(self, event: tk.Event) -> None:
         """
@@ -795,9 +795,9 @@ class Table:
         # If yes change cursor symbol
         toleranz = 20
         if label_width - toleranz <= cursor_x:
-            event.widget.config(cursor='right_side')
+            event.widget.config(cursor="right_side")
         else:
-            event.widget.config(cursor='')
+            event.widget.config(cursor="")
 
     def label_b1_mouse_motion(self, event: tk.Event) -> None:
         """
@@ -840,7 +840,7 @@ class Table:
         """
         Sets focus to the active listbox.
         """
-        self.lbox[self.selected_cell['col']].focus_set()
+        self.lbox[self.selected_cell["col"]].focus_set()
 
     def page_up_down_old(self, event: tk.Event) -> str:
         """
@@ -859,9 +859,9 @@ class Table:
         """
         # Calculate new index
         max_index = len(self.data) - 1
-        if event.keysym == 'Prior':
+        if event.keysym == "Prior":
             new_index = max(self.current_row - self.visible_rows, 0)
-        elif event.keysym == 'Next':
+        elif event.keysym == "Next":
             new_index = min(self.current_row + self.visible_rows - 1, max_index)
         else:
             new_index = 0
@@ -872,14 +872,14 @@ class Table:
 
         # Workaround to ensure correct scroll position
         if new_index == 0:
-            lbox.event_generate('<Down>')
-            lbox.event_generate('<Up>')
+            lbox.event_generate("<Down>")
+            lbox.event_generate("<Up>")
         else:
-            lbox.event_generate('<Up>')
-            lbox.event_generate('<Down>')
+            lbox.event_generate("<Up>")
+            lbox.event_generate("<Down>")
 
         # Prevent the listbox from being scrolled twice
-        return 'break'
+        return "break"
 
     def page_up_down(self, event: tk.Event) -> str:
         """
@@ -898,9 +898,9 @@ class Table:
         """
         # Calculate new index
         max_index = len(self.data) - 1
-        if event.keysym == 'Prior':
+        if event.keysym == "Prior":
             new_index = max(self.current_row - self.visible_rows, 0)
-        elif event.keysym == 'Next':
+        elif event.keysym == "Next":
             new_index = min(self.current_row + self.visible_rows - 1, max_index)
         else:
             new_index = 0
@@ -908,14 +908,14 @@ class Table:
         # Go up or down by number of visible items - 1
         lbox: EditableListbox = event.widget
         if new_index < self.current_row:
-            key = 'Up'
+            key = "Up"
             rng = range(self.current_row, new_index + 1, -1)
         else:
-            key = 'Down'
+            key = "Down"
             rng = range(self.current_row, new_index)
 
         for i in rng:
-            lbox.event_generate(f'<{key}>')
+            lbox.event_generate(f"<{key}>")
 
         # Prevent the listbox from being scrolled twice
-        return 'break'
+        return "break"

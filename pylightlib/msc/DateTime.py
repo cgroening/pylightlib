@@ -48,15 +48,15 @@ class DateTime:
         """
         # Return empty string if the given timestamp is None or not an integer
         if timestamp is None or not isinstance(timestamp, int):
-            return ''
+            return ""
 
         # Convert timestamp to date
         date_obj = datetime.fromtimestamp(timestamp)
 
         if english_format:
-            format_str = '%Y-%m-%d'
+            format_str = "%Y-%m-%d"
         else:
-            format_str = '%d.%m.%Y'
+            format_str = "%d.%m.%Y"
 
         return date_obj.strftime(format_str)
 
@@ -80,9 +80,9 @@ class DateTime:
             Unix timestamp (number of seconds since 1970-01-01).
         """
         if english_format:
-            format_str = '%Y-%m-%d'
+            format_str = "%Y-%m-%d"
         else:
-            format_str = '%d.%m.%Y'
+            format_str = "%d.%m.%Y"
 
         # Check if the date string matches the expected format
         try:

@@ -57,7 +57,7 @@ try:
     from PySide6.QtWidgets import (QFrame, QHBoxLayout, QPushButton,  # type: ignore # noqa
                                    QComboBox, QVBoxLayout, QLabel)    # type: ignore # noqa
 except ImportError as e:
-    print(f'Import Error ({__file__}):\n    ' + str(e.msg))
+    print(f"Import Error ({__file__}):\n    " + str(e.msg))
     exit()
 SysPathHandler().restore_sys_path()
 
@@ -81,9 +81,9 @@ class Modifier(Enum):
         SHIFT modifier key.
     """
     NONE = None
-    ALT = 'ALT'
-    CTRL = 'CTRL'
-    SHIFT = 'SHIFT'
+    ALT = "ALT"
+    CTRL = "CTRL"
+    SHIFT = "SHIFT"
 
 
 class FnKey(Enum):
@@ -120,18 +120,18 @@ class FnKey(Enum):
     F12 : str
         Function key F12.
     """
-    F1 = 'F1'
-    F2 = 'F2'
-    F3 = 'F3'
-    F4 = 'F4'
-    F5 = 'F5'
-    F6 = 'F6'
-    F7 = 'F7'
-    F8 = 'F8'
-    F9 = 'F9'
-    F10 = 'F10'
-    F11 = 'F11'
-    F12 = 'F12'
+    F1 = "F1"
+    F2 = "F2"
+    F3 = "F3"
+    F4 = "F4"
+    F5 = "F5"
+    F6 = "F6"
+    F7 = "F7"
+    F8 = "F8"
+    F9 = "F9"
+    F10 = "F10"
+    F11 = "F11"
+    F12 = "F12"
 
 
 class FnKeyType(Enum):
@@ -400,7 +400,7 @@ class FnButtonsFrame(QFrame):
         self.compact_mode = compact_mode
 
         # Set separator for function text in button caption
-        self.func_text_separator = ' ' if compact_mode else '\n'
+        self.func_text_separator = " " if compact_mode else "\n"
 
         # Create vertical layout
         self.vertical_layout = QVBoxLayout(self)
@@ -550,20 +550,20 @@ class FnButtonsFrame(QFrame):
         """
         # F-Taste ermitteln
         switcher = {
-            QtCore.Qt.Key.Key_F1: 'F1',
-            QtCore.Qt.Key.Key_F2: 'F2',
-            QtCore.Qt.Key.Key_F3: 'F3',
-            QtCore.Qt.Key.Key_F4: 'F4',
-            QtCore.Qt.Key.Key_F5: 'F5',
-            QtCore.Qt.Key.Key_F6: 'F6',
-            QtCore.Qt.Key.Key_F7: 'F7',
-            QtCore.Qt.Key.Key_F8: 'F8',
-            QtCore.Qt.Key.Key_F9: 'F9',
-            QtCore.Qt.Key.Key_F10: 'F10',
-            QtCore.Qt.Key.Key_F11: 'F11',
-            QtCore.Qt.Key.Key_F12: 'F12',
+            QtCore.Qt.Key.Key_F1: "F1",
+            QtCore.Qt.Key.Key_F2: "F2",
+            QtCore.Qt.Key.Key_F3: "F3",
+            QtCore.Qt.Key.Key_F4: "F4",
+            QtCore.Qt.Key.Key_F5: "F5",
+            QtCore.Qt.Key.Key_F6: "F6",
+            QtCore.Qt.Key.Key_F7: "F7",
+            QtCore.Qt.Key.Key_F8: "F8",
+            QtCore.Qt.Key.Key_F9: "F9",
+            QtCore.Qt.Key.Key_F10: "F10",
+            QtCore.Qt.Key.Key_F11: "F11",
+            QtCore.Qt.Key.Key_F12: "F12",
         }
-        fnkey = switcher.get(event.key(), lambda: 'Key not defined.')
+        fnkey = switcher.get(event.key(), lambda: "Key not defined.")
 
         # Return None if the pressed key is not a fn key
         if event.key() not in switcher.keys():
@@ -571,7 +571,7 @@ class FnButtonsFrame(QFrame):
 
         # Add "ALT+" to string if ALT/Option key is held down
         if alt_pressed:
-            fnkey = 'ALT+' + fnkey  # type: ignore
+            fnkey = "ALT+" + fnkey  # type: ignore
 
         return fnkey  # type: ignore
 
@@ -588,8 +588,8 @@ class FnButtonsFrame(QFrame):
         # row_frame = QFrame(self.parent_frame)
         row_frame = QFrame(self)
         row_frame.setFrameShape(QFrame.Shape.StyledPanel)
-        row_frame.setAccessibleName('F1F12_Row_Frame')
-        row_frame.setObjectName('F1F12_Row_Frame')
+        row_frame.setAccessibleName("F1F12_Row_Frame")
+        row_frame.setObjectName("F1F12_Row_Frame")
 
         hbox = QHBoxLayout(row_frame)
         hbox.setSpacing(4)
@@ -654,7 +654,7 @@ class FnButtonsFrame(QFrame):
             Instance of the button.
         """
         button: QPushButton = QPushButton(self.parent_frame)
-        button.setText(f'{fnr}{self.func_text_separator}{func_text}')
+        button.setText(f"{fnr}{self.func_text_separator}{func_text}")
         button.clicked.connect(slot)
 
         return button
@@ -680,7 +680,7 @@ class FnButtonsFrame(QFrame):
             Instance of the button (with toggle function).
         """
         button = QPushButton(self.parent_frame)
-        button.setText(f'{fnr}{self.func_text_separator}{func_text}')
+        button.setText(f"{fnr}{self.func_text_separator}{func_text}")
         button.setCheckable(True)
         button.setChecked(checked)
         button.clicked.connect(slot)
@@ -713,8 +713,8 @@ class FnButtonsFrame(QFrame):
         """
         # Create an empty button to be used as a frame
         frame = QPushButton(self.parent_frame)
-        frame.setAccessibleName('Frame_F1F12_ComboBox')
-        frame.setObjectName('Frame_F1F12_ComboBox')
+        frame.setAccessibleName("Frame_F1F12_ComboBox")
+        frame.setObjectName("Frame_F1F12_ComboBox")
 
         # Create layout for the frame
         frame_layout = QHBoxLayout(frame) if self.compact_mode \
@@ -724,15 +724,15 @@ class FnButtonsFrame(QFrame):
 
         # Create label and add to frame
         label = QLabel(frame)
-        label.setText(f'{fnr}  {func_text}')
+        label.setText(f"{fnr}  {func_text}")
         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         frame_layout.addWidget(label)
 
         # Create combobox and add to frame
         combobox = QComboBox(frame)
         combobox.addItems(entries)
-        combobox.setAccessibleName('Frame_F1F12_ComboBox')
-        combobox.setObjectName('Frame_F1F12_ComboBox')
+        combobox.setAccessibleName("Frame_F1F12_ComboBox")
+        combobox.setObjectName("Frame_F1F12_ComboBox")
         combobox.setCurrentText(selected_value)
         frame_layout.addWidget(combobox)
 

@@ -83,7 +83,7 @@ class FnKey:
         FnKey
             Instance of FnKey with button type.
         """
-        self.type = 'button'
+        self.type = "button"
         self.text = text
         self.action = action
         return self
@@ -106,7 +106,7 @@ class FnKey:
         FnKey
             Instance of FnKey with switch type.
         """
-        self.type = 'switch'
+        self.type = "switch"
         self.text = text
         self.action = action
         self.is_on = bvar.get()
@@ -134,7 +134,7 @@ class FnKey:
         FnKey
             Instance of FnKey with dropdown type.
         """
-        self.type = 'dropdown'
+        self.type = "dropdown"
         self.text = text
         self.action = action
         self.items = dropdown_items
@@ -162,7 +162,7 @@ class FnKey:
         FnKey
             Instance of FnKey with dial type.
         """
-        self.type = 'dial'
+        self.type = "dial"
         self.text = text
         self.action = action
         self.items = dial_items
@@ -251,7 +251,7 @@ class FnButtonFrame(tk.Frame):
 
             self.create_widgets(master=tk.Frame(master=self), modifier=modifier,
                                 fnkeyrow=fnkeyrow, borderbottom=borderbottom) \
-                .grid(row=row_count, column=0, sticky='nesw')
+                .grid(row=row_count, column=0, sticky="nesw")
             row_count += 1
 
         # Stretch widget to full width of window
@@ -259,15 +259,15 @@ class FnButtonFrame(tk.Frame):
 
         # Bindings for fn keys
         for i in range(1, 13):
-            fnr = f'F{i}'
-            master.bind(f'<KeyPress-{fnr}>', self.key_pressed)
-            master.bind(f'<KeyRelease-{fnr}>', self.key_released)
+            fnr = f"F{i}"
+            master.bind(f"<KeyPress-{fnr}>", self.key_pressed)
+            master.bind(f"<KeyRelease-{fnr}>", self.key_released)
 
         # Bindings for modifier keys
-        master.bind('<KeyPress-Alt_L>', self.alt_pressed)
-        master.bind('<KeyPress-Alt_R>', self.alt_pressed)
-        master.bind('<KeyRelease-Alt_L>', self.alt_released)
-        master.bind('<KeyRelease-Alt_R>', self.alt_released)
+        master.bind("<KeyPress-Alt_L>", self.alt_pressed)
+        master.bind("<KeyPress-Alt_R>", self.alt_pressed)
+        master.bind("<KeyRelease-Alt_L>", self.alt_released)
+        master.bind("<KeyRelease-Alt_R>", self.alt_released)
 
     def create_widgets(self, master: tk.Frame, modifier: str,
                        fnkeyrow: dict[int, FnKey], borderbottom: int) \
@@ -295,10 +295,10 @@ class FnButtonFrame(tk.Frame):
         button_count = 0
         for fnr, fnkey in fnkeyrow.items():
             # Create string for the name of the fn key
-            if modifier == '':
-                fnr = f'F{str(fnr)}'                     # type: ignore
+            if modifier == "":
+                fnr = f"F{str(fnr)}"                     # type: ignore
             else:
-                fnr = f'{modifier.upper()}+F{str(fnr)}'  # type: ignore
+                fnr = f"{modifier.upper()}+F{str(fnr)}"  # type: ignore
 
             # Only add right border it's the last widget in the row
             if button_count == len(fnkeyrow) - 1:
@@ -308,31 +308,31 @@ class FnButtonFrame(tk.Frame):
             button_count += 1
 
             # Create kwargs dictionary for creating instance of FramedWidget
-            kwargs = {'master': master, 'text': f'{fnr}: {fnkey.text}',
-                      'borderbottom': borderbottom, 'borderright': borderright}
+            kwargs = {"master": master, "text": f"{fnr}: {fnkey.text}",
+                      "borderbottom": borderbottom, "borderright": borderright}
 
             # Add button type-specific arguments
             # noinspection PyUnusedLocal
             match fnkey.type:
-                case 'switch':
-                    kwargs.update({'widget': 'switch_button',
-                                   'variable': fnkey.boolean_var})
-                case 'dropdown':
-                    kwargs.update({'widget': 'option_menu_with_label',
-                                   'values': fnkey.items,
-                                   'variable': fnkey.string_var})
-                case 'dial':
-                    kwargs.update({'widget': 'dial',
-                                   'values': fnkey.items,
-                                   'variable': fnkey.string_var})
+                case "switch":
+                    kwargs.update({"widget": "switch_button",
+                                   "variable": fnkey.boolean_var})
+                case "dropdown":
+                    kwargs.update({"widget": "option_menu_with_label",
+                                   "values": fnkey.items,
+                                   "variable": fnkey.string_var})
+                case "dial":
+                    kwargs.update({"widget": "dial",
+                                   "values": fnkey.items,
+                                   "variable": fnkey.string_var})
                 case _:
-                    kwargs.update({'widget': 'button'})
+                    kwargs.update({"widget": "button"})
 
             # Create widget and add to master
             wdg = FramedWidget(**kwargs)  # type: ignore
-            wdg.grid(row=0, column=master.grid_size()[0], sticky='nesw')
+            wdg.grid(row=0, column=master.grid_size()[0], sticky="nesw")
             # noinspection PyCallingNonCallable
-            wdg.bind('<ButtonRelease-1>', self.key_released)  # type: ignore
+            wdg.bind("<ButtonRelease-1>", self.key_released)  # type: ignore
 
             # Expand widget
             master.columnconfigure(master.grid_size()[0] - 1, weight=1)
@@ -340,19 +340,19 @@ class FnButtonFrame(tk.Frame):
             # Make all columns of the grid have the same widths (uniform = any
             # name for the group)
             master.grid_columnconfigure(master.grid_size()[0] - 1, weight=1,
-                                        uniform='a')
+                                        uniform="a")
 
             # Button type-specific actions
             # noinspection PyUnusedLocal
             # TODO: remove this match-case and only use self.buttons dict
             match fnkey.type:
-                case 'switch':
+                case "switch":
                     # Update dictionary for switches
                     self.switches.update({str(fnr): fnkey.is_on})
-                case 'dropdown':
+                case "dropdown":
                     # Update dictionary for option menus
                     self.option_menus.update({str(fnr): wdg})
-                case 'dial':
+                case "dial":
                     # Update dictionary for dials
                     self.dials.update({str(fnr): fnkey.items})
                 case _:
@@ -400,14 +400,14 @@ class FnButtonFrame(tk.Frame):
         """
         if self.alt_is_pressed is True:
             # ALT+FXX
-            fnr = f'ALT+{event.keysym}'
+            fnr = f"ALT+{event.keysym}"
             self.alt_is_pressed_with_fnkey = True
         else:
             # FXX
             fnr = event.keysym
 
         # Change button style to pressed
-        self.buttons[fnr].wdg.configure(style='button_pressed.TLabel')  # type: ignore
+        self.buttons[fnr].wdg.configure(style="button_pressed.TLabel")  # type: ignore
 
     def key_released(self, event: tk.Event) -> None:
         """
@@ -429,45 +429,45 @@ class FnButtonFrame(tk.Frame):
             The event object.
         """
         fnr = None
-        modifier = ''
+        modifier = ""
 
         # Triggered by mouse or keyboard?
-        if event.keysym == '??':
+        if event.keysym == "??":
             # Triggered by mouse -> fn number and modifier must be determined
             for key in self.buttons:
                 if event.widget == self.buttons[key].wdg:
                     fnr = key
                     key_copy = key
-                    if '+' in fnr:
-                        modifier = key_copy.split('+')[0]
+                    if "+" in fnr:
+                        modifier = key_copy.split("+")[0]
                     else:
-                        modifier = ''
+                        modifier = ""
         else:
             # Triggered by keyboard
             fnr = event.keysym
 
             # ALT+FXX ?
             if self.alt_is_pressed or self.alt_is_pressed_with_fnkey:
-                fnr = f'ALT+{fnr}'
-                modifier = 'ALT'
+                fnr = f"ALT+{fnr}"
+                modifier = "ALT"
                 self.alt_is_pressed_with_fnkey = False
 
         # Determine button type
-        fnr_int = int(str(fnr).replace('ALT+', '').replace('F', ''))
+        fnr_int = int(str(fnr).replace("ALT+", "").replace("F", ""))
         button_type = self.fnkeys[modifier][fnr_int].type
 
         # Switch?
         # noinspection PyUnusedLocal
         match button_type:
-            case 'switch':
+            case "switch":
                 self.buttons[fnr].toggle_switch()  # type: ignore
-            case 'dial':
+            case "dial":
                 self.buttons[fnr].rotate_dial()    # type: ignore
-            case 'dropdown':
+            case "dropdown":
                 # Open dropdown
                 self.option_menus[fnr].wdg.focus_set()      # type: ignore
                 self.option_menus[fnr].wdg.event_generate(  # type: ignore
-                    '<space>', when='head'
+                    "<space>", when="head"
                 )
 
                 # Windows
@@ -479,7 +479,7 @@ class FnButtonFrame(tk.Frame):
                 pass
 
         # Display button as not pressed
-        self.buttons[fnr].wdg.configure(style='button.TLabel')  # type: ignore
+        self.buttons[fnr].wdg.configure(style="button.TLabel")  # type: ignore
 
         # Run callback if it exists for this button
         if self.callbacks[fnr] is not None:  # type: ignore
@@ -493,4 +493,4 @@ class FnButtonFrame(tk.Frame):
         Display all buttons as not pressed.
         """
         for button in self.buttons.values():
-            button.wdg.state(['!pressed', '!disabled'])  # type: ignore
+            button.wdg.state(["!pressed", "!disabled"])  # type: ignore

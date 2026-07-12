@@ -60,10 +60,10 @@ class ScrollTextBox(ttk.Frame):
         self.grid_columnconfigure(0, weight=1)
 
         # Create a text widget
-        self.text_widget = tk.Text(self, wrap='word')
-        self.text_widget.grid(row=0, column=0, sticky='nsew', padx=(0, 2))
+        self.text_widget = tk.Text(self, wrap="word")
+        self.text_widget.grid(row=0, column=0, sticky="nsew", padx=(0, 2))
 
         # Create a scrollbar and associate it with text widget
         self.scrollbar = ttk.Scrollbar(self, command=self.text_widget.yview)
-        self.scrollbar.grid(row=0, column=1, sticky='nsew')
-        self.text_widget['yscrollcommand'] = self.scrollbar.set
+        self.scrollbar.grid(row=0, column=1, sticky="nsew")
+        self.text_widget["yscrollcommand"] = self.scrollbar.set

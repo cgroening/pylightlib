@@ -84,7 +84,7 @@ def activate_dynamic_qt_linking(external_libs_folder: str,
     """
     # Check if the app is frozen (bundled into an .app) and the OS is macOS
     # or if debug mode is activated
-    if (getattr(sys, 'frozen', False) and platform.system() == "Darwin")\
+    if (getattr(sys, "frozen", False) and platform.system() == "Darwin")\
             or debug_mode:
         if debug_mode:
             lib_path = external_libs_folder_debug_mode
@@ -96,12 +96,12 @@ def activate_dynamic_qt_linking(external_libs_folder: str,
 
             # Define the folder containing the app bundle as the parent folder
             # for the external libs folder
-            lib_path = f'{app_path}/{external_libs_folder}'
+            lib_path = f"{app_path}/{external_libs_folder}"
 
         # Adjust sys.path
         SysPathHandler(
             external_libs_path=[lib_path],
-            sys_modules=['PySide6', 'shiboken6'],
+            sys_modules=["PySide6", "shiboken6"],
             debug_mode=debug_mode
         )
 
@@ -185,7 +185,7 @@ class SysPathHandler(metaclass=Singleton):
         If debug mode: removes the external packages from sys.module to ensure
         that they are imported from the external folder instead of the venv.
         """
-        if not getattr(sys, 'frozen', False) and self.debug_mode:
+        if not getattr(sys, "frozen", False) and self.debug_mode:
             # Look for keys in sys.modules that begin with the strings in
             # self.sys_modules and add the full keys to a list
             keys_to_delete: list[str] = []
@@ -210,7 +210,7 @@ class SysPathHandler(metaclass=Singleton):
         self.original_sys_path = sys.path.copy()
 
         # If app is not bundled but debug mode is on clear sys.path
-        if not getattr(sys, 'frozen', False) and self.debug_mode:
+        if not getattr(sys, "frozen", False) and self.debug_mode:
             sys.path = []
 
         # Add external lib paths to sys.path

@@ -44,7 +44,7 @@ try:
     from PySide6.QtGui import QPalette, QImage, QPainter  # type: ignore # noqa
     from PySide6.QtWidgets import QPushButton, QStyleOptionButton, QApplication  # type: ignore # noqa
 except ImportError as e:
-    print(f'Import Error ({__file__}):\n    ' + str(e.msg))
+    print(f"Import Error ({__file__}):\n    " + str(e.msg))
     exit()
 SysPathHandler().restore_sys_path()
 
@@ -123,21 +123,21 @@ class StyleSheet:
             dark_mode = True
 
         # Get variable definitions and css code
-        variable_definitions, style_sheet = text.split('#-----#')[0], \
-            text.split('#-----#')[1]
+        variable_definitions, style_sheet = text.split("#-----#")[0], \
+            text.split("#-----#")[1]
 
         # Split variable definitions into lines
         vars_lines = variable_definitions.splitlines()
 
         # Loop all variables and replace the placeholders with the values
         for i in range(0, len(vars_lines)):
-            if len(vars_lines[i].split('=')) == 2:
+            if len(vars_lines[i].split("=")) == 2:
                 # Get variable name
-                variable_name = vars_lines[i].split('=')[0].replace(' ', '')
+                variable_name = vars_lines[i].split("=")[0].replace(" ", "")
 
                 # Get values for light and dark mode
-                values = vars_lines[i].split('=')[1].replace(' ', '')
-                values_list = values.split('/')
+                values = vars_lines[i].split("=")[1].replace(" ", "")
+                values_list = values.split("/")
 
                 if dark_mode and len(values_list) == 2:
                     value = values_list[1]
@@ -145,7 +145,7 @@ class StyleSheet:
                     value = values_list[0]
 
                 # Replace variable name with value
-                style_sheet = style_sheet.replace('{' + variable_name + '}',
+                style_sheet = style_sheet.replace("{" + variable_name + "}",
                                                   value)
 
         return style_sheet

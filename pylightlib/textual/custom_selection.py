@@ -16,7 +16,7 @@ class CustomSelectionList(SelectionList):
     CUSTOM_BUTTON_INNER : str
         The character to display when an item is selected.
     """
-    CUSTOM_BUTTON_INNER = '✔'
+    CUSTOM_BUTTON_INNER = "✔"
 
 
     def __init__(self, *args, **kwargs) -> None:
@@ -57,7 +57,7 @@ class CustomSelectionList(SelectionList):
                 if selection.value in self._selected:
                     segment_text = self.CUSTOM_BUTTON_INNER
                 else:
-                    segment_text = ' '
+                    segment_text = " "
 
                 # Create a new segment with the custom check mark and same style
                 segment_style = segment.style

@@ -62,9 +62,9 @@ class EditableListbox(tk.Listbox):
     item_fg: str | None = None
     entry_fg: str | None = None
     entry_bg: str | None = None
-    UMLAUTS = {'Key-adiaeresis': 'ä',
-               'Key-odiaeresis': 'ö',
-               'Key-udiaeresis': 'ü'}
+    UMLAUTS = {"Key-adiaeresis": "ä",
+               "Key-odiaeresis": "ö",
+               "Key-udiaeresis": "ü"}
     """Dictionaries with the key names of umlauts."""
 
     # TODO: add possibility to select and move multiple items at once
@@ -87,25 +87,25 @@ class EditableListbox(tk.Listbox):
 
         # Add numbers 0-9 and keypad number 0-9
         numbers = list(range(0, 10))
-        azAZ09 += [f'Key-{str(i)}' for i in numbers]
-        azAZ09 += [f'KP_{str(i)}' for i in numbers]
+        azAZ09 += [f"Key-{str(i)}" for i in numbers]
+        azAZ09 += [f"KP_{str(i)}" for i in numbers]
 
         # Add umlauts
         azAZ09 += list(self.UMLAUTS.keys())
 
         # Add =
-        azAZ09.append('=')
+        azAZ09.append("=")
 
         # Start editing by typing any letter (a-z) or number (0-9) on the
         # keyboard
         for char in azAZ09:
-            self.bind(f'<{char}>', lambda event, arg=str(char):  # type: ignore
+            self.bind(f"<{char}>", lambda event, arg=str(char):  # type: ignore
                       self.start_editing(event, arg))
 
         # Start Editing by double-clicking or pressing return
-        self.bind('<Double-1>', self.start_editing)
-        self.bind('<Return>', self.start_editing)
-        self.bind('<KP_Enter>', self.start_editing)
+        self.bind("<Double-1>", self.start_editing)
+        self.bind("<Return>", self.start_editing)
+        self.bind("<KP_Enter>", self.start_editing)
 
 
     def append(self, items: object) -> None:
@@ -123,7 +123,7 @@ class EditableListbox(tk.Listbox):
 
         # Convert items to string and add to listbox
         for item in items:
-            self.insert('end', str(item))
+            self.insert("end", str(item))
 
     def start_editing(self, event: tk.Event,
                       first_character: str | None = None) -> None:
@@ -155,13 +155,13 @@ class EditableListbox(tk.Listbox):
 
         # Create entry
         entry = tk.Entry(self, borderwidth=0, highlightthickness=0,
-                         relief='flat')
+                         relief="flat")
 
         # Was the callback triggered by pressing a letter or number on keyboard?
         if first_character is not None:
             # Yes, set entry text to character the callback was triggered by
-            first_character = first_character.replace('Key-', '')
-            first_character = first_character.replace('KP_', '')
+            first_character = first_character.replace("Key-", "")
+            first_character = first_character.replace("KP_", "")
 
             for key_name, umlaut in self.UMLAUTS.items():
                 first_character = first_character.replace(key_name, umlaut)
@@ -172,31 +172,31 @@ class EditableListbox(tk.Listbox):
             # Set entry text to listbox item and select all
             entry.insert(0, text)
             entry.selection_from(0)
-            entry.selection_to('end')
+            entry.selection_to("end")
 
         # Save fore and background color of the listbox item
-        self.item_bg = self.itemcget(self.selected_index, 'bg')
-        self.item_fg = self.itemcget(self.selected_index, 'fg')
+        self.item_bg = self.itemcget(self.selected_index, "bg")
+        self.item_fg = self.itemcget(self.selected_index, "fg")
 
         # Set font, foreground and background of the entry
-        entry.configure(font=self.cget('font'))
+        entry.configure(font=self.cget("font"))
 
         if self.entry_fg:
             entry.configure(fg=self.entry_fg)
         else:
-            entry.configure(fg=self.cget('selectforeground'))
+            entry.configure(fg=self.cget("selectforeground"))
 
         if self.entry_bg:
             entry.configure(bg=self.entry_bg)
         else:
-            entry.configure(bg=self.cget('selectbackground'))
+            entry.configure(bg=self.cget("selectbackground"))
 
         # Bind callbacks
-        entry.bind('<Return>', self.accept_editing)
-        entry.bind('<KP_Enter>', self.accept_editing)
-        entry.bind('<Escape>', self.cancel_editing)
-        entry.bind('<Tab>', self.cancel_editing)
-        entry.bind('<Button-1>', self.cancel_editing)
+        entry.bind("<Return>", self.accept_editing)
+        entry.bind("<KP_Enter>", self.accept_editing)
+        entry.bind("<Escape>", self.cancel_editing)
+        entry.bind("<Tab>", self.cancel_editing)
+        entry.bind("<Button-1>", self.cancel_editing)
 
         # Place the entry over the listbox item and set focus
         entry.place(relx=0, y=y0, relwidth=1, width=0)
@@ -219,7 +219,7 @@ class EditableListbox(tk.Listbox):
 
         # Select listbox item
         self.select_set(self.selected_index)
-        self.event_generate('<<ListboxSelect>>')
+        self.event_generate("<<ListboxSelect>>")
         self.focus_set()
 
     def accept_editing(self, event: tk.Event):
@@ -239,7 +239,7 @@ class EditableListbox(tk.Listbox):
 
         # Select edited item
         self.select_item(self.selected_index)
-        self.event_generate('<<ItemUpdate>>')
+        self.event_generate("<<ItemUpdate>>")
 
         # Restore the fore and background color of the listbox item
         self.itemconfig(self.selected_index, bg=self.item_bg)
@@ -257,7 +257,7 @@ class EditableListbox(tk.Listbox):
             Generate a selection event.
         """
         # Clear selection
-        self.selection_clear(0, 'end')
+        self.selection_clear(0, "end")
 
         # Select item
         self.select_set(index)
@@ -266,7 +266,7 @@ class EditableListbox(tk.Listbox):
 
         # Generate event
         if generate_event:
-            self.event_generate('<<ListboxSelect>>')
+            self.event_generate("<<ListboxSelect>>")
 
     def move_selected_item(self, amount: int):
         """

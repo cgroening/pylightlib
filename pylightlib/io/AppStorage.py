@@ -66,7 +66,7 @@ class AppStorage(metaclass=Singleton):
         """
         # Raise error if class instance is None and no file path is given
         if AppStorage.instance is None and cfg_file is None:
-            raise Exception('No JSON file given.')
+            raise Exception("No JSON file given.")
 
         # Store path the JSON file
         self.json_file = cfg_file
@@ -84,20 +84,20 @@ class AppStorage(metaclass=Singleton):
         # Open file
         try:
             # Store key-value pairs
-            with open(self.json_file, encoding='utf-8') as file:  # type: ignore
+            with open(self.json_file, encoding="utf-8") as file:  # type: ignore
                 self.json_dict = json.load(file)
         except FileNotFoundError:
             # File not found -> try to create a new one
             try:
-                with open(self.json_file, 'w') as file:  # type: ignore
-                    file.write('{}')
+                with open(self.json_file, "w") as file:  # type: ignore
+                    file.write("{}")
             except FileNotFoundError:
-                print('ERROR: Could not find or create JSON file '
-                      f'"{abs_path}".')
+                print("ERROR: Could not find or create JSON file "
+                      f"\"{abs_path}\".")
                 sys.exit()
         except json.JSONDecodeError:
             # File has JSON errors
-            print(f'Error: File "{abs_path}" contains invalid JSON.')
+            print(f"Error: File \"{abs_path}\" contains invalid JSON.")
             sys.exit()
 
     def save_json_file(self) -> None:
@@ -107,10 +107,10 @@ class AppStorage(metaclass=Singleton):
         abs_path = os.path.abspath(self.json_file)  # type: ignore
 
         try:
-            with open(self.json_file, 'w', encoding='utf-8') as file:  # type: ignore
+            with open(self.json_file, "w", encoding="utf-8") as file:  # type: ignore
                 json.dump(self.json_dict, file, indent=4)  # noqa
         except IOError:
-            print(f'Fehler: File {abs_path} could not be written.')
+            print(f"Fehler: File {abs_path} could not be written.")
 
     def get(self, key: str, default_value: object = None) \
             -> str | int | float | bool | list | dict | None:

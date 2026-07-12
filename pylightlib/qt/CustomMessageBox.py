@@ -24,7 +24,7 @@ SysPathHandler().set_new_sys_path()
 try:
     from PySide6.QtWidgets import QMessageBox  # type: ignore # noqa
 except ImportError as e:
-    print(f'Import Error ({__file__}):\n    ' + str(e.msg))
+    print(f"Import Error ({__file__}):\n    " + str(e.msg))
     exit()
 SysPathHandler().restore_sys_path()
 
@@ -63,7 +63,7 @@ class CustomMessageBox(QMessageBox):
             Text of the info box.
         """
         self.setIcon(QMessageBox.Icon.Information)
-        self.setWindowTitle('Info')
+        self.setWindowTitle("Info")
         self.setStandardButtons(QMessageBox.StandardButton.Close)
         self.setText(text)
         self.exec()
@@ -83,7 +83,7 @@ class CustomMessageBox(QMessageBox):
             True if the user clicked "yes", False if the user clicked no.
         """
         self.setIcon(QMessageBox.Icon.Question)
-        self.setWindowTitle('Bestätigung')
+        self.setWindowTitle("Bestätigung")
         self.setStandardButtons(
             QMessageBox.StandardButton.Yes |
             QMessageBox.StandardButton.No

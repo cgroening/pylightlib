@@ -110,15 +110,15 @@ class ScrollFrame:
         self.color_scheme = color_scheme
 
         # Get optional arguments
-        self.width = kwargs.pop('width', None)
-        self.height = kwargs.pop('height', None)
-        scrollbar = kwargs.pop('scrollbar', 'b')
+        self.width = kwargs.pop("width", None)
+        self.height = kwargs.pop("height", None)
+        scrollbar = kwargs.pop("scrollbar", "b")
 
         # Which scrollbars?
-        if scrollbar.startswith('v'):
+        if scrollbar.startswith("v"):
             self.vscrl = True
             self.hscrl = False
-        elif scrollbar.startswith('h'):
+        elif scrollbar.startswith("h"):
             self.vscrl = False
             self.hscrl = True
         else:
@@ -174,17 +174,17 @@ class ScrollFrame:
             The parent widget.
         """
         # Create outer frame
-        self.outer_frame = tk.Frame(master, bg=self.color_scheme.app['accent1'])
+        self.outer_frame = tk.Frame(master, bg=self.color_scheme.app["accent1"])
 
         # Create vertical scrollbar
         if self.vscrl:
             self.vsb = ttk.Scrollbar(self.outer_frame, orient=tk.VERTICAL)
-            self.vsb.grid(row=0, column=1, sticky='ns')
+            self.vsb.grid(row=0, column=1, sticky="ns")
 
         # Create horizontal scrollbar
         if self.hscrl:
             self.hsb = ttk.Scrollbar(self.outer_frame, orient=tk.HORIZONTAL)
-            self.hsb.grid(row=1, column=0, sticky='ew')
+            self.hsb.grid(row=1, column=0, sticky="ew")
 
     def create_canvas(self) -> None:
         """
@@ -193,32 +193,32 @@ class ScrollFrame:
         # Create canvas at make it adjust to outer frame size
         self.canvas = tk.Canvas(self.outer_frame, highlightthickness=0,
                                 width=self.width, height=self.height,
-                                bg=self.color_scheme.app['accent1'])
-        self.canvas.grid(row=0, column=0, sticky='nsew')
+                                bg=self.color_scheme.app["accent1"])
+        self.canvas.grid(row=0, column=0, sticky="nsew")
         self.outer_frame.rowconfigure(0, weight=1)
         self.outer_frame.columnconfigure(0, weight=1)
 
         # Connect scrollbars to canvas if applicable
         if self.vscrl:
-            self.canvas['yscrollcommand'] = self.vsb.set
-            self.vsb['command'] = self.canvas.yview
+            self.canvas["yscrollcommand"] = self.vsb.set
+            self.vsb["command"] = self.canvas.yview
 
         if self.hscrl:
-            self.canvas['xscrollcommand'] = self.hsb.set
-            self.hsb['command'] = self.canvas.xview
+            self.canvas["xscrollcommand"] = self.hsb.set
+            self.hsb["command"] = self.canvas.xview
 
         # Callbacks for mouse-enter and mouse-leave. The mouse will be bound to
         # the canvas if the cursor enters it and unbound if it leaves. This
         # allows multiples ScrollFrames to exist.
-        self.canvas.bind('<Enter>', self.bind_mouse)
-        self.canvas.bind('<Leave>', self.unbind_mouse)
+        self.canvas.bind("<Enter>", self.bind_mouse)
+        self.canvas.bind("<Leave>", self.unbind_mouse)
 
     def create_inner_frame(self) -> None:
         """
         Create inner frame and place it inside the canvas.
         """
         self.inner_frame = tk.Frame(self.canvas)
-        self.canvas.create_window(0, 0, window=self.inner_frame, anchor='nw')
+        self.canvas.create_window(0, 0, window=self.inner_frame, anchor="nw")
         self.inner_frame.bind("<Configure>", self.inner_frame_configure)
 
         # Define attributes to be handed outside
@@ -262,9 +262,9 @@ class ScrollFrame:
         event : tk.Event or None, optional
             The event that triggered the callback.
         """
-        self.canvas.bind_all('<4>', self.on_mousewheel)           # Linux
-        self.canvas.bind_all('<5>', self.on_mousewheel)           # Linux
-        self.canvas.bind_all('<MouseWheel>', self.on_mousewheel)  # Mac/Windows
+        self.canvas.bind_all("<4>", self.on_mousewheel)           # Linux
+        self.canvas.bind_all("<5>", self.on_mousewheel)           # Linux
+        self.canvas.bind_all("<MouseWheel>", self.on_mousewheel)  # Mac/Windows
 
     # noinspection PyUnusedLocal
     def unbind_mouse(self, event=None) -> None:
@@ -276,9 +276,9 @@ class ScrollFrame:
         event : tk.Event or None, optional
             The event that triggered the callback.
         """
-        self.canvas.unbind_all('<4>')           # Linux
-        self.canvas.unbind_all('<5>')           # Linux
-        self.canvas.unbind_all('<MouseWheel>')  # Mac/Windows
+        self.canvas.unbind_all("<4>")           # Linux
+        self.canvas.unbind_all("<5>")           # Linux
+        self.canvas.unbind_all("<MouseWheel>")  # Mac/Windows
 
     def on_mousewheel(self, event: tk.Event) -> None:
         """
@@ -305,6 +305,6 @@ class ScrollFrame:
 
         # Scroll (event.delta -> Mac/Windows, event.num -> Linux)
         if event.num == 4 or event.delta > 0:
-            scroll_function(-1, 'units')
+            scroll_function(-1, "units")
         elif event.num == 5 or event.delta < 0:
-            scroll_function(1, 'units')
+            scroll_function(1, "units")

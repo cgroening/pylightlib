@@ -32,7 +32,7 @@ try:
     from PySide6.QtCore import QDate, QDateTime, Qt  # type: ignore # noqa
     from PySide6.QtWidgets import QDateEdit          # type: ignore # noqa
 except ImportError as e:
-    print(f'Import Error ({__file__}):\n    ' + str(e.msg))
+    print(f"Import Error ({__file__}):\n    " + str(e.msg))
     exit()
 SysPathHandler().restore_sys_path()
 
@@ -86,7 +86,7 @@ class CustomDateEdit(QDateEdit):
         Uses a special value text of ' ' (single space) to enable empty display.
         Sets the minimum date to 1.1.1 as a sentinel value for "no date".
         """
-        self.setSpecialValueText(' ')        # Must be ' ', not empty
+        self.setSpecialValueText(" ")        # Must be ' ', not empty
         self.setMinimumDate(QDate(1, 1, 1))  # Set empty date
         self.setDate(QDate(1, 1, 1))         # Empty start value
         self.lineEdit().setPlaceholderText("Kein Datum")
@@ -100,10 +100,10 @@ class CustomDateEdit(QDateEdit):
         timestamp : int or None
             UNIX timestamp of the date.
         """
-        if timestamp is not None and timestamp != '':
+        if timestamp is not None and timestamp != "":
             # Convert given time stamp to date and set date of widget
             date_str = str(DateTime.timestamp_to_date(int(timestamp)))
-            date_formatted = datetime.strptime(date_str, '%d.%m.%Y')
+            date_formatted = datetime.strptime(date_str, "%d.%m.%Y")
             self.setDate(date_formatted)
         else:
             # Display an empty widget
@@ -118,10 +118,10 @@ class CustomDateEdit(QDateEdit):
         str or None
             Date string in the format DD.MM.YYYY or None if no date is set.
         """
-        if self.lineEdit().text() == '' or self.lineEdit().text() == ' ':
+        if self.lineEdit().text() == "" or self.lineEdit().text() == " ":
             return None
         else:
-            return self.date().toString('dd.MM.yyyy')
+            return self.date().toString("dd.MM.yyyy")
 
     def get_date_timestamp(self):
         """
@@ -132,7 +132,7 @@ class CustomDateEdit(QDateEdit):
         int or None
             UNIX timestamp or None if no date is set.
         """
-        if self.lineEdit().text() == '' or self.lineEdit().text() == ' ':
+        if self.lineEdit().text() == "" or self.lineEdit().text() == " ":
             return None
         else:
             return DateTime.date_to_timestamp(self.get_date_str())
@@ -143,7 +143,7 @@ class CustomDateEdit(QDateEdit):
 
         Sets the date to nothing if the value of the text box is empty/removed by the user.
         """
-        if self.lineEdit().text() == '' or self.lineEdit().text() == ' ':
+        if self.lineEdit().text() == "" or self.lineEdit().text() == " ":
             self.clear_date()
 
     def mousePressEvent(self, event) -> None:
@@ -162,5 +162,5 @@ class CustomDateEdit(QDateEdit):
         super().mousePressEvent(event)
 
         # Set date to today
-        if self.lineEdit().text() == ' ' or self.lineEdit().text() is None:
+        if self.lineEdit().text() == " " or self.lineEdit().text() is None:
             self.setDate(QDate.currentDate())

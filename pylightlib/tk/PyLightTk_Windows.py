@@ -46,5 +46,5 @@ class PyLightTk_Windows:
         scaling = windll.shcore.GetScaleFactorForDevice(0) / 100 * 1.5
 
         # Set scaling factor for tk window
-        tkroot.call('tk', 'scaling', scaling)
+        tkroot.call("tk", "scaling", scaling)
         windll.shcore.SetProcessDpiAwareness(1)

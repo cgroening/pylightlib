@@ -30,7 +30,7 @@ SysPathHandler().set_new_sys_path()
 try:
     from PySide6.QtWidgets import QStatusBar  # type: ignore # noqa
 except ImportError as e:
-    print(f'Import Error ({__file__}):\n    ' + str(e.msg))
+    print(f"Import Error ({__file__}):\n    " + str(e.msg))
     exit()
 SysPathHandler().restore_sys_path()
 

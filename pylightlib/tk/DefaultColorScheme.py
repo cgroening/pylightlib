@@ -37,31 +37,31 @@ class DefaultColorScheme:
 
     # Main Frame
     app = {
-        'fg': '#EFF3F8',            # white
-        'fg_highlight': '#00FCFE',  # cyan
-        'bg': '#2A2D30',            # dark gray
-        'accent1': '#1C1E20',       # near black
-        'accent2': '#313438',       # dark gray
-        'accent3': '#3F4447',       # dark/medium gray
-        'accent4': '#404448',       # medium gray
-        'accent5': '#00252E',       # blue-green
-        'accent6': '#005A71',       # lighter blue-green
+        "fg": "#EFF3F8",            # white
+        "fg_highlight": "#00FCFE",  # cyan
+        "bg": "#2A2D30",            # dark gray
+        "accent1": "#1C1E20",       # near black
+        "accent2": "#313438",       # dark gray
+        "accent3": "#3F4447",       # dark/medium gray
+        "accent4": "#404448",       # medium gray
+        "accent5": "#00252E",       # blue-green
+        "accent6": "#005A71",       # lighter blue-green
     }
 
     # Buttons
     btn = {
-        'fg':         app['fg'],
-        'fg_active':  app['fg'],
-        'fg_pressed': app['fg_highlight'],
-        'bg':         app['accent2'],
-        'bg_active':  app['accent4'],
-        'bg_pressed': app['accent5'],
-        'relief_pressed':  'flat',
-        'relief_!pressed': 'flat'
+        "fg":         app["fg"],
+        "fg_active":  app["fg"],
+        "fg_pressed": app["fg_highlight"],
+        "bg":         app["accent2"],
+        "bg_active":  app["accent4"],
+        "bg_pressed": app["accent5"],
+        "relief_pressed":  "flat",
+        "relief_!pressed": "flat"
     }
 
     # Switch
     switch = {
-        'on': '#359431',   # green
-        'off': '#5D6368',  # gray
+        "on": "#359431",   # green
+        "off": "#5D6368",  # gray
     }

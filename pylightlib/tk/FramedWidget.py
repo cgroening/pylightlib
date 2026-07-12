@@ -92,7 +92,7 @@ class FramedWidget(tk.Frame):
     """
     default_border_width: int = 1
     bordercolor: tuple[str]
-    default_border_color = ('black', 'black')
+    default_border_color = ("black", "black")
     wdg: object
     lbl: tk.Label
     frm: tk.Frame
@@ -126,7 +126,7 @@ class FramedWidget(tk.Frame):
         tk.Frame.__init__(self, master=master)  # type: ignore
 
         # Parse border color (create tuple if string is given)
-        bordercolor = kwargs.pop('bordercolor', self.default_border_color)
+        bordercolor = kwargs.pop("bordercolor", self.default_border_color)
         if type(bordercolor) is not tuple:
             self.bordercolor = (bordercolor, bordercolor)  # type: ignore
         else:
@@ -153,25 +153,25 @@ class FramedWidget(tk.Frame):
             Keyword arguments for the widget.
         """
         # Get border thickness from kwargs and create tuples for padx and pady
-        borderleft   = kwargs.pop('borderleft', self.default_border_width)
-        borderright  = kwargs.pop('borderright', self.default_border_width)
-        bordertop    = kwargs.pop('bordertop', self.default_border_width)
-        borderbottom = kwargs.pop('borderbottom', self.default_border_width)
+        borderleft   = kwargs.pop("borderleft", self.default_border_width)
+        borderright  = kwargs.pop("borderright", self.default_border_width)
+        bordertop    = kwargs.pop("bordertop", self.default_border_width)
+        borderbottom = kwargs.pop("borderbottom", self.default_border_width)
         padx = (borderleft, borderright)
         pady = (bordertop, borderbottom)
 
         # Create widget
         switcher = {
-            'button': self.button,
-            'switch_button': self.switch_button,
-            'entry': self.entry,
-            'label': self.label,
-            'option_menu': self.option_menu,
-            'option_menu_with_label': self.option_menu_with_label,
-            'dial': self.dial,
-            'listbox': self.listbox
+            "button": self.button,
+            "switch_button": self.switch_button,
+            "entry": self.entry,
+            "label": self.label,
+            "option_menu": self.option_menu,
+            "option_menu_with_label": self.option_menu_with_label,
+            "dial": self.dial,
+            "listbox": self.listbox
         }
-        func = switcher.get(widget, lambda: f'Widget {widget} not supported!')
+        func = switcher.get(widget, lambda: f"Widget {widget} not supported!")
         wdg = func(*args, **kwargs)  # type: ignore
 
         # Get the object of the widget and if applicable get the object of the
@@ -191,7 +191,7 @@ class FramedWidget(tk.Frame):
         self.configure = self.wdg.configure  # type: ignore
 
         # Pack widget into this frame
-        pack_wdg.pack(fill='both', expand=1, padx=padx, pady=pady, ipady=4)
+        pack_wdg.pack(fill="both", expand=1, padx=padx, pady=pady, ipady=4)
 
     def toggle_border_color(self, e: tk.Event) -> None:
         """
@@ -202,7 +202,7 @@ class FramedWidget(tk.Frame):
         e : tk.Event
             Event object.
         """
-        if self['background'] == self.bordercolor[1]:    # type: ignore
+        if self["background"] == self.bordercolor[1]:    # type: ignore
             self.config(background=self.bordercolor[0])  # type: ignore
         else:
             self.config(background=self.bordercolor[1])  # type: ignore
@@ -223,12 +223,12 @@ class FramedWidget(tk.Frame):
         ttk.Button
             Instance of ttk.Button.
         """
-        master = kwargs.pop('master', self)
-        btn = ttk.Button(master=master, *args, **kwargs, style='button.TLabel')  # type: ignore
+        master = kwargs.pop("master", self)
+        btn = ttk.Button(master=master, *args, **kwargs, style="button.TLabel")  # type: ignore
 
         # Add whitespaces around the button text (the argument ipadx of the
         # .pack method won't work because a style is used for the buttion)
-        btn['text'] = '  ' + btn['text'] + '  '
+        btn["text"] = "  " + btn["text"] + "  "
 
         return btn
 
@@ -248,13 +248,13 @@ class FramedWidget(tk.Frame):
         ttk.Entry
             Instance of ttk.Entry.
         """
-        master = kwargs.pop('master', self)
+        master = kwargs.pop("master", self)
         # entry = ttk.Entry(master=master, *args, **kwargs, style='entry.TLabel')
-        entry = ttk.Entry(master=master, *args, **kwargs, style='entry.TEntry')  # type: ignore
+        entry = ttk.Entry(master=master, *args, **kwargs, style="entry.TEntry")  # type: ignore
 
         # Bindings, so that the entry gets highlighted when it gains focus
-        entry.bind('<FocusIn>', self.toggle_border_color)
-        entry.bind('<FocusOut>', self.toggle_border_color)
+        entry.bind("<FocusIn>", self.toggle_border_color)
+        entry.bind("<FocusOut>", self.toggle_border_color)
 
         self.get = entry.get
         self.insert = entry.insert
@@ -277,8 +277,8 @@ class FramedWidget(tk.Frame):
         ttk.Label
             Instance of ttk.Label.
         """
-        master = kwargs.pop('master', self)
-        label = ttk.Label(master=master, *args, **kwargs, style='button.TLabel')  # type: ignore
+        master = kwargs.pop("master", self)
+        label = ttk.Label(master=master, *args, **kwargs, style="button.TLabel")  # type: ignore
 
         return label
 
@@ -296,12 +296,12 @@ class FramedWidget(tk.Frame):
         ttk.OptionMenu
             Instance of ttk.OptionMenu.
         """
-        master = kwargs.pop('master', self)
-        self.string_var: tk.StringVar = kwargs.pop('variable')
-        self.items: list[str] = kwargs.pop('values')
+        master = kwargs.pop("master", self)
+        self.string_var: tk.StringVar = kwargs.pop("variable")
+        self.items: list[str] = kwargs.pop("values")
 
         om = ttk.OptionMenu(master, self.string_var, self.string_var.get(),
-                            *self.items, style='button.TLabel', **kwargs)
+                            *self.items, style="button.TLabel", **kwargs)
 
         return om
 
@@ -320,18 +320,18 @@ class FramedWidget(tk.Frame):
         tuple[ttk.Frame, ttk.Label, ttk.OptionMenu]
             Tuple of instances: (Frame, Label, OptionMenu).
         """
-        lbl_text = kwargs.pop('text')
+        lbl_text = kwargs.pop("text")
 
         # Frame
         frm = ttk.Frame(master=self)
 
         # Label
-        lbl = ttk.Label(master=frm, text=lbl_text, style='button.TLabel')
-        lbl.pack(side='left', fill='both')
+        lbl = ttk.Label(master=frm, text=lbl_text, style="button.TLabel")
+        lbl.pack(side="left", fill="both")
 
         # Option Menu
         om = self.option_menu(master=frm, **kwargs)
-        om.pack(side='left', fill='both', expand=1, ipadx=33)
+        om.pack(side="left", fill="both", expand=1, ipadx=33)
 
         return frm, lbl, om
 
@@ -350,28 +350,28 @@ class FramedWidget(tk.Frame):
         tuple[ttk.Frame, ttk.Label, ttk.Button]
             Tuple of instances: (Frame, Label, Button).
         """
-        self.boolean_var: tk.BooleanVar = kwargs.pop('variable')
+        self.boolean_var: tk.BooleanVar = kwargs.pop("variable")
 
         # Frame
-        frm = ttk.Frame(master=self, style='button.TLabel')
+        frm = ttk.Frame(master=self, style="button.TLabel")
 
         # Label-Frame
-        lbl_frm = ttk.Frame(master=frm, style='button.TLabel')
-        lbl_frm.pack(side='left', fill='both')
+        lbl_frm = ttk.Frame(master=frm, style="button.TLabel")
+        lbl_frm.pack(side="left", fill="both")
 
         # Label
-        lbl = ttk.Label(master=lbl_frm, width=3, anchor='c', justify=tk.CENTER)  # type: ignore
-        lbl.pack(side='left', padx=(5,5))
+        lbl = ttk.Label(master=lbl_frm, width=3, anchor="c", justify=tk.CENTER)  # type: ignore
+        lbl.pack(side="left", padx=(5,5))
 
         # Set style and text of the label depending on ON/OFF status
         if self.boolean_var.get():  # type: ignore
-            lbl.config(text='ON', style='switch_button_label_on.TLabel')
+            lbl.config(text="ON", style="switch_button_label_on.TLabel")
         else:
-            lbl.config(text='OFF', style='switch_button_label_off.TLabel')
+            lbl.config(text="OFF", style="switch_button_label_off.TLabel")
 
         # Button
         btn = self.button(**kwargs, master=frm)
-        btn.pack(side='right', fill='both', expand=1)
+        btn.pack(side="right", fill="both", expand=1)
 
         return frm, lbl, btn
 
@@ -389,9 +389,9 @@ class FramedWidget(tk.Frame):
         tuple[ttk.Frame, ttk.Label, ttk.Button]
             Tuple of instances: (Frame, Label, Button).
         """
-        self.string_var: tk.StringVar = kwargs.pop('variable')
-        self.items: list[str] = kwargs.pop('values')
-        lbl_text = kwargs.pop('text')
+        self.string_var: tk.StringVar = kwargs.pop("variable")
+        self.items: list[str] = kwargs.pop("values")
+        lbl_text = kwargs.pop("text")
 
         # Calculate label width = length of longest item
         width = 0
@@ -403,18 +403,18 @@ class FramedWidget(tk.Frame):
         frm = ttk.Frame(master=self)
 
         # Label-Frame
-        lbl_frm = ttk.Frame(master=frm, style='button.TLabel')
-        lbl_frm.pack(side='left', fill='both')
+        lbl_frm = ttk.Frame(master=frm, style="button.TLabel")
+        lbl_frm.pack(side="left", fill="both")
 
         # Label
         lbl = ttk.Label(master=lbl_frm, text=self.string_var.get(),
-                        width=width+1, anchor='c', justify=tk.CENTER,  # type: ignore
-                        style='dial_button_label.TLabel')
-        lbl.pack(side='left', padx=(5,5))
+                        width=width+1, anchor="c", justify=tk.CENTER,  # type: ignore
+                        style="dial_button_label.TLabel")
+        lbl.pack(side="left", padx=(5,5))
 
         # Button
         btn = self.button(**kwargs, master=frm, text=lbl_text)
-        btn.pack(side='right', fill='both', expand=1)
+        btn.pack(side="right", fill="both", expand=1)
 
         return frm, lbl, btn
 
@@ -430,10 +430,10 @@ class FramedWidget(tk.Frame):
         'switch_button_label_off.TLabel' if the boolean var is False.
         """
         if self.boolean_var.get():  # type: ignore
-            self.lbl.config(text='OFF', style='switch_button_label_off.TLabel')  # type: ignore
+            self.lbl.config(text="OFF", style="switch_button_label_off.TLabel")  # type: ignore
             self.boolean_var.set(False)  # type: ignore
         else:
-            self.lbl.config(text='ON', style='switch_button_label_on.TLabel')  # type: ignore
+            self.lbl.config(text="ON", style="switch_button_label_on.TLabel")  # type: ignore
             self.boolean_var.set(True)  # type: ignore
 
     def rotate_dial(self) -> None:
@@ -441,7 +441,7 @@ class FramedWidget(tk.Frame):
         Rotates the dial (= switch to the next value in the item list).
         """
         # Get current index
-        cur_index = self.items.index(self.lbl['text'])
+        cur_index = self.items.index(self.lbl["text"])
 
         # Get next index
         if cur_index == len(self.items) - 1:
@@ -450,7 +450,7 @@ class FramedWidget(tk.Frame):
             next_index = cur_index + 1
 
         # Set dial (= set label text and string var)
-        self.lbl['text'] = self.items[next_index]
+        self.lbl["text"] = self.items[next_index]
         self.string_var.set(self.items[next_index])
 
     def listbox_no_padding(self, *args, **kwargs) -> EditableListbox:
@@ -469,17 +469,17 @@ class FramedWidget(tk.Frame):
         EditableListbox
             Instance of EditableListbox.
         """
-        lbox = EditableListbox(master=self, relief='flat', *args, **kwargs)  # type: ignore
+        lbox = EditableListbox(master=self, relief="flat", *args, **kwargs)  # type: ignore
 
         # Add scrollbar
-        vsb = ttk.Scrollbar(master=self, orient='vertical', command=lbox.yview,
-                            style='Vertical.TScrollbar')
+        vsb = ttk.Scrollbar(master=self, orient="vertical", command=lbox.yview,
+                            style="Vertical.TScrollbar")
         lbox.configure(yscrollcommand=vsb.set)
-        vsb.pack(side='right', fill='y')
+        vsb.pack(side="right", fill="y")
 
         # Bindings, so that the entry gets highlighted when it gains focus
-        lbox.bind('<FocusIn>', self.toggle_border_color)
-        lbox.bind('<FocusOut>', self.toggle_border_color)
+        lbox.bind("<FocusIn>", self.toggle_border_color)
+        lbox.bind("<FocusOut>", self.toggle_border_color)
 
         self.append = lbox.append
         self.move_selected_item = lbox.move_selected_item
@@ -504,21 +504,21 @@ class FramedWidget(tk.Frame):
             Tuple of instances: (Frame, Frame, EditableListbox).
         """
         # Frame to be able to add padding
-        frm = ttk.Frame(master=self, style='light_button.TLabel')
+        frm = ttk.Frame(master=self, style="light_button.TLabel")
 
         # Listbox
-        lbox = EditableListbox(master=frm, relief='flat', *args, **kwargs)  # type: ignore
-        lbox.pack(side='left', fill='both', padx=5, pady=5)
+        lbox = EditableListbox(master=frm, relief="flat", *args, **kwargs)  # type: ignore
+        lbox.pack(side="left", fill="both", padx=5, pady=5)
 
         # Add scrollbar
-        vsb = ttk.Scrollbar(master=frm, orient='vertical', command=lbox.yview,
-                            style='Vertical.TScrollbar')
+        vsb = ttk.Scrollbar(master=frm, orient="vertical", command=lbox.yview,
+                            style="Vertical.TScrollbar")
         lbox.configure(yscrollcommand=vsb.set)
-        vsb.pack(side='right', fill='y')
+        vsb.pack(side="right", fill="y")
 
         # Bindings, so that the entry gets highlighted when it gains focus
-        lbox.bind('<FocusIn>', self.toggle_border_color)
-        lbox.bind('<FocusOut>', self.toggle_border_color)
+        lbox.bind("<FocusIn>", self.toggle_border_color)
+        lbox.bind("<FocusOut>", self.toggle_border_color)
 
         self.append = lbox.append
         self.move_selected_item = lbox.move_selected_item

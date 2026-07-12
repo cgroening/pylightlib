@@ -127,7 +127,7 @@ class CustomBindings():
         """
         Loads the binding definitions from the YAML file into a dictionary.
         """
-        with open(self.YAML_FILE, 'r', encoding='utf-8') as file:
+        with open(self.YAML_FILE, "r", encoding="utf-8") as file:
             self.bindings_dict_raw = yaml.safe_load(file)
 
     def process_bindings(self):
@@ -148,17 +148,17 @@ class CustomBindings():
 
             # Loop bindings
             for binding in bindings:
-                key         = self.parse_key(binding.get('key'))
-                action      = self.parse_action(binding.get('action'), group)
-                description = self.parse_description(binding.get('description'))
-                show        = self.parse_show(binding.get('show'))
+                key         = self.parse_key(binding.get("key"))
+                action      = self.parse_action(binding.get("action"), group)
+                description = self.parse_description(binding.get("description"))
+                show        = self.parse_show(binding.get("show"))
                 key_display = self.parse_key_display(
-                                  key, binding.get('key_display'), group
+                                  key, binding.get("key_display"), group
                               )
-                priority    = self.parse_priority(binding.get('priority'))
-                tooltip     = self.parse_tooltip(binding.get('tooltip'))
-                id          = self.parse_id(binding.get('id'))
-                system      = self.parse_system(binding.get('system'))
+                priority    = self.parse_priority(binding.get("priority"))
+                tooltip     = self.parse_tooltip(binding.get("tooltip"))
+                id          = self.parse_id(binding.get("id"))
+                system      = self.parse_system(binding.get("system"))
 
                 # Skip if any required field is missing
                 if key is None or action is None or description is None:
@@ -184,7 +184,7 @@ class CustomBindings():
                     self.action_to_groups[action].append(group)
 
                 # Add action to global actions if applicable
-                if group == '_global':
+                if group == "_global":
                     self.global_actions.append(action)
 
         # logging.debug(f'Bindings: {pprint.pformat(self.bindings_dict)}')
@@ -195,12 +195,12 @@ class CustomBindings():
         to the `action_to_groups` mapping. This ensures that these bindings
         are always valid and can be used across all groups.
         """
-        if '_global_always' not in self.bindings_dict:
+        if "_global_always" not in self.bindings_dict:
             return
 
-        for binding in self.bindings_dict['_global_always']:
+        for binding in self.bindings_dict["_global_always"]:
             for group in self.bindings_dict.keys():
-                if group in ['_global', '_global_always']:
+                if group in ["_global", "_global_always"]:
                     continue
 
                 if binding.action not in self.action_to_groups:
@@ -216,45 +216,45 @@ class CustomBindings():
         """
         # Define bindings
         copy_val_binding = Binding(
-            key='f1',
-            action='global_copy_widget_value_to_clipboard',
-            description='CpyVal',
-            key_display='*F1',
-            tooltip='Copy widget value to clipboard',
+            key="f1",
+            action="global_copy_widget_value_to_clipboard",
+            description="CpyVal",
+            key_display="*F1",
+            tooltip="Copy widget value to clipboard",
         )
         copy_sel_binding = Binding(
-            key='f2',
-            action='global_copy_selection_to_clipboard',
-            description='CpySel',
-            key_display='*F2',
-            tooltip='Copy selected text to clipboard',
+            key="f2",
+            action="global_copy_selection_to_clipboard",
+            description="CpySel",
+            key_display="*F2",
+            tooltip="Copy selected text to clipboard",
         )
         paste_binding = Binding(
-            key='f3',
-            action='global_paste_from_clipboard',
-            description='Paste',
-            key_display='*F3',
-            tooltip='Paste text from clipboard',
+            key="f3",
+            action="global_paste_from_clipboard",
+            description="Paste",
+            key_display="*F3",
+            tooltip="Paste text from clipboard",
         )
         replace_binding = Binding(
-            key='f4',
-            action='global_replace_widget_value_from_clipboard',
-            description='Replace',
-            key_display='*F4',
-            tooltip='Replace the widget value with the text from the clipboard',
+            key="f4",
+            action="global_replace_widget_value_from_clipboard",
+            description="Replace",
+            key_display="*F4",
+            tooltip="Replace the widget value with the text from the clipboard",
         )
         copy_paste_bindings = [copy_val_binding, copy_sel_binding,
                                paste_binding, replace_binding]
 
         # Add copy and paste bindings to the global group
-        if '_global' not in self.bindings_dict:
-            self.bindings_dict['_global'] = []
-        self.bindings_dict['_global'].extend(copy_paste_bindings)
+        if "_global" not in self.bindings_dict:
+            self.bindings_dict["_global"] = []
+        self.bindings_dict["_global"].extend(copy_paste_bindings)
 
         # Update action_to_groups and global_actions
         for binding in copy_paste_bindings:
             if binding.action not in self.action_to_groups:
-                self.action_to_groups[binding.action] = ['_global']
+                self.action_to_groups[binding.action] = ["_global"]
             self.global_actions.append(binding.action)
 
     def get_bindings(
@@ -283,9 +283,9 @@ class CustomBindings():
         """
         def get_sort_key(binding: Binding):
             """Transforms a key like "F1" or "f1" to "f01" for sorting."""
-            match = re.match(r'(f)(\d+)', binding.key.lower())
+            match = re.match(r"(f)(\d+)", binding.key.lower())
             if match:
-                return f'{match.group(1)}{int(match.group(2)):02d}'
+                return f"{match.group(1)}{int(match.group(2)):02d}"
             return binding.key.lower()
 
         # Sort each group of bindings by their key
@@ -294,8 +294,8 @@ class CustomBindings():
                 self.bindings_dict[group] = sorted(bindings, key=get_sort_key)
 
         # Pop bindings for global and global_always
-        global_bindings = self.bindings_dict.pop('_global', [])
-        global_always_bindings = self.bindings_dict.pop('_global_always', [])
+        global_bindings = self.bindings_dict.pop("_global", [])
+        global_always_bindings = self.bindings_dict.pop("_global_always", [])
 
         # Combine all bindings into a single list - excluding global ones
         bindings_list: list[BindingType] = []
@@ -308,10 +308,10 @@ class CustomBindings():
                     continue
             elif screen_name:
                 # Skip bindings not belonging to the given screen name
-                if f'_screen_{screen_name.lower()}' != group:
+                if f"_screen_{screen_name.lower()}" != group:
                     continue
             else:
-                if group.startswith('_screen_'):
+                if group.startswith("_screen_"):
                     continue
 
             bindings_list.extend(bindings)
@@ -338,14 +338,14 @@ class CustomBindings():
         """
         focused_widget = app.focused
 
-        if hasattr(focused_widget, 'value'):
+        if hasattr(focused_widget, "value"):
             app.copy_to_clipboard(focused_widget.value)
-        elif hasattr(focused_widget, 'text'):
+        elif hasattr(focused_widget, "text"):
             app.copy_to_clipboard(focused_widget.text)
         else:
             return
 
-        app.notify('Value copied to clipboard!')
+        app.notify("Value copied to clipboard!")
 
     def handle_copy_selection_to_clipboard_action(self, app: App):
         """
@@ -359,10 +359,10 @@ class CustomBindings():
         """
         focused_widget: Widget | None = app.focused
 
-        if hasattr(focused_widget, 'selected_text'):
+        if hasattr(focused_widget, "selected_text"):
             app.copy_to_clipboard(focused_widget.selected_text)  # type: ignore
 
-        app.notify('Selection copied to clipboard!')
+        app.notify("Selection copied to clipboard!")
 
     def handle_paste_from_clipboard(self, app: App, replace: bool = False) \
     -> None:
@@ -384,13 +384,13 @@ class CustomBindings():
         focused_widget: Widget | None = app.focused
 
         if not focused_widget:
-            app.notify('No widget focused.', severity='warning')
+            app.notify("No widget focused.", severity="warning")
             return
 
         # Check if clipboard is empty
         clipboard_text = app.clipboard
         if not clipboard_text:
-            app.notify('Clipboard is empty.', severity='warning')
+            app.notify("Clipboard is empty.", severity="warning")
             return
 
         # Paste into Input/TextArea
@@ -400,8 +400,8 @@ class CustomBindings():
             self.paste_into_textarea(app, focused_widget, clipboard_text,
                                       replace)
         else:
-            app.notify('Focused widget does not support pasting text.',
-                       severity='warning')
+            app.notify("Focused widget does not support pasting text.",
+                       severity="warning")
 
     def paste_into_input(self, app, input: Input, text: str, replace: bool) \
     -> None:
@@ -427,7 +427,7 @@ class CustomBindings():
             input.insert(text, cursor_pos)
             input.cursor_position = cursor_pos + len(text)
 
-        app.notify('Text pasted into input field!')
+        app.notify("Text pasted into input field!")
 
     def paste_into_textarea(self, app, textarea: TextArea, text: str,
                             replace: bool) -> None:
@@ -453,7 +453,7 @@ class CustomBindings():
             textarea.insert(text, cursor_pos)
             textarea.cursor_location = (cursor_pos[0], cursor_pos[1]+len(text))
 
-        app.notify('Text pasted into text area!')
+        app.notify("Text pasted into text area!")
 
     def handle_check_action(self, action: str, parameters: tuple[object, ...],
                             active_group: str, show_global_keys: bool = False) \
@@ -559,9 +559,9 @@ class CustomBindings():
         if action is None or group is None:
             return None
         else:
-            if group.startswith('_screen_'):
-                return f'{action}'
-            return f'{group.replace('_', '')}_{action}'
+            if group.startswith("_screen_"):
+                return f"{action}"
+            return f"{group.replace("_", "")}_{action}"
 
     def parse_description(self, description: str | None) -> str | None:
         return description
@@ -579,10 +579,10 @@ class CustomBindings():
 
         match = re.fullmatch(r"(f)(\d+)", key.lower())
         if match:
-            key_display = f'F{int(match.group(2))}'
+            key_display = f"F{int(match.group(2))}"
 
-        if group == '_global':
-            key_display = f'*{key_display}'
+        if group == "_global":
+            key_display = f"*{key_display}"
 
         return key_display
 
@@ -594,7 +594,7 @@ class CustomBindings():
 
     def parse_tooltip(self, tooltip: str | None) -> str:
         if tooltip is None:
-            return ''
+            return ""
         else:
             return tooltip
 

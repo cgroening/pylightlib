@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 
 
 setup(
-    name='pylightlib',
-    version='0.1.0',
+    name="pylightlib",
+    version="0.1.0",
     # packages=find_packages(include=['pylightlib', 'pylightlib.*']),
     packages=find_packages(),
     install_requires=[],

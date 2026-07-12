@@ -36,7 +36,7 @@ try:
     from PySide6.QtCore import Qt  # type: ignore # noqa
     from PySide6.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView  # type: ignore # noqa
 except ImportError as e:
-    print(f'Import Error ({__file__}):\n    ' + str(e.msg))
+    print(f"Import Error ({__file__}):\n    " + str(e.msg))
     exit()
 SysPathHandler().restore_sys_path()
 
@@ -151,7 +151,7 @@ class TableHelper:
                 if int(column_no_in_data_list) >= 0 and cell_value is not None:
                     row_sorted.append(self.data[row_no][column_no_in_data_list])
                 else:
-                    row_sorted.append('')
+                    row_sorted.append("")
 
             # Add row to sorted data list
             data_sorted.append(row_sorted)
@@ -178,12 +178,12 @@ class TableHelper:
                 if column_name in data[row]:
                     value = str(data[row][column_name])
                 else:
-                    value = ''
+                    value = ""
 
                 # Justification (left, right oder center)
-                if self.head[column][2] == 'right':
+                if self.head[column][2] == "right":
                     justification = Qt.AlignRight
-                elif self.head[column][2] == 'center':
+                elif self.head[column][2] == "center":
                     justification = Qt.AlignCenter
                 else:
                     justification = Qt.AlignLeft
@@ -217,9 +217,9 @@ class TableHelper:
                 value = str(data[row][int(cell)])  # type: ignore
 
                 # Justification (left, right oder center)
-                if self.head[cell][2] == 'right':
+                if self.head[cell][2] == "right":
                     justification = Qt.AlignRight
-                elif self.head[cell][2] == 'center':
+                elif self.head[cell][2] == "center":
                     justification = Qt.AlignCenter
                 else:
                     justification = Qt.AlignLeft
@@ -255,9 +255,9 @@ class TableHelper:
             read_only: bool = False
 
             match self.head[column][2]:
-                case 'right':
+                case "right":
                     justification = Qt.AlignRight
-                case 'center':
+                case "center":
                     justification = Qt.AlignCenter
                 case _:
                     justification = Qt.AlignLeft
@@ -289,9 +289,9 @@ class TableHelper:
         read_only: bool = False
 
         match self.head[column][2]:
-            case 'right':
+            case "right":
                 justification = Qt.AlignRight
-            case 'center':
+            case "center":
                 justification = Qt.AlignCenter
             case _:
                 justification = Qt.AlignLeft

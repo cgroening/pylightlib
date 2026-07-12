@@ -115,17 +115,17 @@ class PyLightWindow(tk.Tk):
         """
         # Create ttk style
         s = ttk.Style(self)
-        s.theme_use('clam')  # ('aqua', 'clam', 'alt', 'default', 'classic')
+        s.theme_use("clam")  # ('aqua', 'clam', 'alt', 'default', 'classic')
         self.ttk_style = s
         scfg, smap = s.configure, s.map
         clr: DefaultColorScheme = self.color_scheme
 
         # Frame
-        scfg('TFrame', foreground=clr.app['fg'], background=clr.app['bg'])
+        scfg("TFrame", foreground=clr.app["fg"], background=clr.app["bg"])
 
         # Set border color of framed widgets
-        FramedWidget.default_border_color = (clr.app['accent4'],  # !active
-                                             clr.app['accent5'])  # active color
+        FramedWidget.default_border_color = (clr.app["accent4"],  # !active
+                                             clr.app["accent5"])  # active color
 
         # Scrollbar
         # TODO: Only change this when on windows
@@ -134,88 +134,88 @@ class PyLightWindow(tk.Tk):
         # scfg("Horizontal.TScrollbar", width=30)
         # scfg("Horizontal.TScrollbar", arrowsize=30)
 
-        for sbar in ['Vertical', 'Horizontal']:
-            scfg(f'{sbar}.TScrollbar', relief='solid',
-                        troughcolor=clr.app['accent1'],
-                        bordercolor=clr.app['accent2'],
+        for sbar in ["Vertical", "Horizontal"]:
+            scfg(f"{sbar}.TScrollbar", relief="solid",
+                        troughcolor=clr.app["accent1"],
+                        bordercolor=clr.app["accent2"],
                         # background=clr.app['accent3'],
-                        arrowcolor=clr.app['accent5'],
-                        lightcolor=clr.app['accent4'],
-                        darkcolor=clr.app['accent4']
+                        arrowcolor=clr.app["accent5"],
+                        lightcolor=clr.app["accent4"],
+                        darkcolor=clr.app["accent4"]
                  )
-            smap(f'{sbar}.TScrollbar',
-                 background=[('!active', clr.app['accent3']),
-                             ('active', clr.app['accent4'])])
+            smap(f"{sbar}.TScrollbar",
+                 background=[("!active", clr.app["accent3"]),
+                             ("active", clr.app["accent4"])])
 
         # Label
-        scfg('TLabel', foreground=clr.app['fg'], background=clr.app['bg'])
+        scfg("TLabel", foreground=clr.app["fg"], background=clr.app["bg"])
 
         # Button
-        smap('button.TLabel',
-             foreground=[('pressed',  clr.btn['fg_pressed']),
-                         ('active',   clr.btn['fg_active']),
-                         ('!pressed', clr.btn['fg'])],
-             background=[('pressed',  clr.btn['bg_pressed']),
-                         ('active',   clr.btn['bg_active']),
-                         ('!pressed', clr.btn['bg'])],
-             relief=[('pressed',  clr.btn['relief_pressed']),
-                     ('!pressed', clr.btn['relief_!pressed'])])
+        smap("button.TLabel",
+             foreground=[("pressed",  clr.btn["fg_pressed"]),
+                         ("active",   clr.btn["fg_active"]),
+                         ("!pressed", clr.btn["fg"])],
+             background=[("pressed",  clr.btn["bg_pressed"]),
+                         ("active",   clr.btn["bg_active"]),
+                         ("!pressed", clr.btn["bg"])],
+             relief=[("pressed",  clr.btn["relief_pressed"]),
+                     ("!pressed", clr.btn["relief_!pressed"])])
 
         # Light button (same background color as window)
-        smap('light_button.TLabel',
-             foreground=[('pressed',  clr.btn['fg_pressed']),
-                         ('active',   clr.btn['fg_active']),
-                         ('!pressed', clr.btn['fg'])],
-             background=[('pressed',  clr.btn['bg_pressed']),
-                         ('active',   clr.btn['bg_active']),
-                         ('!pressed', clr.app['accent1'])],
-             relief=[('pressed',  clr.btn['relief_pressed']),
-                     ('!pressed', clr.btn['relief_!pressed'])])
+        smap("light_button.TLabel",
+             foreground=[("pressed",  clr.btn["fg_pressed"]),
+                         ("active",   clr.btn["fg_active"]),
+                         ("!pressed", clr.btn["fg"])],
+             background=[("pressed",  clr.btn["bg_pressed"]),
+                         ("active",   clr.btn["bg_active"]),
+                         ("!pressed", clr.app["accent1"])],
+             relief=[("pressed",  clr.btn["relief_pressed"]),
+                     ("!pressed", clr.btn["relief_!pressed"])])
 
         # Button Animation
-        smap('button_animation.TLabel',
-             foreground=[('!pressed', clr.btn['fg_pressed'])],
-             background=[('!pressed', clr.btn['bg_pressed'])])
+        smap("button_animation.TLabel",
+             foreground=[("!pressed", clr.btn["fg_pressed"])],
+             background=[("!pressed", clr.btn["bg_pressed"])])
 
         # F1F12 bar button
-        scfg('button_pressed.TLabel',
-             foreground=clr.btn['fg_pressed'],
-             background=clr.btn['bg_pressed'])
+        scfg("button_pressed.TLabel",
+             foreground=clr.btn["fg_pressed"],
+             background=clr.btn["bg_pressed"])
 
         # Style of the label of a switch
-        scfg('switch_button_label_on.TLabel', background=clr.switch['on'])
-        scfg('switch_button_label_off.TLabel', background=clr.switch['off'])
+        scfg("switch_button_label_on.TLabel", background=clr.switch["on"])
+        scfg("switch_button_label_off.TLabel", background=clr.switch["off"])
 
         # Style of the label of a dial
-        scfg('dial_button_label.TLabel', background=clr.app['accent3'])
+        scfg("dial_button_label.TLabel", background=clr.app["accent3"])
 
         # Entry (TLabel)
-        scfg('entry.TLabel', insertcolor=clr.app['accent5'])
-        smap('entry.TLabel',
-              foreground=[('!pressed', clr.app['fg'])],
-              background=[('!pressed', clr.app['accent1'])],
-              relief=[('!pressed', 'flat')])
+        scfg("entry.TLabel", insertcolor=clr.app["accent5"])
+        smap("entry.TLabel",
+              foreground=[("!pressed", clr.app["fg"])],
+              background=[("!pressed", clr.app["accent1"])],
+              relief=[("!pressed", "flat")])
 
         # Entry (TEntry)
-        scfg('entry.TEntry', insertcolor=clr.app['fg_highlight'])
-        smap('entry.TEntry',
-              foreground=[('!pressed', clr.app['fg'])],
-              background=[('!pressed', clr.app['accent1'])],
-              fieldbackground=[('!pressed', clr.app['accent1']),
-                               ('!focus', clr.app['accent1'])],
-              relief=[('!pressed', 'flat')])
-        scfg('entry.TEntry', padding=(4, 4, 4, 4))
-        scfg('entry.TEntry', bordercolor=[('focus', clr.app['accent1'])])
-        smap('entry.TEntry', lightcolor=[('focus', clr.app['accent1'])])
-        smap('entry.TEntry', bordercolor=clr.app['accent1'])
+        scfg("entry.TEntry", insertcolor=clr.app["fg_highlight"])
+        smap("entry.TEntry",
+              foreground=[("!pressed", clr.app["fg"])],
+              background=[("!pressed", clr.app["accent1"])],
+              fieldbackground=[("!pressed", clr.app["accent1"]),
+                               ("!focus", clr.app["accent1"])],
+              relief=[("!pressed", "flat")])
+        scfg("entry.TEntry", padding=(4, 4, 4, 4))
+        scfg("entry.TEntry", bordercolor=[("focus", clr.app["accent1"])])
+        smap("entry.TEntry", lightcolor=[("focus", clr.app["accent1"])])
+        smap("entry.TEntry", bordercolor=clr.app["accent1"])
 
         # Notebook (= Tabbed Control)
         # TODO: set colors in color scheme
-        smap('TNotebook',
-             background=[('!selected', '#091b44')])
-        smap('TNotebook.Tab',
-             background=[('selected', '#1540a5'), ('!selected', 'black')],
-             foreground=[('selected', 'white'), ('!selected', 'white')])
+        smap("TNotebook",
+             background=[("!selected", "#091b44")])
+        smap("TNotebook.Tab",
+             background=[("selected", "#1540a5"), ("!selected", "black")],
+             foreground=[("selected", "white"), ("!selected", "white")])
 
     def listbox_style(self, lbox: EditableListbox) -> None:
         """
@@ -227,11 +227,11 @@ class PyLightWindow(tk.Tk):
             Listbox that should be styled.
         """
         clr: DefaultColorScheme = self.color_scheme
-        lbox.configure(bg=clr.app['accent1'],
-                       fg=clr.app['fg'],
-                       selectbackground=clr.app['accent2'],
-                       selectforeground=clr.app['fg'],
-                       activestyle='none')
+        lbox.configure(bg=clr.app["accent1"],
+                       fg=clr.app["fg"],
+                       selectbackground=clr.app["accent2"],
+                       selectforeground=clr.app["fg"],
+                       activestyle="none")
 
     def os_settings(self) -> None:
         """
@@ -247,12 +247,12 @@ class PyLightWindow(tk.Tk):
             - Makes scrollbars larger (high dpi scaling makes them too small).
         """
         # MacOS
-        if self.os_name == 'Darwin':
+        if self.os_name == "Darwin":
             # Binding for "Window closes" (triggered by CMD+Q shortcut)
             self.createcommand("tk::mac::Quit", lambda: self.on_close())
 
         # Windows
-        if self.os_name == 'Windows':
+        if self.os_name == "Windows":
             # Set scaling for high dpi screens
             PyLightTk_Windows.high_dpi_scaling(self)
 
@@ -273,14 +273,14 @@ class PyLightWindow(tk.Tk):
         self.columnconfigure(0, weight=1)
 
         # Binding for "Window closes" (triggered by X-btn on Win / CMD+Q on Mac)
-        self.protocol('WM_DELETE_WINDOW', self.on_close)
+        self.protocol("WM_DELETE_WINDOW", self.on_close)
 
     def create_main_frame(self) -> None:
         """
         Creates the main frame which contains all widgets.
         """
         self.main_frm = ttk.Frame(master=self, padding=[10, 10, 10, 10])  # type: ignore
-        self.main_frm.grid(row=0, column=0, sticky='nesw')
+        self.main_frm.grid(row=0, column=0, sticky="nesw")
 
     def show(self) -> None:
         """
@@ -300,8 +300,8 @@ class PyLightWindow(tk.Tk):
         x, y = self.winfo_x(), self.winfo_y()
 
         # Generate geometry string and save in AppStorage
-        window_geometry = f'{b}x{h}+{x}+{y}'
-        AppStorage().set('main_window_geometry', window_geometry)
+        window_geometry = f"{b}x{h}+{x}+{y}"
+        AppStorage().set("main_window_geometry", window_geometry)
 
         print(self.winfo_width())
         # Destroy window
@@ -320,9 +320,9 @@ class PyLightWindow(tk.Tk):
         for i in range(1, 10):
             if not i % 2:  # i ist ungerade
                 btn.after(i * 100, lambda: btn.configure(
-                    style='button_animation.TLabel'))  # type: ignore
+                    style="button_animation.TLabel"))  # type: ignore
             else:
-                btn.after(i * 100, lambda: btn.configure(style='button.TLabel'))  # type: ignore
+                btn.after(i * 100, lambda: btn.configure(style="button.TLabel"))  # type: ignore
 
     def button(self, master, *args, **kwargs) -> FramedWidget:
         """
@@ -342,7 +342,7 @@ class PyLightWindow(tk.Tk):
         FramedWidget
             The Button.
         """
-        return FramedWidget(master=master, *args, **kwargs, widget='button')  # type: ignore
+        return FramedWidget(master=master, *args, **kwargs, widget="button")  # type: ignore
 
     def entry(self, master, *args, **kwargs) -> FramedWidget:
         """
@@ -363,9 +363,9 @@ class PyLightWindow(tk.Tk):
             The Entry.
         """
         return FramedWidget(master=master, *args, **kwargs, \
-                            widget='entry', \
-                            bordercolor=(self.color_scheme.app['accent4'], \
-                                         self.color_scheme.app['accent6']))   # type: ignore
+                            widget="entry", \
+                            bordercolor=(self.color_scheme.app["accent4"], \
+                                         self.color_scheme.app["accent6"]))   # type: ignore
 
     def textbox(self, master, *args, **kwargs) -> ScrollTextBox:
         """
@@ -387,10 +387,10 @@ class PyLightWindow(tk.Tk):
         """
         textbox = ScrollTextBox(master=master, *args, **kwargs)
         textbox.text_widget.config(
-            borderwidth=1, relief='solid', highlightthickness=1,
-            highlightbackground=self.color_scheme.app['accent4'],
-            highlightcolor=self.color_scheme.app['accent6'],
-            font=('pt mono', 15))
+            borderwidth=1, relief="solid", highlightthickness=1,
+            highlightbackground=self.color_scheme.app["accent4"],
+            highlightcolor=self.color_scheme.app["accent6"],
+            font=("pt mono", 15))
 
         return textbox
 
@@ -434,7 +434,7 @@ class PyLightWindow(tk.Tk):
             The Listbox.
         """
         return FramedWidget(master=master, *args, **kwargs, \
-                            widget='listbox', \
-                            bordercolor=(self.color_scheme.app['accent4'], \
-                                         self.color_scheme.app['accent6']) \
+                            widget="listbox", \
+                            bordercolor=(self.color_scheme.app["accent4"], \
+                                         self.color_scheme.app["accent6"]) \
                             )  # type: ignore

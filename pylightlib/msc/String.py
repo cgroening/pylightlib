@@ -45,10 +45,10 @@ class String:
 
             # If the maximum portion doesn't end with a whitespace, cut off
             # at the last whitespace
-            if len(text) > linewidth and text[maxcutpos-1] != ' ' \
-               and text[maxcutpos] != ' ':
+            if len(text) > linewidth and text[maxcutpos-1] != " " \
+               and text[maxcutpos] != " ":
                 # Position of the last whitespace
-                cutpos = max(String.charpos(text[0:maxcutpos-1], ' '))
+                cutpos = max(String.charpos(text[0:maxcutpos-1], " "))
             else:
                 cutpos = maxcutpos
 
@@ -58,11 +58,11 @@ class String:
 
             # Add line break if it's not the last line of the text
             if maxcutpos == linewidth and len(text[0:linewidth].strip()) > 0:
-                line += '\n'
+                line += "\n"
 
             lines.append(line)
 
-        return ''.join(lines)
+        return "".join(lines)
 
     @staticmethod
     def charpos(text: str, char: str) -> list[int]:

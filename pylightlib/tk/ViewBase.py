@@ -50,7 +50,7 @@ class ViewBase (metaclass=Singleton):
     """
     kwargs = None
     root: PyLightWindow
-    geometry: str = '500x300+500+300'
+    geometry: str = "500x300+500+300"
     clr = None
     title: str | None = None
 
@@ -83,7 +83,7 @@ class ViewBase (metaclass=Singleton):
                                   title=self.title,
                                   geometry=self.geometry,
                                   color_scheme=self.clr)
-        self.root.protocol('WM_DELETE_WINDOW', self.on_closing)
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
 
         # Bring window to front
         self.root.lift()
@@ -122,7 +122,7 @@ class ViewBase (metaclass=Singleton):
         win_y = (screen_h - win_h - titlebar_h) / 2 - 85
 
         # Set window geometry
-        self.root.geometry('%dx%d+%d+%d' % (win_w, win_h, win_x, win_y))
+        self.root.geometry("%dx%d+%d+%d" % (win_w, win_h, win_x, win_y))
 
     def on_closing(self) -> None:
         """
