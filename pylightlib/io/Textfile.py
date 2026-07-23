@@ -48,7 +48,7 @@ class Textfile:
         list[str]
             A list containing all lines from the text file.
         """
-        with open(path, "r+") as f:
+        with open(path, "r") as f:
             return f.readlines()
 
     @staticmethod
@@ -66,7 +66,7 @@ class Textfile:
         str
             The complete content of the text file as a string.
         """
-        with open(path, "r+") as f:
+        with open(path, "r") as f:
             return f.read()
 
     @staticmethod
