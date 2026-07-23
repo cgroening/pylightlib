@@ -16,13 +16,14 @@ preparing console output or working with fixed-width layouts.
 
 """
 
+
 class String:
     """
     This class contains methods for string operations.
     """
 
     @staticmethod
-    def linewrap(text: str, linewidth: int):
+    def linewrap(text: str, linewidth: int) -> str:
         """
         Splits a string into multiple lines with a specified maximum width.
 
@@ -36,7 +37,7 @@ class String:
         Returns
         -------
         str
-            A string with lines separated by line breaks (\n).
+            A string with lines separated by line breaks (\\n).
         """
         lines = []
         while len(text) > 0:
@@ -45,11 +46,20 @@ class String:
 
             # If the maximum portion doesn't end with a whitespace, cut off
             # at the last whitespace
-            if len(text) > linewidth and text[maxcutpos-1] != " " \
+            if len(text) > linewidth and text[maxcutpos - 1] != " " \
                and text[maxcutpos] != " ":
-                # Position of the last whitespace
-                cutpos = max(String.charpos(text[0:maxcutpos-1], " "))
+                # Find last whitespace in the segment
+                positions = String.charpos(text[0:maxcutpos - 1], " ")
+                if positions:
+                    cutpos = max(positions)
+                else:
+                    # No whitespace found — hard break at maxcutpos
+                    cutpos = maxcutpos
             else:
+                cutpos = maxcutpos
+
+            # Prevent infinite loop if cutpos is 0 (e.g. leading spaces)
+            if cutpos == 0:
                 cutpos = maxcutpos
 
             # Set snippet for this line and remove it from given text

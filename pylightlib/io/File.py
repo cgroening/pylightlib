@@ -209,7 +209,6 @@ class File:
         # with the new extension
         if count > 1:
             file_name_split[count-1] = extension
-            print(file_name_split)
             file_name = ".".join(file_name_split)
 
         return file_name
